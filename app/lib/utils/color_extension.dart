@@ -1,0 +1,17 @@
+import 'package:flutter/material.dart';
+
+class TColor {
+  static Color get primaryColor1 => const Color(0xff87CEFA);
+  static Color get primaryColor2 => const Color(0xffADD8E6);
+  static Color get secondaryColor1 => const Color(0xffB0E0E6);
+  static Color get secondaryColor2 => const Color(0xffB0C4DE);
+  static Color get secondaryColor3 => const Color(0xffF5F5F5);
+
+  static List<Color> get primaryG => [primaryColor1, primaryColor2];
+  static List<Color> get secondaryG => [secondaryColor1, secondaryColor2, secondaryColor3];
+
+
+  static Color get black => Colors.black;
+  static Color get grey => Colors.grey;
+  static Color get white => Colors.white;
+}
