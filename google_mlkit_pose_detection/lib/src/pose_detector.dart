@@ -35,7 +35,7 @@ class PoseDetector {
   }
 
   Map<String, int> calculateAllBodyAngles(Pose pose) {
-    Map<String, int> angles = {};
+    final Map<String, int> angles = {};
     final Map<String, List<PoseLandmarkType>> angleDefinitions = {
       'Right Elbow': [
         PoseLandmarkType.rightShoulder,
@@ -129,7 +129,7 @@ class PoseDetector {
 
     for (final entry in angleDefinitions.entries) {
       final String angleName = entry.key;
-      List<PoseLandmarkType> landmarks = entry.value;
+      final List<PoseLandmarkType> landmarks = entry.value;
       if (landmarks.every((type) => pose.landmarks.containsKey(type))) {
         final PoseLandmark a = pose.landmarks[landmarks[0]]!;
         final PoseLandmark b = pose.landmarks[landmarks[1]]!;
