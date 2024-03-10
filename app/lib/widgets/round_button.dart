@@ -24,7 +24,7 @@ class RoundButton extends StatelessWidget {
                     end: Alignment.centerRight), 
                     borderRadius: BorderRadius.circular(25),
                     boxShadow: type == RoundButtonType.bgGradient ? 
-                    const [BoxShadow(color: Colors.black26, blurRadius: 2, offset: Offset(0, 2))]
+                    const [BoxShadow(color: Color.fromARGB(66, 55, 71, 93), blurRadius: 0.5, offset: Offset(0, 0.5))]
                     :null,
       ),
       child: MaterialButton(

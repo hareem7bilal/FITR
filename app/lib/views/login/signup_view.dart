@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
+import 'package:flutter_application_1/views/login/complete_profile_view.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/widgets/round_textfield.dart';
 
@@ -34,22 +35,22 @@ class _SignupView extends State<SignupView> {
                   SizedBox(height: media.width * 0.05),
                   const RoundTextField(
                     hintText: "First Name",
-                    icon: "assets/images/icons/profile.png",
+                    icon: "images/icons/profile.png",
                   ),
                   SizedBox(height: media.width * 0.04),
                   const RoundTextField(
                     hintText: "Last Name",
-                    icon: "assets/images/icons/profile.png",
+                    icon: "images/icons/profile.png",
                   ),
                   SizedBox(height: media.width * 0.04),
                   const RoundTextField(
                       hintText: "Email",
-                      icon: "assets/images/icons/message.png",
+                      icon: "images/icons/message.png",
                       keyboardType: TextInputType.emailAddress),
                   SizedBox(height: media.width * 0.04),
                   RoundTextField(
                       hintText: "Password",
-                      icon: "assets/images/icons/lock.png",
+                      icon: "images/icons/lock.png",
                       obscureText: true,
                       rightIcon: TextButton(
                         onPressed: () {},
@@ -58,7 +59,7 @@ class _SignupView extends State<SignupView> {
                             height: 20,
                             alignment: Alignment.center,
                             child: Image.asset(
-                              "assets/images/icons/hide.png",
+                              "images/icons/hide.png",
                               width: 20,
                               height: 20,
                               fit: BoxFit.contain,
@@ -88,7 +89,14 @@ class _SignupView extends State<SignupView> {
                     ],
                   ),
                   SizedBox(height: media.width * 0.08),
-                  RoundButton(title: "Register", onPressed: () {}),
+                  RoundButton(
+                      title: "Register",
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CompleteProfileView()));
+                      }),
                   SizedBox(height: media.width * 0.04),
                   Row(
                     children: [
@@ -123,14 +131,11 @@ class _SignupView extends State<SignupView> {
                                   color: TColor.grey.withOpacity(0.4),
                                 ),
                                 borderRadius: BorderRadius.circular(15)),
-                                child: Image.asset("assets/images/icons/google.png", width: 20, height:20),
-
-                          )
-                          ),
-
-                          SizedBox(width: media.width * 0.04),
-
-                          GestureDetector(
+                            child: Image.asset("assets/images/icons/google.png",
+                                width: 20, height: 20),
+                          )),
+                      SizedBox(width: media.width * 0.04),
+                      GestureDetector(
                           onTap: () {},
                           child: Container(
                             width: 50,
@@ -143,10 +148,11 @@ class _SignupView extends State<SignupView> {
                                   color: TColor.grey.withOpacity(0.4),
                                 ),
                                 borderRadius: BorderRadius.circular(15)),
-                                child: Image.asset("assets/images/icons/facebook.png", width: 20, height:20),
-
-                          )
-                          )
+                            child: Image.asset(
+                                "assets/images/icons/facebook.png",
+                                width: 20,
+                                height: 20),
+                          ))
                     ],
                   ),
                   SizedBox(height: media.width * 0.04),
