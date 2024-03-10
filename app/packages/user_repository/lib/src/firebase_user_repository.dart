@@ -6,12 +6,17 @@ import 'package:user_repository/src/models/my_user_model.dart';
 import 'user_repo.dart';
 
 class FirebaseUserRepository implements UserRepository {
+  final FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firestore;
+
   FirebaseUserRepository({
     FirebaseAuth? firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+    FirebaseFirestore? firestore, // Add this parameter
+  }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+       _firestore = firestore ?? FirebaseFirestore.instance; // Initialize _firestore with the provided instance or default
 
-  final FirebaseAuth _firebaseAuth;
-  final usersCollection = FirebaseFirestore.instance.collection('users');
+  // Use the _firestore instance for Firestore operations
+  CollectionReference get usersCollection => _firestore.collection('users');
 
   @override
   Future<void> resetPassword(String email) async {
@@ -26,8 +31,7 @@ class FirebaseUserRepository implements UserRepository {
   @override
   Future<void> signIn(String email, String password) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -47,9 +51,7 @@ class FirebaseUserRepository implements UserRepository {
   @override
   Future<MyUserModel> signUp(MyUserModel myUser, String password) async {
     try {
-      UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: myUser.email, password: password);
-
+      UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(email: myUser.email, password: password);
       myUser = myUser.copyWith(id: user.user!.uid);
       return myUser;
     } catch (e) {
@@ -61,8 +63,13 @@ class FirebaseUserRepository implements UserRepository {
   @override
   Future<MyUserModel> getUserData(String myUserId) async {
     try {
-      return usersCollection.doc(myUserId).get().then((value) =>
-          MyUserModel.fromEntity(MyUserEntity.fromDocument(value.data()!)));
+      DocumentSnapshot snapshot = await usersCollection.doc(myUserId).get();
+      var data = snapshot.data();
+      if (data != null) {
+        return MyUserModel.fromEntity(MyUserEntity.fromDocument(data as Map<String, dynamic>));
+      } else {
+        throw Exception("User not found");
+      }
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -81,9 +88,6 @@ class FirebaseUserRepository implements UserRepository {
 
   @override
   Stream<User?> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      final user = firebaseUser;
-      return user;
-    });
+    return _firebaseAuth.authStateChanges();
   }
 }
