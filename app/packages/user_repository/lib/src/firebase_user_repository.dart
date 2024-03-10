@@ -5,6 +5,7 @@ import 'package:user_repository/src/entities/my_user_entity.dart';
 import 'package:user_repository/src/models/my_user_model.dart';
 import 'user_repo.dart';
 
+
 class FirebaseUserRepository implements UserRepository {
   FirebaseUserRepository({
     FirebaseAuth? firebaseAuth,
