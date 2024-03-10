@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
-import 'package:flutter_application_1/views/login/complete_profile_view.dart';
-import 'package:flutter_application_1/views/login/signup_view.dart';
 import 'package:flutter_application_1/views/onboarding/onboarding_view.dart';
+//import 'package:flutter_application_1/views/onboarding/onboarding_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppView extends StatelessWidget {
@@ -22,9 +21,9 @@ class AppView extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state.status == AuthenticationStatus.authenticated) {
-            return const SignupView();
+            return const OnBoardingView();
           } else {
-            return const CompleteProfileView();
+            return const OnBoardingView();
           }
         },
       ),

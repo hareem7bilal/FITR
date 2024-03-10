@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
+import 'package:flutter_application_1/views/login/goal_view.dart';
 import 'package:flutter_application_1/widgets/round_textfield.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 
@@ -37,7 +37,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                     style: TextStyle(color: TColor.grey, fontSize: 12)),
                 SizedBox(height: media.width * 0.05),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Column(
                     children: [
                       Container(
@@ -48,25 +48,25 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                           children: [
                             Container(
                               alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(horizontal:15),
                               width: 20,
                               height: 20,
                               child: Image.asset(
                                 "images/icons/gender.png",
-                                width: 20,
-                                height: 20,
+                                width: 50,
+                                height: 50,
                                 fit: BoxFit.contain,
                                 color: TColor.grey,
                               ),
                             ),
 
-                            
                             Expanded(
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
                                     hint: Text(
                                       "Choose Gender",
                                       style: TextStyle(
-                                          color: TColor.grey, fontSize: 16),
+                                          color: TColor.grey, fontSize: 12),
                                     ),
                                     isExpanded: true,
                                     items: ["Male", "Female"]
@@ -83,6 +83,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                                     onChanged: (value) {}),
                               ),
                             ),
+                            const SizedBox(width: 8),
                           ],
                         ),
                       ),
@@ -148,7 +149,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const CompleteProfileView()));
+                                        const GoalView()));
                           }),
                     ],
                   ),
