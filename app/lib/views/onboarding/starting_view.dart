@@ -11,7 +11,7 @@ class StartingView extends StatefulWidget {
 }
 
 class StartingViewState extends State<StartingView> {
-  bool isChangeColor = false;
+  bool isChangeColor = true;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,14 @@ class StartingViewState extends State<StartingView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Spacer(),
-            Text("Fitness",
+            Text("FITR",
                 style: TextStyle(
                     color: TColor.black,
                     fontSize: 36,
                     fontWeight: FontWeight.w700)),
             Text("Everyone Can Train",
                 style: TextStyle(
-                  color: TColor.grey,
+                  color: TColor.lightGrey,
                   fontSize: 18,
                 )),
             const Spacer(),
