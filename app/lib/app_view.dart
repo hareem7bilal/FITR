@@ -27,7 +27,7 @@ class AppView extends StatelessWidget {
           }
         },
       ),
-
+ 
       //const SignupView(),
     );
   }

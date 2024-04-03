@@ -3,6 +3,12 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/views/login/complete_profile_view.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/widgets/round_textfield.dart';
+import 'package:flutter_application_1/views/login/signup_view.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart'; 
+import '../../blocs/sign_in_bloc/sign_in_bloc.dart';
+
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -13,151 +19,123 @@ class LoginView extends StatefulWidget {
 
 class _LoginView extends State<LoginView> {
   bool isCheck = false;
+  final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: TColor.white,
-        body: SingleChildScrollView(
+      backgroundColor: TColor.white,
+      body: BlocListener<SignInBloc, SignInState>(
+        listener: (context, state) {
+          if (state is SignInSuccess) {
+            // Navigate to the next screen after successful sign-in
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => CompleteProfileView()),
+            );
+          } else if (state is SignInProcess) {
+            // Handle sign-in process (e.g., show loading indicator)
+          } else if (state is SignInFailure) {
+            // Handle sign-in failure (e.g., display error message)
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Sign-in failed. Please try again.'),
+              ),
+            );
+          }
+        },
+        child: SingleChildScrollView(
           child: SafeArea(
             child: Container(
-              height: media.height,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Hey there,",
-                      style: TextStyle(color: TColor.grey, fontSize: 16)),
-                  Text("Welcome back",
-                      style: TextStyle(
-                          color: TColor.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700)),
-                  SizedBox(height: media.width * 0.05),
-                  const RoundTextField(
-                      hintText: "Email",
-                      icon: "images/icons/message.png",
-                      keyboardType: TextInputType.emailAddress),
-                  SizedBox(height: media.width * 0.04),
-                  RoundTextField(
-                      hintText: "Password",
-                      icon: "images/icons/lock.png",
-                      obscureText: true,
-                      rightIcon: TextButton(
-                        onPressed: () {},
-                        child: Container(
-                            width: 20,
-                            height: 20,
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "images/icons/hide.png",
-                              width: 20,
-                              height: 20,
-                              fit: BoxFit.contain,
-                              color: TColor.grey,
-                            )),
-                      )),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Padding(
-                      padding: const EdgeInsets.only(top:8.0),
-                      child: Text(
-                                "Forgot your password?",
-                                style: TextStyle(color: TColor.grey, fontSize: 10, 
-                                decoration: TextDecoration.underline)),
+                  Text(
+                    "Hey there,",
+                    style: TextStyle(color: TColor.grey, fontSize: 16),
+                  ),
+                  Text(
+                    "Welcome back",
+                    style: TextStyle(
+                      color: TColor.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
                     ),
-                        
-                    ],
                   ),
-                  SizedBox(height: media.width * 0.1),
-                  RoundButton(
-                      title: "Login",
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CompleteProfileView()));
-                      }),
-                  SizedBox(height: media.width * 0.04),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Container(
-                              width: double.maxFinite,
-                              height: 1,
-                              color: TColor.grey.withOpacity(0.5))),
-                      Text(" Or ",
-                          style: TextStyle(color: TColor.black, fontSize: 12)),
-                      Expanded(
-                          child: Container(
-                              width: double.maxFinite,
-                              height: 1,
-                              color: TColor.grey.withOpacity(0.5))),
-                    ],
-                  ),
-                  SizedBox(height: media.width * 0.04),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: TColor.white,
-                                border: Border.all(
-                                  width: 1,
-                                  color: TColor.grey.withOpacity(0.4),
+                  SizedBox(height: 20),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        RoundTextField(
+                          controller: emailController,
+                          hintText: "Email",
+                          keyboardType: TextInputType.emailAddress,
+                          icon: "images/icons/message.png",
+                          // validator: (value) {
+                          //   if (value?.isEmpty ?? true) {
+                          //     return 'Please enter your email';
+                          //   }
+                          //   return null;
+                          // },
+                        ),
+                        SizedBox(height: 20),
+                        RoundTextField(
+                          controller: passwordController,
+                          hintText: "Password",
+                          obscureText: true,
+                          icon: "images/icons/lock.png",
+                          // validator: (value) {
+                          //   if (value?.isEmpty ?? true) {
+                          //     return 'Please enter your password';
+                          //   }
+                          //   return null;
+                          // },
+                        ),
+                        SizedBox(height: 20),
+                        RoundButton(
+                          title: "Login",
+                          onPressed: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              // Dispatch SignInRequired event with entered credentials
+                              BlocProvider.of<SignInBloc>(context).add(
+                                SignInRequired(
+                                  emailController.text,
+                                  passwordController.text,
                                 ),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Image.asset("assets/images/icons/google.png",
-                                width: 20, height: 20),
-                          )),
-                      SizedBox(width: media.width * 0.04),
-                      GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: TColor.white,
-                                border: Border.all(
-                                  width: 1,
-                                  color: TColor.grey.withOpacity(0.4),
-                                ),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Image.asset(
-                                "assets/images/icons/facebook.png",
-                                width: 20,
-                                height: 20),
-                          ))
-                    ],
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: media.width * 0.04),
+                  SizedBox(height: 20),
                   TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text("Don't have an account yet? ",
-                              style:
-                                  TextStyle(color: TColor.black, fontSize: 14)),
-                          Text("Register",
-                              style: TextStyle(
-                                  color: TColor.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700)),
-                        ],
-                      )),
+                    onPressed: () {
+                      // Navigate to the registration screen
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SignupView()),
+                    );
+                    },
+                    child: Text(
+                      "Don't have an account yet? Register",
+                      style: TextStyle(
+                        color: TColor.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

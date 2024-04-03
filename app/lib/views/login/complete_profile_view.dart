@@ -13,6 +13,12 @@ class CompleteProfileView extends StatefulWidget {
 
 class _CompleteProfileViewState extends State<CompleteProfileView> {
   TextEditingController txtDate = TextEditingController();
+  TextEditingController txtWeight = TextEditingController();
+  TextEditingController txtHeight = TextEditingController();
+  String? selectedGender;
+  String? dateOfBirth;
+  String? weight;
+  String? height;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +86,9 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                                               ),
                                             ))
                                         .toList(),
-                                    onChanged: (value) {}),
+                                    onChanged: (value) {
+                                      selectedGender = value;
+                                    }),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -92,15 +100,21 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                         controller: txtDate,
                         hintText: "Date Of Birth",
                         icon: "images/icons/calender.png",
+                        onChanged: (value) {
+                          dateOfBirth = value;
+                        },
                       ),
                       SizedBox(height: media.width * 0.04),
                       Row(
                         children: [
                           Expanded(
                             child: RoundTextField(
-                              controller: txtDate,
+                              controller: txtWeight,
                               hintText: "Your Weight",
                               icon: "images/icons/weight-scale.png",
+                              onChanged: (value) {
+                                weight = value;
+                              },
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -122,9 +136,12 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                         children: [
                           Expanded(
                             child: RoundTextField(
-                              controller: txtDate,
+                              controller: txtHeight,
                               hintText: "Your Height",
                               icon: "images/icons/swap.png",
+                              onChanged: (value) {
+                                      height = value;
+                              },
                             ),
                           ),
                           const SizedBox(width: 8),
