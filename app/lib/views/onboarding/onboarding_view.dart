@@ -95,8 +95,6 @@ class OnBoardingViewState extends State<OnBoardingView> {
                           //controller.jumpToPage(selectPage);
                           setState(() {});
                         } else {
-                          //open welcome screen
-                          print("Open Welcome Screen");
                           Navigator.push(
                               context,
                               MaterialPageRoute(

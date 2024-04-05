@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'app.dart';
@@ -9,10 +10,21 @@ import 'package:user_repository/user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: kIsWeb ? 
+      const FirebaseOptions(
+        apiKey: "AIzaSyAQBfCzt8DhBd3kxoxS5Yj_HT8bnE_UhxA",
+        appId: "1:993820244946:web:c865f2a368a757590d660b",
+        messagingSenderId: "993820244946",
+        projectId: "flutterfitnessapp-67e62",
+      ) : DefaultFirebaseOptions.currentPlatform,
+  );
+
   Bloc.observer = SimpleBlocObserver();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
+  
+  // Pass the instance of Firestore to your app if needed
   runApp(MyApp(FirebaseUserRepository()));
 }
-

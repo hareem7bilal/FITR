@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyC5rAz_gTj7MqLThITdtKEWuKxcIqZDEJE</string>
+	<string>AIzaSyB812VckXjtEcVYrrYCEUbA1eH3kcsVAyE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>705452369457</string>
+	<string>993820244946</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.flutterApplication1</string>
 	<key>PROJECT_ID</key>
-	<string>flutterfitnessapp-cbb41</string>
+	<string>flutterfitnessapp-67e62</string>
 	<key>STORAGE_BUCKET</key>
-	<string>flutterfitnessapp-cbb41.appspot.com</string>
+	<string>flutterfitnessapp-67e62.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:705452369457:ios:d0bafd28612732e4d59710</string>
+	<string>1:993820244946:ios:e6798905e9ef506c0d660b</string>
 </dict>
 </plist>

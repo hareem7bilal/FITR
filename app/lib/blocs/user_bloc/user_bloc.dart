@@ -20,5 +20,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(const UserState.failure());
       }
     });
+
+    on<UpdateUser>((event, emit) async {
+      try {
+        emit(const UserState
+            .updateInProgress()); // Indicate that update is in progress
+        await _userRepository
+            .updateUserProfile(event.updatedUser); // Assume this method exists
+        emit(UserState.updateSuccess(event.updatedUser)); // Indicate success
+      } catch (e) {
+        log(e.toString());
+        emit(const UserState.updateFailure()); // Indicate failure
+      }
+    });
   }
 }

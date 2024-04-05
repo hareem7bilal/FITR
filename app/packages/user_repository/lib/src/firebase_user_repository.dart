@@ -90,4 +90,19 @@ class FirebaseUserRepository implements UserRepository {
   Stream<User?> get user {
     return _firebaseAuth.authStateChanges();
   }
+
+   @override
+  Future<void> updateUserProfile(MyUserModel updatedUser) async {
+    try {
+      // Ensure the user ID is not null or empty
+      if (updatedUser.id.isEmpty) {
+        throw Exception("User ID is empty");
+      }
+      // Convert the updated user model to a document map and update Firestore
+      await usersCollection.doc(updatedUser.id).update(updatedUser.toEntity().toDocument());
+    } catch (e) {
+      log("Failed to update user profile: ${e.toString()}");
+      rethrow;
+    }
+  }
 }

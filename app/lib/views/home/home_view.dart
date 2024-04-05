@@ -2,6 +2,9 @@ import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/widgets/workout_row.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/user_bloc/user_bloc.dart';
+import 'package:flutter_application_1/views/login/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
@@ -9,6 +12,8 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 import 'activity_tracker_view.dart';
 import 'finished_workout_view.dart';
 import 'notification_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -18,6 +23,28 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    fetchCurrentUserData();
+  }
+
+  void fetchCurrentUserData() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // If we have a user, fetch the user data using the UserBloc
+      BlocProvider.of<UserBloc>(context).add(GetUser(userId: user.uid));
+    } else {
+      // If no user is signed in, navigate to the login screen
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginView()),
+        );
+      });
+    }
+  }
+
   List lastWorkoutArr = [
     {
       "name": "Full Body Workout",
@@ -130,12 +157,27 @@ class _HomeViewState extends State<HomeView> {
                           "Welcome Back,",
                           style: TextStyle(color: TColor.grey, fontSize: 12),
                         ),
-                        Text(
-                          "Stefani Wong",
-                          style: TextStyle(
-                              color: TColor.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700),
+                         BlocBuilder<UserBloc, UserState>(
+                          builder: (context, state) {
+                            if (state.status == UserStatus.success && state.user != null) {
+                              return Text(
+                                state.user!.firstName, // Use firstName or any field as needed
+                                style: TextStyle(
+                                  color: TColor.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              );
+                            }
+                            return Text(
+                              "User",
+                              style: TextStyle(
+                                color: TColor.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

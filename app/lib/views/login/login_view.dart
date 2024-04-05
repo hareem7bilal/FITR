@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
-import 'package:flutter_application_1/views/login/complete_profile_view.dart';
+import 'package:flutter_application_1/views/login/welcome_view.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/widgets/round_textfield.dart';
 import 'package:flutter_application_1/views/login/signup_view.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:user_repository/user_repository.dart'; 
 import '../../blocs/sign_in_bloc/sign_in_bloc.dart';
 
 
@@ -32,14 +31,14 @@ class _LoginView extends State<LoginView> {
             // Navigate to the next screen after successful sign-in
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => CompleteProfileView()),
+              MaterialPageRoute(builder: (context) => const WelcomeView()),
             );
           } else if (state is SignInProcess) {
             // Handle sign-in process (e.g., show loading indicator)
           } else if (state is SignInFailure) {
             // Handle sign-in failure (e.g., display error message)
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text('Sign-in failed. Please try again.'),
               ),
             );
@@ -64,7 +63,7 @@ class _LoginView extends State<LoginView> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -81,7 +80,7 @@ class _LoginView extends State<LoginView> {
                           //   return null;
                           // },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         RoundTextField(
                           controller: passwordController,
                           hintText: "Password",
@@ -94,7 +93,7 @@ class _LoginView extends State<LoginView> {
                           //   return null;
                           // },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         RoundButton(
                           title: "Login",
                           onPressed: () {
@@ -112,7 +111,7 @@ class _LoginView extends State<LoginView> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton(
                     onPressed: () {
                       // Navigate to the registration screen

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
-import 'package:flutter_application_1/views/login/complete_profile_view.dart';
+import 'package:flutter_application_1/views/login/goal_view.dart';
 import 'package:flutter_application_1/views/login/login_view.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/widgets/round_textfield.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:user_repository/user_repository.dart'; 
+import 'package:user_repository/user_repository.dart';
 import '../../blocs/sign_up_bloc/sign_up_bloc.dart';
 
 class SignupView extends StatefulWidget {
@@ -16,11 +16,74 @@ class SignupView extends StatefulWidget {
 }
 
 class _SignupView extends State<SignupView> {
-  bool isCheck = false;
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  // Validation logic for email
+  bool isValidEmail(String email) {
+    return RegExp(r'\S+@\S+\.\S+').hasMatch(email);
+  }
+
+  // Validation logic for password
+  bool isValidPassword(String password) {
+    return password.length >= 6;
+  }
+
+  void showValidationError(String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(errorMessage)),
+    );
+  }
+
+  void attemptSignUp() {
+    final String firstName = firstNameController.text.trim();
+    final String lastName = lastNameController.text.trim();
+    final String email = emailController.text.trim();
+    final String password = passwordController.text.trim();
+
+    // Checking if any field is empty
+    if (firstName.isEmpty ||
+        lastName.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty) {
+      showValidationError("Please fill in all fields");
+      return; // Stop execution if any field is empty
+    }
+
+    // Email validation
+    if (!isValidEmail(email)) {
+      showValidationError("Please enter a valid email address");
+      return; // Stop execution if the email is invalid
+    }
+
+    // Password validation
+    if (!isValidPassword(password)) {
+      showValidationError("Password must be at least 6 characters long");
+      return; // Stop execution if the password is invalid
+    }
+
+    // If all validations pass, proceed with the sign-up process
+    // Here, add your sign-up logic. This example directly navigates after "signing up".
+    context.read<SignUpBloc>().add(
+          SignUpRequired(
+            MyUserModel(
+              id: '12', // Assuming 'id' is necessary for your MyUserModel
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+            ),
+            password,
+          ),
+        );
+
+    // After successfully adding the user (assumed), navigate to the LoginView.
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const GoalView()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,44 +151,12 @@ class _SignupView extends State<SignupView> {
                   ),
                 ),
                 SizedBox(height: media.width * 0.08),
+
                 RoundButton(
                   title: "Register",
-                  onPressed: () {
-                    final firstName = firstNameController.text;
-                    final lastName = lastNameController.text;
-                    final email = emailController.text;
-                    final password = passwordController.text;
-
-                    if (firstName.isNotEmpty &&
-                      lastName.isNotEmpty &&
-                      email.isNotEmpty &&
-                      password.isNotEmpty) {
-                      context.read<SignUpBloc>().add(
-                        SignUpRequired(
-                          MyUserModel(
-                            id: '12',
-                            firstName: firstName,
-                            lastName: lastName,
-                            email: email,
-                            ),
-                            password,
-                        ),
-                      );
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginView()),
-                    );
-                    } else {
-                      // Show error message or handle empty fields
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Please fill in all fields'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: attemptSignUp,
                 ),
+
                 SizedBox(height: media.width * 0.04),
                 Row(
                   children: [
@@ -203,7 +234,8 @@ class _SignupView extends State<SignupView> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const LoginView()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginView()),
                     );
                   },
                   child: Row(
@@ -224,6 +256,8 @@ class _SignupView extends State<SignupView> {
                     ],
                   ),
                 ),
+
+                // More widgets...
               ],
             ),
           ),

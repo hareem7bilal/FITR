@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/blocs/auth_bloc/auth_bloc.dart'; 
 import 'package:flutter_application_1/blocs/sign_up_bloc/sign_up_bloc.dart'; 
 import 'package:flutter_application_1/blocs/sign_in_bloc/sign_in_bloc.dart'; 
+import 'package:flutter_application_1/blocs/user_bloc/user_bloc.dart'; 
 import 'app_view.dart';
 
 class MyApp extends StatelessWidget {
@@ -25,6 +26,11 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<SignInBloc>(
           create: (context) => SignInBloc(
             myUserRepository: userRepository
+          ),
+        ),
+        RepositoryProvider<UserBloc>(
+          create: (context) => UserBloc(
+            myUserRepository: userRepository,
           ),
         ),
         RepositoryProvider<AuthenticationBloc>(

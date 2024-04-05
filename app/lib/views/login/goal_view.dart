@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
-import 'package:flutter_application_1/views/login/welcome_view.dart';
+import 'package:flutter_application_1/views/login/login_view.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -113,7 +113,7 @@ class _GoalViewState extends State<GoalView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const WelcomeView()));
+                              builder: (context) => const LoginView()));
                     }),
               ],
             ),

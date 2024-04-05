@@ -12,3 +12,14 @@ class GetUser extends UserEvent {
    @override
   List<Object> get props => [userId];
 }
+
+class UpdateUser extends UserEvent {
+  final MyUserModel updatedUser;
+  const UpdateUser(this.updatedUser);
+
+  @override
+  List<Object> get props => [updatedUser];
+}
+
+
+

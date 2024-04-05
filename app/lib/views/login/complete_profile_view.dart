@@ -3,6 +3,8 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/views/login/goal_view.dart';
 import 'package:flutter_application_1/widgets/round_textfield.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
+//import 'package:flutter_bloc/flutter_bloc.dart';
+//import '../../blocs/user_bloc/user_bloc.dart';
 
 class CompleteProfileView extends StatefulWidget {
   const CompleteProfileView({super.key});
