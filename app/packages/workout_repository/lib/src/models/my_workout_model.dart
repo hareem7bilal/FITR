@@ -1,19 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-import '../entities/my_workout_entity.dart'; // Adjust the import path as necessary
+import '../entities/my_workout_entity.dart'; // Make sure this path is correct
 
 class MyWorkoutModel extends Equatable {
+  final String userId; // Added userId attribute
   final String name;
-  final String description; // Added description attribute
-  final String? image; // Assuming this could be a URL to an image.
+  final String description;
+  final String? image;
   final double? kcal;
-  final Timestamp time; // Timestamp for when the workout occurred or will occur.
+  final Timestamp time;
   final double progress;
 
   const MyWorkoutModel({
+    required this.userId, // Mark userId as required
     required this.name,
-    required this.description, // Mark description as required
+    required this.description,
     this.image,
     this.kcal,
     required this.time,
@@ -21,23 +23,26 @@ class MyWorkoutModel extends Equatable {
   });
 
   static final empty = MyWorkoutModel(
+    userId: '', // Provide an empty string for userId
     name: '',
-    description: '', // Default empty string for description
-    time: Timestamp(0, 0), // Placeholder timestamp.
+    description: '',
+    time: Timestamp(0, 0),
     progress: 0.0,
   );
 
   MyWorkoutModel copyWith({
+    String? userId, // Include userId in copyWith
     String? name,
-    String? description, // Include description in copyWith
+    String? description,
     String? image,
     double? kcal,
     Timestamp? time,
     double? progress,
   }) {
     return MyWorkoutModel(
+      userId: userId ?? this.userId, // Ensure null-coalescing for userId
       name: name ?? this.name,
-      description: description ?? this.description, // Ensure null-coalescing for description
+      description: description ?? this.description,
       image: image ?? this.image,
       kcal: kcal ?? this.kcal,
       time: time ?? this.time,
@@ -45,13 +50,14 @@ class MyWorkoutModel extends Equatable {
     );
   }
 
-  bool get isEmpty => this == MyWorkoutModel.empty;
-  bool get isNotEmpty => this != MyWorkoutModel.empty;
+  bool get isEmpty => this == empty;
+  bool get isNotEmpty => this != empty;
 
   MyWorkoutEntity toEntity() {
     return MyWorkoutEntity(
+      userId: userId, // Include userId when converting to entity
       name: name,
-      description: description, // Include description when converting to entity
+      description: description,
       image: image,
       kcal: kcal,
       time: time,
@@ -61,8 +67,9 @@ class MyWorkoutModel extends Equatable {
 
   static MyWorkoutModel fromEntity(MyWorkoutEntity entity) {
     return MyWorkoutModel(
+      userId: entity.userId, // Extract userId from entity
       name: entity.name,
-      description: entity.description, // Extract description from entity
+      description: entity.description,
       image: entity.image,
       kcal: entity.kcal,
       time: entity.time,
@@ -71,5 +78,5 @@ class MyWorkoutModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [name, description, image, kcal, time, progress];
+  List<Object?> get props => [userId, name, description, image, kcal, time, progress];
 }

@@ -2,16 +2,18 @@ import 'package:equatable/equatable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyWorkoutEntity extends Equatable {
+  final String userId; // Added userId attribute
   final String name;
-  final String description; // Added compulsory description attribute
+  final String description;
   final String? image;
   final double? kcal;
   final Timestamp time;
   final double progress;
 
   const MyWorkoutEntity({
+    required this.userId, // Mark userId as required
     required this.name,
-    required this.description, // Mark as required in the constructor
+    required this.description,
     this.image,
     this.kcal,
     required this.time,
@@ -20,8 +22,9 @@ class MyWorkoutEntity extends Equatable {
 
   Map<String, Object?> toDocument() {
     return {
+      'userId': userId, // Include userId in document map
       'name': name,
-      'description': description, // Include in document map
+      'description': description,
       'image': image,
       'kcal': kcal,
       'time': time,
@@ -31,8 +34,9 @@ class MyWorkoutEntity extends Equatable {
 
   static MyWorkoutEntity fromDocument(Map<String, dynamic> doc) {
     return MyWorkoutEntity(
+      userId: doc['userId'] as String, // Extract userId from document
       name: doc['name'] as String,
-      description: doc['description'] as String, // Extract from document
+      description: doc['description'] as String,
       image: doc['image'] as String?,
       kcal: (doc['kcal'] as num?)?.toDouble(),
       time: doc['time'] as Timestamp,
@@ -41,8 +45,10 @@ class MyWorkoutEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [name, description, image, kcal, time, progress]; // Include description in props
+  List<Object?> get props => [userId, name, description, image, kcal, time, progress]; // Include userId in props
 
   @override
-  String toString() => 'MyWorkoutEntity(name: $name, description: $description, image: $image, kcal: $kcal, time: $time, progress: $progress)';
+  String toString() {
+    return 'MyWorkoutEntity(userId: $userId, name: $name, description: $description, image: $image, kcal: $kcal, time: $time, progress: $progress)';
+  }
 }

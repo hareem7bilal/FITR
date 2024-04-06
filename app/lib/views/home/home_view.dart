@@ -4,15 +4,15 @@ import 'package:flutter_application_1/widgets/workout_row.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/user_bloc/user_bloc.dart';
-import 'package:flutter_application_1/views/login/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'activity_tracker_view.dart';
 import 'finished_workout_view.dart';
+import 'package:flutter_application_1/views/login/login_view.dart';
 import 'notification_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 
 class HomeView extends StatefulWidget {
@@ -161,7 +161,7 @@ class _HomeViewState extends State<HomeView> {
                           builder: (context, state) {
                             if (state.status == UserStatus.success && state.user != null) {
                               return Text(
-                                state.user!.firstName, // Use firstName or any field as needed
+                                "${state.user!.firstName} ${state.user!.lastName}",
                                 style: TextStyle(
                                   color: TColor.black,
                                   fontSize: 20,

@@ -61,6 +61,9 @@ dependencies:
   user_repository:
     path: packages/user_repository
 
+  workout_repository:
+    path: packages/workout_repository
+
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +99,10 @@ flutter:
     - assets/images/onboarding/
     - assets/images/icons/
     - assets/images/signup_and_login/
+    - assets/images/workouts/
+    - assets/images/buttons/
+    - assets/images/food/
+    - assets/images/pics/
 
 
 
