@@ -36,7 +36,7 @@ class StartingViewState extends State<StartingView> {
                     color: TColor.black,
                     fontSize: 36,
                     fontWeight: FontWeight.w700)),
-            Text("Everyone Can Train",
+            Text("From Injury To Rehab",
                 style: TextStyle(
                   color: TColor.lightGrey,
                   fontSize: 18,

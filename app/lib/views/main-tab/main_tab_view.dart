@@ -2,6 +2,7 @@ import 'package:flutter_application_1/widgets/tab_button.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/views/home/blank_view.dart';
 import 'package:flutter_application_1/views/home/home_view.dart';
+import 'package:flutter_application_1/views/profile/profile_view.dart';
 import "package:flutter/material.dart";
 
 class MainTabView extends StatefulWidget {
@@ -96,7 +97,7 @@ class _MainTabViewState extends State<MainTabView> {
                   isActive: selectTab == 3,
                   onTap: () {
                     selectTab = 3;
-                    currentTab = const BlankView();
+                    currentTab = const ProfileView();
                     if (mounted) {
                       setState(() {});
                     }
