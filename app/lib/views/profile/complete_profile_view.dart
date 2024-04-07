@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
-//import 'package:flutter_application_1/views/profile/profile_view.dart';
 import 'package:flutter_application_1/widgets/round_textfield.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,115 +26,116 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return BlocListener<UserBloc, UserState>(
-    listener: (context, state) {
-      if (state.updateUserSuccess) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Your profile has been updated')),
-        );
-      } else if (state.updateUserFailure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update your profile')),
-        );
-      }
-    },
-     child: Scaffold(
-      backgroundColor: TColor.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              children: [
-                Image.asset("images/signup_and_login/complete_profile.png",
-                    width: media.width, fit: BoxFit.fitWidth),
-                SizedBox(height: media.width * 0.05),
-                Text("Let's Update Your Profile",
-                    style: TextStyle(
-                        color: TColor.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700)),
-                Text("It will help us know more about you!",
-                    style: TextStyle(color: TColor.grey, fontSize: 12)),
-                SizedBox(height: media.width * 0.05),
-                _buildGenderDropdown(),
-                SizedBox(height: media.width * 0.04),
-                _buildDateOfBirthField(),
-                SizedBox(height: media.width * 0.04),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildWeightField(),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                        width: 45,
-                        height: 45,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: TColor.primaryG),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Text("KG",
-                            style:
-                                TextStyle(color: TColor.white, fontSize: 12)))
-                  ],
-                ),
-                SizedBox(height: media.width * 0.04),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildHeightField(),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: TColor.primaryG),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Text("CM",
-                            style:
-                                TextStyle(color: TColor.white, fontSize: 12)))
-                  ],
-                ),
-                SizedBox(height: media.width * 0.07),
-                RoundButton(title: "Save", onPressed: _saveUserProfile),
-              ],
+      listener: (context, state) {
+        if (state.updateUserSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Your profile has been updated')),
+          );
+        } else if (state.updateUserFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to update your profile')),
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: TColor.white,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  Image.asset("images/signup_and_login/complete_profile.png",
+                      width: media.width, fit: BoxFit.fitWidth),
+                  SizedBox(height: media.width * 0.05),
+                  Text("Let's Update Your Profile",
+                      style: TextStyle(
+                          color: TColor.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700)),
+                  Text("It will help us know more about you!",
+                      style: TextStyle(color: TColor.grey, fontSize: 12)),
+                  SizedBox(height: media.width * 0.05),
+                  _buildGenderDropdown(),
+                  SizedBox(height: media.width * 0.04),
+                  _buildDateOfBirthField(),
+                  SizedBox(height: media.width * 0.04),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildWeightField(),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                          width: 45,
+                          height: 45,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: TColor.primaryG),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Text("KG",
+                              style:
+                                  TextStyle(color: TColor.white, fontSize: 12)))
+                    ],
+                  ),
+                  SizedBox(height: media.width * 0.04),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildHeightField(),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                          width: 50,
+                          height: 50,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: TColor.primaryG),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Text("CM",
+                              style:
+                                  TextStyle(color: TColor.white, fontSize: 12)))
+                    ],
+                  ),
+                  SizedBox(height: media.width * 0.07),
+                  RoundButton(title: "Save", onPressed: _saveUserProfile),
+                ],
+              ),
             ),
           ),
         ),
       ),
-     ),
     );
   }
 
   // _buildGenderDropdown with GestureDetector for web compatibility
-Widget _buildGenderDropdown() {
-  return GestureDetector(
-    onTap: () => _showGenderBottomSheet(),
-    child: AbsorbPointer( // Prevents the TextField from gaining focus
-      child: RoundTextField(
-        hintText: selectedGender ?? "Select Gender",
-        icon: "images/icons/gender.png",
-        controller: TextEditingController(text: selectedGender),
+  Widget _buildGenderDropdown() {
+    return GestureDetector(
+      onTap: () => _showGenderBottomSheet(),
+      child: AbsorbPointer(
+        // Prevents the TextField from gaining focus
+        child: RoundTextField(
+          hintText: selectedGender ?? "Select Gender",
+          icon: "images/icons/gender.png",
+          controller: TextEditingController(text: selectedGender),
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
 // _buildDateOfBirthField adjusted for web
-Widget _buildDateOfBirthField() {
-  return GestureDetector(
-    onTap: () => _selectDate(context),
-    child: AbsorbPointer(
-      child: RoundTextField(
-        controller: txtDate,
-        hintText: "Date Of Birth",
-        icon: "images/icons/calender.png",
+  Widget _buildDateOfBirthField() {
+    return GestureDetector(
+      onTap: () => _selectDate(context),
+      child: AbsorbPointer(
+        child: RoundTextField(
+          controller: txtDate,
+          hintText: "Date Of Birth",
+          icon: "images/icons/calender.png",
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildWeightField() {
     return RoundTextField(
@@ -156,41 +156,41 @@ Widget _buildDateOfBirthField() {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime(1900),
-    lastDate: DateTime(2101),
-  );
-  if (picked != null) {
-    setState(() {
-      txtDate.text = DateFormat('yyyy-MM-dd').format(picked);
-    });
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null) {
+      setState(() {
+        txtDate.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
   }
-}
 
-void _showGenderBottomSheet() {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return SafeArea(
-        child: Wrap(
-          children: <String>['Male', 'Female', 'Other'].map((String gender) {
-            return ListTile(
-              title: Text(gender),
-              onTap: () {
-                setState(() {
-                  selectedGender = gender;
-                  Navigator.pop(context);
-                });
-              },
-            );
-          }).toList(),
-        ),
-      );
-    },
-  );
-}
+  void _showGenderBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <String>['Male', 'Female', 'Other'].map((String gender) {
+              return ListTile(
+                title: Text(gender),
+                onTap: () {
+                  setState(() {
+                    selectedGender = gender;
+                    Navigator.pop(context);
+                  });
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
 
   void _saveUserProfile() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
@@ -211,10 +211,17 @@ void _showGenderBottomSheet() {
         firstName: userData['firstName'] ??
             '', // Adjust field names based on your Firestore schema
         lastName: userData['lastName'] ?? '',
-        gender: selectedGender,
-        dob: txtDate.text.isNotEmpty ? DateTime.parse(txtDate.text) : null,
-        weight: txtWeight.text.isNotEmpty ? double.parse(txtWeight.text) : null,
-        height: txtHeight.text.isNotEmpty ? double.parse(txtHeight.text) : null,
+        profileImage: userData['profileImage'] ?? '',
+        gender: selectedGender ?? userData['gender'],
+        dob: txtDate.text.isNotEmpty
+            ? DateTime.parse(txtDate.text)
+            : userData['dob'],
+        weight: txtWeight.text.isNotEmpty
+            ? double.parse(txtWeight.text)
+            : userData['weight'],
+        height: txtHeight.text.isNotEmpty
+            ? double.parse(txtHeight.text)
+            : userData['height'],
       );
 
       // Ensure the widget is still mounted before updating the UI
@@ -222,7 +229,6 @@ void _showGenderBottomSheet() {
 
       // Dispatch UpdateUser event
       BlocProvider.of<UserBloc>(context).add(UpdateUser(updatedUser));
-      
     }
   }
 }

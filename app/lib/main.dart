@@ -19,6 +19,7 @@ void main() async {
         appId: "1:993820244946:web:c865f2a368a757590d660b",
         messagingSenderId: "993820244946",
         projectId: "flutterfitnessapp-67e62",
+        storageBucket: "flutterfitnessapp-67e62.appspot.com",
       ) : DefaultFirebaseOptions.currentPlatform,
   );
 

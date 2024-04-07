@@ -10,6 +10,7 @@ class MyUserModel extends Equatable {
   final String? gender; // Optional
   final double? weight; // Optional
   final double? height; // Optional
+  final String? profileImage; // Optional
 
   const MyUserModel({
     required this.id,
@@ -20,6 +21,7 @@ class MyUserModel extends Equatable {
     this.gender, // Optional
     this.weight, // Optional
     this.height, // Optional
+    this.profileImage, // Optional
   });
 
   static const empty = MyUserModel(
@@ -27,7 +29,7 @@ class MyUserModel extends Equatable {
     email: '',
     firstName: '',
     lastName: '',
-    // No need to explicitly set optional attributes to null
+    // No need to explicitly set other optional attributes to null
   );
 
   MyUserModel copyWith({
@@ -39,6 +41,7 @@ class MyUserModel extends Equatable {
     String? gender,
     double? weight,
     double? height,
+    String? profileImage,
   }) {
     return MyUserModel(
         id: id ?? this.id,
@@ -48,7 +51,8 @@ class MyUserModel extends Equatable {
         dob: dob ?? this.dob,
         gender: gender ?? this.gender,
         weight: weight ?? this.weight,
-        height: height ?? this.height);
+        height: height ?? this.height,
+        profileImage: profileImage ?? this.profileImage);
   }
 
   bool get isEmpty => this == MyUserModel.empty;
@@ -64,6 +68,7 @@ class MyUserModel extends Equatable {
       gender: gender,
       weight: weight,
       height: height,
+      profileImage: profileImage, // Assuming MyUserEntity also supports this field
     );
   }
 
@@ -77,10 +82,10 @@ class MyUserModel extends Equatable {
       gender: entity.gender,
       weight: entity.weight,
       height: entity.height,
+      profileImage: entity.profileImage,
     );
   }
 
   @override
-  List<Object?> get props => [id, email, firstName, lastName, dob, gender, weight, height];
+  List<Object?> get props => [id, email, firstName, lastName, dob, gender, weight, height, profileImage];
 }
-

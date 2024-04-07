@@ -6,22 +6,49 @@ import 'package:flutter_application_1/widgets/setting_row.dart';
 import 'package:flutter_application_1/widgets/title_subtitle_cell.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_1/views/login/login_view.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/user_bloc/user_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:universal_io/io.dart' as uni;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  final String name;
+  final String height;
+  final String weight;
+  final String age;
+  final String profileImage;
+  const ProfileView(
+      {super.key,
+      required this.name,
+      required this.height,
+      required this.weight,
+      required this.age,
+      required this.profileImage});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  late String name;
+  late String height;
+  late String weight;
+  late String age;
+  late String profileImage;
+
   @override
   void initState() {
     super.initState();
-    fetchCurrentUserData();
+    // Initialize your variables here from the widget if needed
+    name = widget.name;
+    height = widget.height;
+    weight = widget.weight;
+    age = widget.age;
+    profileImage = widget.profileImage;
   }
 
   bool positive = false;
@@ -32,20 +59,117 @@ class _ProfileViewState extends State<ProfileView> {
     });
   }
 
-  void fetchCurrentUserData() {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      // If we have a user, fetch the user data using the UserBloc
-      BlocProvider.of<UserBloc>(context).add(GetUser(userId: user.uid));
-    } else {
-      // If no user is signed in, navigate to the login screen
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginView()),
+  Future<void> updateUserProfile(String imageUrl) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      // Assuming user data is stored in Firestore
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.uid)
+          .get();
+      if (userDoc.exists) {
+        final userData = userDoc.data()!;
+        final updatedUser = MyUserModel(
+          id: firebaseUser.uid,
+          email: userData['email'],
+          firstName: userData['firstName'],
+          lastName: userData['lastName'],
+          gender: userData['gender'],
+          dob: userData['dob'] != null
+              ? DateTime.tryParse(userData['dob'])
+              : null,
+          weight: userData['weight'],
+          height: userData['height'],
+          profileImage: imageUrl,
+          // Add other user fields as necessary
         );
-      });
+
+        if (!mounted) return;
+
+        BlocProvider.of<UserBloc>(context).add(UpdateUser(updatedUser));
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile picture updated successfully')),
+        );
+      }
     }
+  }
+
+  Widget buildAvatar(String? profileImage) {
+    final ImagePicker picker = ImagePicker();
+
+    return GestureDetector(
+      onTap: () async {
+        final XFile? image =
+            await picker.pickImage(source: ImageSource.gallery);
+        if (image != null) {
+          try {
+            // For web, we use bytes to upload because `File` from 'dart:io' is not available
+            if (kIsWeb) {
+              // Use `image.readAsBytes()` to get Uint8List for web
+              final imageUrl = await uploadFileWeb(image);
+              updateUserProfile(imageUrl);
+            } else {
+              // For mobile, convert path to a file and upload
+              uni.File file = uni.File(image.path);
+              final imageUrl = await uploadFileMobile(file);
+              updateUserProfile(imageUrl);
+            }
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error uploading image: $e')),
+              );
+            }
+          }
+        }
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: profileImage != null && profileImage.isNotEmpty
+            ? Image.network(profileImage,
+                width: 40, height: 40, fit: BoxFit.cover)
+            : Container(
+                padding:
+                    const EdgeInsets.all(2), // Adjust the padding to fit your design
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.grey, // Color of the circle
+                    width: 1, // Thickness of the circle border
+                  ),
+                ),
+                child: CircleAvatar(
+                  radius: 40, // Adjust the size as needed
+                  backgroundColor: Colors
+                      .transparent, // Ensures the container's decoration is visible
+                  child: Image.asset(
+                    "images/icons/profile.png",
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+      ),
+    );
+  }
+
+  Future<String> uploadFileMobile(uni.File file) async {
+    String fileName =
+        'profiles/${FirebaseAuth.instance.currentUser!.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+    TaskSnapshot snapshot =
+        await FirebaseStorage.instance.ref(fileName).putFile(file);
+    return await snapshot.ref.getDownloadURL();
+  }
+
+  Future<String> uploadFileWeb(XFile file) async {
+    final bytes = await file.readAsBytes();
+    String fileName =
+        'profiles/${FirebaseAuth.instance.currentUser!.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+    TaskSnapshot snapshot =
+        await FirebaseStorage.instance.ref(fileName).putData(bytes);
+    return await snapshot.ref.getDownloadURL();
   }
 
   @override
@@ -83,27 +207,9 @@ class _ProfileViewState extends State<ProfileView> {
           ],
         ),
         backgroundColor: TColor.white,
-        body: SingleChildScrollView(child: BlocBuilder<UserBloc, UserState>(
-          builder: (context, state) {
-            if (state.status == UserStatus.success && state.user != null) {
-              final user = state.user!;
-              // Convert each property to a string, using 'toString()' and ensure null safety with '??'
-              final String name = "${user.firstName} ${user.lastName}";
-              final String height = user.height?.toString() ?? "not specified";
-              final String weight = user.weight?.toString() ?? "not specified";
-              String age = "not specified";
-
-              // Check if dob is not null before calculating age.
-              if (user.dob != null) {
-                DateTime dob = user
-                    .dob!; // Use the actual DOB field from your user model, now safely unwrapped.
-                age = calculateAge(dob);
-              }
-              return buildUserProfile(context, name, height, weight, age, positive, togglePositive);
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
-        )));
+        body: SingleChildScrollView(
+            child: buildUserProfile(context, name, height, weight, age,
+                profileImage, positive, togglePositive, buildAvatar)));
   }
 }
 
@@ -118,9 +224,16 @@ String calculateAge(DateTime dob) {
   return age.toString();
 }
 
-Widget buildUserProfile(BuildContext context, String name, String height,
-    String weight, String age, bool positive, void Function() togglePositive) {
-
+Widget buildUserProfile(
+    BuildContext context,
+    String name,
+    String height,
+    String weight,
+    String age,
+    String profileImage,
+    bool positive,
+    void Function() togglePositive,
+    Widget Function(String?) buildAvatar) {
   List accountArr = [
     {"image": "images/icons/profile.png", "name": "Personal Data", "tag": "1"},
     {
@@ -155,10 +268,7 @@ Widget buildUserProfile(BuildContext context, String name, String height,
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Row(
           children: [
-            ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.asset("images/pics/blank_avatar.png",
-                    width: 50, height: 50, fit: BoxFit.cover)),
+            buildAvatar(profileImage),
             const SizedBox(
               width: 15,
             ),

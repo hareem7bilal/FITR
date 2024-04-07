@@ -1,6 +1,6 @@
 //originally main.dart
 import 'package:flutter/material.dart';
-import '../vision_detector_views/pose_detector_view.dart';
+import 'pose_detector_view.dart';
 
 
 Future<void> main() async {
