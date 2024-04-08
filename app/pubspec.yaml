@@ -48,12 +48,14 @@ dependencies:
   equatable: ^2.0.5
   simple_animation_progress_bar: ^1.6.0
   intl: ^0.19.0
+  image: ^4.1.7
   fl_chart: ^0.66.2
   http: ^1.2.1
   universal_io: ^2.0.4
   image_picker_for_web: ^2.1.4
   firebase_storage: ^11.7.0
   tflite_flutter: ^0.10.4
+  ffi: ^2.1.2
   youtube_player_flutter: ^8.1.2
   simple_circular_progress_bar: ^1.0.2
   dotted_dashed_line: ^0.0.3
@@ -110,6 +112,7 @@ flutter:
     - assets/images/buttons/
     - assets/images/food/
     - assets/images/pics/
+    - assets/models/
 
 
 
