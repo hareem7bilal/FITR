@@ -72,7 +72,7 @@ class _LoginView extends State<LoginView> {
                           controller: emailController,
                           hintText: "Email",
                           keyboardType: TextInputType.emailAddress,
-                          icon: "images/icons/message.png",
+                          icon: "assets/images/icons/message.png",
                           // validator: (value) {
                           //   if (value?.isEmpty ?? true) {
                           //     return 'Please enter your email';
@@ -85,7 +85,7 @@ class _LoginView extends State<LoginView> {
                           controller: passwordController,
                           hintText: "Password",
                           obscureText: true,
-                          icon: "images/icons/lock.png",
+                          icon: "assets/images/icons/lock.png",
                           // validator: (value) {
                           //   if (value?.isEmpty ?? true) {
                           //     return 'Please enter your password';

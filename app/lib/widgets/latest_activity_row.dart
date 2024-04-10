@@ -49,7 +49,7 @@ class LatestActivityRow extends StatelessWidget {
             IconButton(
                 onPressed: () {},
                 icon: Image.asset(
-                  "images/buttons/sub_menu.png",
+                  "assets/images/buttons/sub_menu.png",
                   width: 12,
                   height: 12,
                   fit: BoxFit.contain,

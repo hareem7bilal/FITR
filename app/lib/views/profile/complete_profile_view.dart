@@ -45,7 +45,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  Image.asset("images/signup_and_login/complete_profile.png",
+                  Image.asset("assets/images/signup_and_login/complete_profile.png",
                       width: media.width, fit: BoxFit.fitWidth),
                   SizedBox(height: media.width * 0.05),
                   Text("Let's Update Your Profile",
@@ -116,7 +116,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
         // Prevents the TextField from gaining focus
         child: RoundTextField(
           hintText: selectedGender ?? "Select Gender",
-          icon: "images/icons/gender.png",
+          icon: "assets/images/icons/gender.png",
           controller: TextEditingController(text: selectedGender),
         ),
       ),
@@ -131,7 +131,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
         child: RoundTextField(
           controller: txtDate,
           hintText: "Date Of Birth",
-          icon: "images/icons/calender.png",
+          icon: "assets/images/icons/calender.png",
         ),
       ),
     );
@@ -141,7 +141,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
     return RoundTextField(
       controller: txtWeight,
       hintText: "Your Weight",
-      icon: "images/icons/weight-scale.png",
+      icon: "assets/images/icons/weight-scale.png",
       keyboardType: TextInputType.number,
     );
   }
@@ -150,7 +150,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
     return RoundTextField(
       controller: txtHeight,
       hintText: "Your Height",
-      icon: "images/icons/swap.png",
+      icon: "assets/images/icons/swap.png",
       keyboardType: TextInputType.number,
     );
   }

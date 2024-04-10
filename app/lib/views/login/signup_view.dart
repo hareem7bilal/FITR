@@ -113,26 +113,26 @@ class _SignupView extends State<SignupView> {
                 RoundTextField(
                   controller: firstNameController,
                   hintText: "First Name",
-                  icon: "images/icons/profile.png",
+                  icon: "assets/images/icons/profile.png",
                 ),
                 SizedBox(height: media.width * 0.04),
                 RoundTextField(
                   controller: lastNameController,
                   hintText: "Last Name",
-                  icon: "images/icons/profile.png",
+                  icon: "assets/images/icons/profile.png",
                 ),
                 SizedBox(height: media.width * 0.04),
                 RoundTextField(
                   controller: emailController,
                   hintText: "Email",
-                  icon: "images/icons/message.png",
+                  icon: "assets/images/icons/message.png",
                   keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: media.width * 0.04),
                 RoundTextField(
                   controller: passwordController,
                   hintText: "Password",
-                  icon: "images/icons/lock.png",
+                  icon: "assets/images/icons/lock.png",
                   obscureText: true,
                   rightIcon: TextButton(
                     onPressed: () {},
@@ -141,7 +141,7 @@ class _SignupView extends State<SignupView> {
                       height: 20,
                       alignment: Alignment.center,
                       child: Image.asset(
-                        "images/icons/hide.png",
+                        "assets/images/icons/hide.png",
                         width: 20,
                         height: 20,
                         fit: BoxFit.contain,

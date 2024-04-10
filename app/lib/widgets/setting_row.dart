@@ -30,7 +30,7 @@ class SettingRow extends StatelessWidget {
                 )),
           ),
           Image.asset(
-            "images/icons/next.png",
+            "assets/images/icons/next.png",
             width: 12,
             height: 12,
             fit: BoxFit.contain,

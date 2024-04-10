@@ -15,19 +15,19 @@ class _GoalViewState extends State<GoalView> {
   CarouselController buttonCarouselController = CarouselController();
   List goalArr = [
     {
-      "image": "images/signup_and_login/goal_1.png",
+      "image": "assets/images/signup_and_login/goal_1.png",
       "title": "Improve Shape",
       "subtitle":
           "I have a low amount of body fat\nand need / want to build more\nmuscle"
     },
     {
-      "image": "images/signup_and_login/goal_2.png",
+      "image": "assets/images/signup_and_login/goal_2.png",
       "title": "Lean & Tone",
       "subtitle":
           "I’m “skinny fat”. look thin but have\nno shape. I want to add learn\nmuscle in the right way"
     },
     {
-      "image": "images/signup_and_login/goal_3.png",
+      "image": "assets/images/signup_and_login/goal_3.png",
       "title": "Lose Fat",
       "subtitle":
           "I have over 20 lbs to lose. I want to\ndrop all this fat and gain muscle\nmass"

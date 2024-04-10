@@ -47,29 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAl-t-x71nEqAhhde3YQcoK2wTC6Kl3hMU',
-    appId: '1:705452369457:web:e918ac1abf04d6acd59710',
-    messagingSenderId: '705452369457',
-    projectId: 'flutterfitnessapp-cbb41',
-    authDomain: 'flutterfitnessapp-cbb41.firebaseapp.com',
-    storageBucket: 'flutterfitnessapp-cbb41.appspot.com',
-    measurementId: 'G-XLQTN9QGCN',
+    apiKey: 'AIzaSyAQBfCzt8DhBd3kxoxS5Yj_HT8bnE_UhxA',
+    appId: '1:993820244946:web:8f942f7879921d130d660b',
+    messagingSenderId: '993820244946',
+    projectId: 'flutterfitnessapp-67e62',
+    authDomain: 'flutterfitnessapp-67e62.firebaseapp.com',
+    storageBucket: 'flutterfitnessapp-67e62.appspot.com',
+    measurementId: 'G-E564RN5RM6',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCDjBGUPNqX1LwNs4i2s2FRYfCqfQYFthg',
-    appId: '1:705452369457:android:d03f7a5291e16a7ad59710',
-    messagingSenderId: '705452369457',
-    projectId: 'flutterfitnessapp-cbb41',
-    storageBucket: 'flutterfitnessapp-cbb41.appspot.com',
+    apiKey: 'AIzaSyBhgC71bYaMNTfi1TUrdJiMMFEf8lBD3yE',
+    appId: '1:993820244946:android:30db4c84c2d410a10d660b',
+    messagingSenderId: '993820244946',
+    projectId: 'flutterfitnessapp-67e62',
+    storageBucket: 'flutterfitnessapp-67e62.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC5rAz_gTj7MqLThITdtKEWuKxcIqZDEJE',
-    appId: '1:705452369457:ios:d0bafd28612732e4d59710',
-    messagingSenderId: '705452369457',
-    projectId: 'flutterfitnessapp-cbb41',
-    storageBucket: 'flutterfitnessapp-cbb41.appspot.com',
-    iosBundleId: 'com.example.flutterApplication1',
+    apiKey: 'AIzaSyB812VckXjtEcVYrrYCEUbA1eH3kcsVAyE',
+    appId: '1:993820244946:ios:c5cfca142b74be000d660b',
+    messagingSenderId: '993820244946',
+    projectId: 'flutterfitnessapp-67e62',
+    storageBucket: 'flutterfitnessapp-67e62.appspot.com',
+    iosBundleId: 'com.example.app',
   );
 }

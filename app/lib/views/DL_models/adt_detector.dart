@@ -5,7 +5,6 @@ import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
 import 'dart:typed_data';
-import 'dart:ffi' as ffi;
 import 'dart:io';
 
 class ADTDetector extends StatefulWidget {
@@ -60,8 +59,7 @@ class _ADTDetectorState extends State<ADTDetector> {
         // Get the pixel value (ARGB)
         var pixel = resizedImg.getPixel(x, y);
 
-        // Extract ARGB components
-        var alpha = pixel.a;
+        // Extract RGB components
         var red = pixel.r;
         var green = pixel.g;
         var blue = pixel.b;
@@ -97,39 +95,62 @@ class _ADTDetectorState extends State<ADTDetector> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ADT Positivity Detector'),
+        title: const Text('Ankle Anterior Drawer Test'),
         backgroundColor: TColor.primaryColor1, // Set the AppBar color
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (_image != null)
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: TColor.primaryColor1,
-                      width: 5), // Add a border to the image
-                  borderRadius: BorderRadius.circular(
-                      12), // Optional: make the border rounded
+      body: SingleChildScrollView(
+        // Ensures the content is scrollable if it overflows
+        padding: const EdgeInsets.all(16.0), // Add padding to the body content
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  'The Anterior Drawer Test (ADT) is used to assess ankle stability and '
+                  'the integrity of the anterior talofibular ligament. A positive ADT indicates '
+                  'possible ligament injury and ankle instability, which may require further '
+                  'medical attention.',
+                  textAlign: TextAlign
+                      .justify, // Justify the text for better readability
+                  style: TextStyle(
+                    fontSize:
+                        13, // Slightly smaller font for the explanation text
+                    color: TColor.primaryColor1,
+                  ),
                 ),
-                child: Image.file(_image!),
               ),
-            RoundButton(
-              title: 'Pick Xray Image',
-              onPressed: pickImage,
-            ),
-            const SizedBox(height: 15),
-            if (_prediction != null)
-              Text(
-                'Prediction: ${_prediction! > 0.5 ? 'ADT Positive' : 'ADT Negative'}',
-                style: TextStyle(
-                    fontSize: 18, // Increase text size
-                    color: TColor.primaryColor1 // Make text bold
-                    ),
-              )
-          ],
+              const SizedBox(height:10),
+              if (_image != null)
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: TColor.primaryColor1,
+                        width: 5), // Add a border to the image
+                    borderRadius: BorderRadius.circular(
+                        12), // Optional: make the border rounded
+                  ),
+                  child: Image.file(_image!),
+                ),
+              RoundButton(
+                title: 'Pick X-Ray Image',
+                onPressed: pickImage,
+              ),
+              const SizedBox(height: 15),
+              if (_prediction != null)
+                Text(
+                  'Prediction: ${_prediction! > 0.5 ? 'ADT Positive' : 'ADT Negative'}',
+                  style: TextStyle(
+                      fontSize: 18, // Increase text size
+                      fontWeight: FontWeight.bold,
+                      color: TColor
+                          .primaryColor1 // Make text bold and set the color
+                      ),
+                )
+            ],
+          ),
         ),
       ),
     );

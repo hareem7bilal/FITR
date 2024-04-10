@@ -53,7 +53,7 @@ class _WelcomeViewState extends State<WelcomeView> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Image.asset(
-                "images/signup_and_login/welcome.png",
+                "assets/images/signup_and_login/welcome.png",
                 width: media.width * 0.7,
                 fit: BoxFit.contain,
               ),

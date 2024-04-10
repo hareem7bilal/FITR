@@ -25,7 +25,7 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
               children: [
                 const SizedBox(height: 20),
                 Image.asset(
-                  "images/signup_and_login/complete_workout.png",
+                  "assets/images/signup_and_login/complete_workout.png",
                   height: media.width * 0.8,
                   fit: BoxFit.fitHeight,
                 ),

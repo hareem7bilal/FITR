@@ -22,13 +22,14 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android' 
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 
 android {
     namespace "com.example.FlutterFitnessApp"
-    compileSdkVersion 34
+    compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -71,10 +72,8 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:32.8.0')
-    implementation 'com.google.firebase:firebase-analytics' 
 }
 
-// Apply Google Services plugin at the bottom
-apply plugin: 'com.google.gms.google-services'
+
+
+

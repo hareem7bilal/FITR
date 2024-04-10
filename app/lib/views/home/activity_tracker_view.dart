@@ -16,12 +16,12 @@ class _ActivityTrackerViewState extends State<ActivityTrackerView> {
 
   List latestArr = [
     {
-      "image": "images/pics/pic_1.png",
+      "image": "assets/images/pics/pic_1.png",
       "title": "Drinking 300ml Water",
       "time": "About 1 minutes ago"
     },
     {
-      "image": "images/pics/pic_2.png",
+      "image": "assets/images/pics/pic_2.png",
       "title": "Eat Snack (Fitbar)",
       "time": "About 3 hours ago"
     },
@@ -48,7 +48,7 @@ class _ActivityTrackerViewState extends State<ActivityTrackerView> {
                 color: TColor.lightGrey,
                 borderRadius: BorderRadius.circular(10)),
             child: Image.asset(
-              "images/buttons/back_btn.png",
+              "assets/images/buttons/back_btn.png",
               width: 15,
               height: 15,
               fit: BoxFit.contain,
@@ -72,7 +72,7 @@ class _ActivityTrackerViewState extends State<ActivityTrackerView> {
                   color: TColor.lightGrey,
                   borderRadius: BorderRadius.circular(10)),
               child: Image.asset(
-                "images/buttons/more_btn.png",
+                "assets/images/buttons/more_btn.png",
                 width: 15,
                 height: 15,
                 fit: BoxFit.contain,
@@ -103,7 +103,7 @@ class _ActivityTrackerViewState extends State<ActivityTrackerView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Today Target",
+                          "Todays Target",
                           style: TextStyle(
                               color: TColor.black,
                               fontSize: 14,
@@ -145,7 +145,7 @@ class _ActivityTrackerViewState extends State<ActivityTrackerView> {
                       children: [
                         Expanded(
                           child: TodayTargetCell(
-                            icon: "images/food/water.png",
+                            icon: "assets/images/food/water.png",
                             value: "8L",
                             title: "Water Intake",
                           ),
@@ -155,7 +155,7 @@ class _ActivityTrackerViewState extends State<ActivityTrackerView> {
                         ),
                         Expanded(
                           child: TodayTargetCell(
-                            icon: "images/workouts/feet.png",
+                            icon: "assets/images/workouts/feet.png",
                             value: "2400",
                             title: "Foot Steps",
                           ),

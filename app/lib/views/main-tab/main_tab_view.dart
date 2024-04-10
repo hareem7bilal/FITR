@@ -55,8 +55,8 @@ class _MainTabViewState extends State<MainTabView> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           TabButton(
-              icon: "images/icons/home_tab.png",
-              selectIcon: "images/icons/home_tab_select.png",
+              icon: "assets/images/icons/home_tab.png",
+              selectIcon: "assets/images/icons/home_tab_select.png",
               isActive: selectTab == 0,
               onTap: () {
                 selectTab = 0;
@@ -66,8 +66,8 @@ class _MainTabViewState extends State<MainTabView> {
                 }
               }),
           TabButton(
-              icon: "images/icons/activity_tab.png",
-              selectIcon: "images/icons/activity_tab_select.png",
+              icon: "assets/images/icons/activity_tab.png",
+              selectIcon: "assets/images/icons/activity_tab_select.png",
               isActive: selectTab == 1,
               onTap: () {
                 selectTab = 1;
@@ -80,8 +80,8 @@ class _MainTabViewState extends State<MainTabView> {
             width: 40,
           ),
           TabButton(
-              icon: "images/icons/camera_tab.png",
-              selectIcon: "images/icons/camera_tab_select.png",
+              icon: "assets/images/icons/camera_tab.png",
+              selectIcon: "assets/images/icons/camera_tab_select.png",
               isActive: selectTab == 2,
               onTap: () {
                 selectTab = 2;
@@ -91,8 +91,8 @@ class _MainTabViewState extends State<MainTabView> {
                 }
               }),
           TabButton(
-              icon: "images/icons/profile_tab.png",
-              selectIcon: "images/icons/profile_tab_select.png",
+              icon: "assets/images/icons/profile_tab.png",
+              selectIcon: "assets/images/icons/profile_tab_select.png",
               isActive: selectTab == 3,
               onTap: () {
                 selectTab = 3;

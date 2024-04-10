@@ -46,7 +46,7 @@ class NotificationRow extends StatelessWidget {
           IconButton(
               onPressed: () {},
               icon: Image.asset(
-                "images/buttons/sub_menu.png",
+                "assets/images/buttons/sub_menu.png",
                 width: 15,
                 height: 15,
                 fit: BoxFit.contain,

@@ -5,7 +5,6 @@ import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
 import 'dart:typed_data';
-import 'dart:ffi' as ffi;
 import 'dart:io';
 
 class CharcotDetector extends StatefulWidget {
@@ -60,8 +59,7 @@ class _CharcotDetectorState extends State<CharcotDetector> {
         // Get the pixel value (ARGB)
         var pixel = resizedImg.getPixel(x, y);
 
-        // Extract ARGB components
-        var alpha = pixel.a;
+        // Extract RGB components
         var red = pixel.r;
         var green = pixel.g;
         var blue = pixel.b;
@@ -94,31 +92,47 @@ class _CharcotDetectorState extends State<CharcotDetector> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Charcot Feet Detector'),
-        backgroundColor: TColor.primaryColor1, // Set the AppBar color
-      ),
-      body: Center(
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Charcotism Detector'),
+      backgroundColor: TColor.primaryColor1, // Set the AppBar color
+    ),
+    body: SingleChildScrollView( // Ensures the content is scrollable if it overflows
+      padding: const EdgeInsets.all(16.0), // Add padding to the body content
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                'Charcotism, or Charcot arthropathy, results from nerve damage that diminishes a '
+                'person’s ability to feel pain, leading to unnoticed injuries and joint instability. '
+                'Repeated trauma and impaired healing can cause the bones to weaken, resulting in '
+                'deformities and significant instability in the ankle. This condition underscores the '
+                'importance of early detection and treatment to prevent progression and complications.',
+                textAlign: TextAlign.justify, // Justify the text for better readability
+                style: TextStyle(
+                  fontSize: 13, // Specified font size
+                  color: TColor.primaryColor1, // Specified text color
+                ),
+              ),
+            ),
+            const SizedBox(height:10),
             if (_image != null)
               Container(
                 margin: const EdgeInsets.all(10),
-               
                 decoration: BoxDecoration(
                   border: Border.all(
                       color: TColor.primaryColor2,
                       width: 5), // Add a border to the image
-                  borderRadius: BorderRadius.circular(
-                      12), // Optional: make the border rounded
+                  borderRadius: BorderRadius.circular(12), // Optional: make the border rounded
                 ),
-                 child: Image.file(_image!),
+                child: Image.file(_image!),
               ),
             RoundButton(
-              title: 'Pick Xray Image',
+              title: 'Pick X-Ray Image',
               onPressed: pickImage,
             ),
             const SizedBox(height: 15),
@@ -127,12 +141,14 @@ class _CharcotDetectorState extends State<CharcotDetector> {
                 'Prediction: ${_prediction! > 0.5 ? 'Charcot Positive' : 'Charcot Negative'}',
                 style: TextStyle(
                     fontSize: 18, // Increase text size
-                    color: TColor.primaryColor2 // Make text bold
+                    color: TColor.primaryColor2 // Use primaryColor2 for prediction text
                     ),
               )
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }

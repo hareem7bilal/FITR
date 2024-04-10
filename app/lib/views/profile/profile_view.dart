@@ -78,8 +78,10 @@ class _ProfileViewState extends State<ProfileView> {
           dob: userData['dob'] != null
               ? DateTime.tryParse(userData['dob'])
               : null,
-          weight: userData['weight'],
-          height: userData['height'],
+          weight:
+              userData['weight']?.toDouble(), // Assuming `weight` can be null
+          height:
+              userData['height']?.toDouble(), // Assuming `height` can be null
           profileImage: imageUrl,
           // Add other user fields as necessary
         );
@@ -130,8 +132,8 @@ class _ProfileViewState extends State<ProfileView> {
             ? Image.network(profileImage,
                 width: 40, height: 40, fit: BoxFit.cover)
             : Container(
-                padding:
-                    const EdgeInsets.all(2), // Adjust the padding to fit your design
+                padding: const EdgeInsets.all(
+                    2), // Adjust the padding to fit your design
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -144,7 +146,7 @@ class _ProfileViewState extends State<ProfileView> {
                   backgroundColor: Colors
                       .transparent, // Ensures the container's decoration is visible
                   child: Image.asset(
-                    "images/icons/profile.png",
+                    "assets/images/icons/profile.png",
                     width: 40,
                     height: 40,
                     fit: BoxFit.contain,
@@ -197,7 +199,7 @@ class _ProfileViewState extends State<ProfileView> {
                     color: TColor.lightGrey,
                     borderRadius: BorderRadius.circular(10)),
                 child: Image.asset(
-                  "images/buttons/more_btn.png",
+                  "assets/images/buttons/more_btn.png",
                   width: 15,
                   height: 15,
                   fit: BoxFit.contain,
@@ -235,32 +237,44 @@ Widget buildUserProfile(
     void Function() togglePositive,
     Widget Function(String?) buildAvatar) {
   List accountArr = [
-    {"image": "images/icons/profile.png", "name": "Personal Data", "tag": "1"},
     {
-      "image": "images/icons/achievement.png",
+      "image": "assets/images/icons/profile.png",
+      "name": "Personal Data",
+      "tag": "1"
+    },
+    {
+      "image": "assets/images/icons/achievement.png",
       "name": "Achievement",
       "tag": "2"
     },
     {
-      "image": "images/icons/activity_history.png",
+      "image": "assets/images/icons/activity_history.png",
       "name": "Activity History",
       "tag": "3"
     },
     {
-      "image": "images/icons/workout_progress.png",
+      "image": "assets/images/icons/workout_progress.png",
       "name": "Workout Progress",
       "tag": "4"
     }
   ];
 
   List otherArr = [
-    {"image": "images/icons/email.png", "name": "Contact Us", "tag": "5"},
     {
-      "image": "images/icons/privacy_policy.png",
+      "image": "assets/images/icons/email.png",
+      "name": "Contact Us",
+      "tag": "5"
+    },
+    {
+      "image": "assets/images/icons/privacy_policy.png",
       "name": "Privacy Policy",
       "tag": "6"
     },
-    {"image": "images/icons/settings.png", "name": "Settings", "tag": "7"},
+    {
+      "image": "assets/images/icons/settings.png",
+      "name": "Settings",
+      "tag": "7"
+    },
   ];
 
   return Container(
@@ -374,7 +388,7 @@ Widget buildUserProfile(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "images/icons/notification.png",
+                        "assets/images/icons/notification.png",
                         width: 15,
                         height: 15,
                         fit: BoxFit.contain,

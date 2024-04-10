@@ -48,21 +48,21 @@ class _HomeViewState extends State<HomeView> {
   List lastWorkoutArr = [
     {
       "name": "Full Body Workout",
-      "image": "images/workouts/workout1.png",
+      "image": "assets/images/workouts/workout1.png",
       "kcal": "180",
       "time": "20",
       "progress": 0.3
     },
     {
       "name": "Lower Body Workout",
-      "image": "images/workouts/workout2.png",
+      "image": "assets/images/workouts/workout2.png",
       "kcal": "200",
       "time": "30",
       "progress": 0.4
     },
     {
       "name": "Ab Workout",
-      "image": "images/workouts/workout3.png",
+      "image": "assets/images/workouts/workout3.png",
       "kcal": "300",
       "time": "40",
       "progress": 0.7
@@ -191,7 +191,7 @@ class _HomeViewState extends State<HomeView> {
                           );
                         },
                         icon: Image.asset(
-                          "images/icons/notification_active.png",
+                          "assets/images/icons/notification_active.png",
                           width: 25,
                           height: 25,
                           fit: BoxFit.fitHeight,
@@ -208,7 +208,7 @@ class _HomeViewState extends State<HomeView> {
                       borderRadius: BorderRadius.circular(media.width * 0.075)),
                   child: Stack(alignment: Alignment.center, children: [
                     Image.asset(
-                      "images/icons/banner-dots.png",
+                      "assets/images/icons/banner-dots.png",
                       height: media.width * 0.4,
                       width: double.maxFinite,
                       fit: BoxFit.fitHeight,
@@ -287,7 +287,7 @@ class _HomeViewState extends State<HomeView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Today Target",
+                        "Todays Target",
                         style: TextStyle(
                             color: TColor.black,
                             fontSize: 14,
@@ -685,7 +685,7 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                 ),
                                 const Spacer(),
-                                Image.asset("images/graphs/sleep_graph.png",
+                                Image.asset("assets/images/graphs/sleep_graph.png",
                                     width: double.maxFinite,
                                     fit: BoxFit.fitWidth)
                               ]),
