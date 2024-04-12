@@ -73,6 +73,12 @@ dependencies:
 
   workout_repository:
     path: packages/workout_repository
+
+  activity_repository:
+    path: packages/activity_repository
+
+  notification_repository:
+    path: packages/notification_repository
   firebase_app_check: ^0.2.2+1
 
 

@@ -25,7 +25,6 @@ class BindBox extends StatelessWidget {
     List<Widget> renderKeypoints() {
       List<Widget> widgets = [];
       for (var re in results) {
-        //var keypoints = re["keypoints"].values as List<dynamic>; // Ensure this cast aligns with your data structure
         var keypointsIterable = re["keypoints"].values;
         var keypoints = keypointsIterable.toList();
 

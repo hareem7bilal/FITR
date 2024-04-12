@@ -84,7 +84,7 @@ class _CameraState extends State<Camera> {
     final deviceRatio = size.width / size.height;
     final xScale = controller!.value.aspectRatio / deviceRatio;
 
-    // Correct the aspect ratio to prevent stretching
+    //Correct the aspect ratio to prevent stretching
     final widgetScale = 1 / (xScale * size.aspectRatio);
 
     return Transform.scale(
@@ -93,5 +93,10 @@ class _CameraState extends State<Camera> {
         child: CameraPreview(controller!),
       ),
     );
+    // return Container(
+    //   constraints: const BoxConstraints
+    //       .expand(), // Make the preview fill the entire screen space
+    //   child: CameraPreview(controller!),
+    // );
   }
 }

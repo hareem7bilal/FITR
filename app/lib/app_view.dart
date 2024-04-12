@@ -7,7 +7,7 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 //import 'package:flutter_application_1/views/DL_models/sprain_detector.dart';
 //import 'package:flutter_application_1/views/DL_models/fracture_detector.dart';
 //import 'package:flutter_application_1/views/DL_models/posenet/openpose.dart';
-import 'package:flutter_application_1/views/DL_models/posenet/home_page.dart';
+import 'package:flutter_application_1/views/DL_models/flask/openpose.dart';
 //import 'package:flutter_application_1/views/main-tab/main_tab_view.dart';
 import 'package:flutter_application_1/views/onboarding/starting_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +33,7 @@ class AppView extends StatelessWidget {
             //return const YTView();
             //return const StartingView();
             //return const SprainDetector();
-            return const HomePage();
+            return const OpenPose();
           }
         },
       ),
