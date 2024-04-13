@@ -21,52 +21,54 @@ class BindBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This method now returns List<Widget> directly
     List<Widget> renderKeypoints() {
-      List<Widget> widgets = [];
+      if (model != "posenet") {
+        return <Widget>[]; // Return empty list if model check fails
+      }
+
+      List<Widget> lists = [];
       for (var re in results) {
-        var keypointsIterable = re["keypoints"].values;
-        var keypoints = keypointsIterable.toList();
-
-        for (var k in keypoints) {
-          var x = k["x"] as double; // Assuming 'x' and 'y' are of type double
-          var y = k["y"] as double;
-
-          double scaleW, scaleH, posX, posY;
+        var list = re["keypoints"].values.map<Widget>((k) {
+          double x = k["x"];
+          double y = k["y"];
+          double scaleW;
+          double scaleH;
+          double adjustedX;
+          double adjustedY;
 
           if (screenH / screenW > previewH / previewW) {
             scaleW = screenH / previewH * previewW;
             scaleH = screenH;
-            var difW = (scaleW - screenW) / scaleW;
-            posX = (x - difW / 2) * scaleW;
-            posY = y * scaleH;
+            double difW = (scaleW - screenW) / scaleW;
+            adjustedX = (x - difW / 2) * scaleW;
+            adjustedY = y * scaleH;
           } else {
             scaleH = screenW / previewW * previewH;
             scaleW = screenW;
-            var difH = (scaleH - screenH) / scaleH;
-            posX = x * scaleW;
-            posY = (y - difH / 2) * scaleH;
+            double difH = (scaleH - screenH) / scaleH;
+            adjustedX = x * scaleW;
+            adjustedY = (y - difH / 2) * scaleH;
           }
-          widgets.add(
-            Positioned(
-              left: posX - 6,
-              top: posY - 6,
-              width: 100,
-              height: 12,
-              child: Text(
-                "● ${k["part"]}",
-                style: TextStyle(
-                  color: TColor.primaryColor1,
-                  fontSize: 12.0,
-                ),
+          return Positioned(
+            left: adjustedX - 6,
+            top: adjustedY - 6,
+            width: 100,
+            height: 12,
+            child: Text(
+              "● ${k["part"]}",
+              style: TextStyle(
+                color: TColor.primaryColor1,
+                fontSize: 12.0,
               ),
             ),
           );
-        }
+        }).toList();
+        lists.addAll(list);
       }
-      return widgets;
+      return lists;
     }
 
     return Stack(children: renderKeypoints());
   }
 }
+
