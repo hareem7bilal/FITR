@@ -107,21 +107,32 @@ class _ADTDetectorState extends State<ADTDetector> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  'The Anterior Drawer Test (ADT) is used to assess ankle stability and '
-                  'the integrity of the anterior talofibular ligament. A positive ADT indicates '
-                  'possible ligament injury and ankle instability, which may require further '
-                  'medical attention.',
-                  textAlign: TextAlign
-                      .justify, // Justify the text for better readability
-                  style: TextStyle(
-                    fontSize:
-                        13, // Slightly smaller font for the explanation text
-                    color: TColor.primaryColor1,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black, // Set the background color to black
+                      borderRadius: BorderRadius.circular(
+                          10), // Set the border radius to round the corners
+                      border: Border.all(
+                          color: TColor.primaryColor2,
+                          width: 3) // Optional: Add a white border for contrast
+                      ),
+                  padding: const EdgeInsets.all(
+                      10), // Add padding inside the container
+                  child: Text(
+                    'The Anterior Drawer Test (ADT) is used to assess ankle stability and '
+                    'the integrity of the anterior talofibular ligament. A positive ADT indicates '
+                    'possible ligament injury and ankle instability, which may require further '
+                    'medical attention.',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: TColor
+                          .primaryColor1, // Set text color to white for contrast
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height:10),
+              const SizedBox(height: 10),
               if (_image != null)
                 Container(
                   margin: const EdgeInsets.all(10),

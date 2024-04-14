@@ -92,63 +92,78 @@ class _CharcotDetectorState extends State<CharcotDetector> {
   }
 
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('Charcotism Detector'),
-      backgroundColor: TColor.primaryColor1, // Set the AppBar color
-    ),
-    body: SingleChildScrollView( // Ensures the content is scrollable if it overflows
-      padding: const EdgeInsets.all(16.0), // Add padding to the body content
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                'Charcotism, or Charcot arthropathy, results from nerve damage that diminishes a '
-                'person’s ability to feel pain, leading to unnoticed injuries and joint instability. '
-                'Repeated trauma and impaired healing can cause the bones to weaken, resulting in '
-                'deformities and significant instability in the ankle. This condition underscores the '
-                'importance of early detection and treatment to prevent progression and complications.',
-                textAlign: TextAlign.justify, // Justify the text for better readability
-                style: TextStyle(
-                  fontSize: 13, // Specified font size
-                  color: TColor.primaryColor1, // Specified text color
-                ),
-              ),
-            ),
-            const SizedBox(height:10),
-            if (_image != null)
-              Container(
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: TColor.primaryColor2,
-                      width: 5), // Add a border to the image
-                  borderRadius: BorderRadius.circular(12), // Optional: make the border rounded
-                ),
-                child: Image.file(_image!),
-              ),
-            RoundButton(
-              title: 'Pick X-Ray Image',
-              onPressed: pickImage,
-            ),
-            const SizedBox(height: 15),
-            if (_prediction != null)
-              Text(
-                'Prediction: ${_prediction! > 0.5 ? 'Charcot Positive' : 'Charcot Negative'}',
-                style: TextStyle(
-                    fontSize: 18, // Increase text size
-                    color: TColor.primaryColor2 // Use primaryColor2 for prediction text
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Charcotism Detector'),
+        backgroundColor: TColor.primaryColor1, // Set the AppBar color
+      ),
+      body: SingleChildScrollView(
+        // Ensures the content is scrollable if it overflows
+        padding: const EdgeInsets.all(16.0), // Add padding to the body content
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black, // Set the background color to black
+                      borderRadius: BorderRadius.circular(
+                          10), // Set the border radius to round the corners
+                      border: Border.all(
+                          color: TColor.primaryColor2,
+                          width: 3) // Optional: Add a white border for contrast
+                      ),
+                  padding: const EdgeInsets.all(
+                      10), // Add padding inside the container
+                  child: Text(
+                    'Charcotism, or Charcot arthropathy, results from nerve damage that diminishes a '
+                    'person’s ability to feel pain, leading to unnoticed injuries and joint instability. '
+                    'Repeated trauma and impaired healing can cause the bones to weaken, resulting in '
+                    'deformities and significant instability in the ankle. This condition underscores the '
+                    'importance of early detection and treatment to prevent progression and complications.',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: TColor
+                          .primaryColor1, // Set text color to white for contrast
                     ),
-              )
-          ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              if (_image != null)
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: TColor.primaryColor2,
+                        width: 5), // Add a border to the image
+                    borderRadius: BorderRadius.circular(
+                        12), // Optional: make the border rounded
+                  ),
+                  child: Image.file(_image!),
+                ),
+              RoundButton(
+                title: 'Pick X-Ray Image',
+                onPressed: pickImage,
+              ),
+              const SizedBox(height: 15),
+              if (_prediction != null)
+                Text(
+                  'Prediction: ${_prediction! > 0.5 ? 'Charcot Positive' : 'Charcot Negative'}',
+                  style: TextStyle(
+                      fontSize: 18, // Increase text size
+                      color: TColor
+                          .primaryColor2 // Use primaryColor2 for prediction text
+                      ),
+                )
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

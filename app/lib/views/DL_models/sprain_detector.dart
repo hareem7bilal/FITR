@@ -107,18 +107,29 @@ class _SprainDetectorState extends State<SprainDetector> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  'Ankle sprains, from mild to severe, can lead to temporary or chronic instability, '
-                  'increasing the risk of recurrent injuries. Chronic instability makes the ankle more '
-                  'prone to sprains. Early detection and management are crucial for ligament strength and '
-                  'preventing future instability, underscoring the need for accurate diagnosis and '
-                  'appropriate treatment.',
-                  textAlign: TextAlign
-                      .justify, // Justify the text for better readability
-                  style: TextStyle(
-                    fontSize: 13, // Adjusted font size for explanation text
-                    color: TColor
-                        .primaryColor1, // Specified text color for consistency
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black, // Set the background color to black
+                      borderRadius: BorderRadius.circular(
+                          10), // Set the border radius to round the corners
+                      border: Border.all(
+                          color: TColor.primaryColor2,
+                          width: 3) // Optional: Add a white border for contrast
+                      ),
+                  padding: const EdgeInsets.all(
+                      10), // Add padding inside the container
+                  child: Text(
+                    'Ankle sprains, from mild to severe, can lead to temporary or chronic instability, '
+                    'increasing the risk of recurrent injuries. Chronic instability makes the ankle more '
+                    'prone to sprains. Early detection and management are crucial for ligament strength and '
+                    'preventing future instability, underscoring the need for accurate diagnosis and '
+                    'appropriate treatment.',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: TColor
+                          .primaryColor1, // Set text color to white for contrast
+                    ),
                   ),
                 ),
               ),

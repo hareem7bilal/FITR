@@ -22,11 +22,12 @@ class _HomePageState extends State<HomePage> {
   List<dynamic> _recognitions = [];
   int _imageHeight = 0;
   int _imageWidth = 0;
-  String _model = "";
+  String _model = "posenet"; // Pre-select the model
 
   @override
   void initState() {
     super.initState();
+    onSelect(_model); // Load model and initialize camera on startup
   }
 
   Future<void> loadModel() async {
@@ -35,8 +36,7 @@ class _HomePageState extends State<HomePage> {
       case 'posenet':
         res = await Tflite.loadModel(
           model: "assets/models/posenet_mv1_075_float_from_checkpoints.tflite",
-          labels:
-              "assets/labels.txt", // Including labels if they are used by your app
+          labels: "assets/labels.txt", // Including labels if they are used by your app
         );
         debugPrint('Model loaded: $res');
         break;
@@ -69,35 +69,23 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
     return Scaffold(
-      body: _model.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    child: const Text('Load PoseNet'),
-                    onPressed: () => onSelect('posenet'),
-                  ),
-                ],
-              ),
-            )
-          : Stack(
-              children: [
-                Camera(
-                  cameras: widget.cameras,
-                  model: _model,
-                  setRecognitions: setRecognitions,
-                ),
-                BindBox(
-                  results: _recognitions,
-                  previewH: math.max(_imageHeight, _imageWidth),
-                  previewW: math.min(_imageHeight, _imageWidth),
-                  screenH: screen.height,
-                  screenW: screen.width,
-                  model: _model,
-                ),
-              ],
-            ),
+      body: Stack(
+        children: [
+          Camera(
+            cameras: widget.cameras,
+            model: _model,
+            setRecognitions: setRecognitions,
+          ),
+          BindBox(
+            results: _recognitions,
+            previewH: math.max(_imageHeight, _imageWidth),
+            previewW: math.min(_imageHeight, _imageWidth),
+            screenH: screen.height,
+            screenW: screen.width,
+            model: _model,
+          ),
+        ],
+      ),
     );
   }
 }

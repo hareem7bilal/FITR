@@ -107,18 +107,29 @@ class _FractureDetectorState extends State<FractureDetector> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  'Ankle fractures can greatly affect stability and function, disrupting the '
-                  'joint\'s alignment and integrity. This may lead to weakened support, increased '
-                  're-injury risk, and chronic instability or arthritis. Early detection is key '
-                  'for effective management and rehabilitation, highlighting the need for prompt '
-                  'and accurate diagnosis to maintain ankle health.',
-                  textAlign: TextAlign
-                      .justify, // Justify the text for better readability
-                  style: TextStyle(
-                    fontSize: 13, // Adjusted font size for readability
-                    color: TColor
-                        .primaryColor1, // Specified text color for consistency
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black, // Set the background color to black
+                      borderRadius: BorderRadius.circular(
+                          10), // Set the border radius to round the corners
+                      border: Border.all(
+                          color: TColor.primaryColor2,
+                          width: 3) // Optional: Add a white border for contrast
+                      ),
+                  padding: const EdgeInsets.all(
+                      10), // Add padding inside the container
+                  child: Text(
+                    'Ankle fractures can greatly affect stability and function, disrupting the '
+                    'joint\'s alignment and integrity. This may lead to weakened support, increased '
+                    're-injury risk, and chronic instability or arthritis. Early detection is key '
+                    'for effective management and rehabilitation, highlighting the need for prompt '
+                    'and accurate diagnosis to maintain ankle health.',
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: TColor
+                          .primaryColor1, // Set text color to white for contrast
+                    ),
                   ),
                 ),
               ),
