@@ -128,9 +128,14 @@ class _OpenPoseRealtimeState extends State<OpenPoseRealtime> {
           final jsonData = jsonDecode(message);
           setState(() {
             if (jsonData['keypoints'] != null) {
-              keypoints = (jsonData['keypoints'] as List)
-                  .map((kp) => Keypoint.fromJson(kp as Map<String, dynamic>))
-                  .toList();
+              if (jsonData['keypoints'] is List) {
+                keypoints = (jsonData['keypoints'] as List)
+                    .map((kp) => Keypoint.fromJson(kp as Map<String, dynamic>))
+                    .toList();
+              } else {
+                debugPrint(
+                    'Unexpected data type for keypoints: ${jsonData['keypoints']}');
+              }
             } else if (jsonData['error'] != null) {
               debugPrint('Server error: ${jsonData['error']}');
             }

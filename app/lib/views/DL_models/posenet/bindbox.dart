@@ -149,10 +149,10 @@ class KeypointPainter extends CustomPainter {
         [0, 2], // nose to rightEye
         [1, 3], // leftEye to leftEar
         [2, 4], // rightEye to rightEar
-        [5, 7], // leftShoulder to leftElbow (assuming leftShoulder is 5)
-        [7, 9], // leftElbow to leftWrist
-        [6, 8], // rightShoulder to rightElbow (assuming rightShoulder is 6)
-        [8, 10], // rightElbow to rightWrist
+        // [5, 7], // leftShoulder to leftElbow (assuming leftShoulder is 5)
+        // [7, 9], // leftElbow to leftWrist
+        // [6, 8], // rightShoulder to rightElbow (assuming rightShoulder is 6)
+        // [8, 10], // rightElbow to rightWrist
       ];
 
       for (var connection in connections) {

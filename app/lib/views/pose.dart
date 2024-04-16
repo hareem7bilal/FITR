@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'vision_detector/pose_detector_view.dart';
 import 'DL_models/posenet/main.dart';
 import 'DL_models/flask/openpose_img.dart';
-import 'DL_models/flask/openpose_realtime.dart';
+import 'DL_models/flask/openpose_realtime1.dart';
 import '../widgets/custom_card.dart';
 
 class PoseDetector extends StatelessWidget {
@@ -40,10 +40,8 @@ class Home extends StatelessWidget {
                       'Google Mediapipe Pose Detection', PoseDetectorView()),
                   CustomCard(
                       'Openpose Realtime Pose Detection', OpenPoseRealtime()),
-                  CustomCard(
-                      'Openpose Image Pose Detection', OpenPoseImg()),
-                  CustomCard(
-                      'Posenet Pose Detection', Posenet()),
+                  CustomCard('Openpose Image Pose Detection', OpenPoseImg()),
+                  CustomCard('Posenet Pose Detection', Posenet()),
                 ],
               ),
             ),
@@ -53,4 +51,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
