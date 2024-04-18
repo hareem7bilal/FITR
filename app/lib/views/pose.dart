@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'vision_detector/pose_detector_view.dart';
 import 'DL_models/posenet/main.dart';
-import 'DL_models/flask/openpose_img.dart';
-import 'DL_models/flask/openpose_realtime1.dart';
+//import 'DL_models/body_detection/body_detection.dart';
+import 'DL_models/openpose/openpose_img.dart';
+import 'DL_models/openpose/openpose_realtime2.dart';
 import '../widgets/custom_card.dart';
 
 class PoseDetector extends StatelessWidget {
@@ -42,6 +43,7 @@ class Home extends StatelessWidget {
                       'Openpose Realtime Pose Detection', OpenPoseRealtime()),
                   CustomCard('Openpose Image Pose Detection', OpenPoseImg()),
                   CustomCard('Posenet Pose Detection', Posenet()),
+                  //CustomCard('Body Detection', PoseDetection()),
                 ],
               ),
             ),
