@@ -74,10 +74,14 @@ class _OpenPoseImgState extends State<OpenPoseImg> {
     if (response.statusCode == 200) {
       debugPrint('Upload successful');
       var jsonData = jsonDecode(response.body);
-      var pointsData = jsonData['points'] as List;
-      List<Keypoint> keypoints =
-          pointsData.map((p) => Keypoint.fromJson(p)).toList();
-      debugPrint(keypoints.toString());
+      var pointsData = jsonData['points'] as Map<String, dynamic>;
+      List<Keypoint> keypoints = pointsData.entries
+          .map((e) => Keypoint.fromJson({
+                'part': e.key,
+                'position': e.value,
+                'angle': jsonData['angles'][e.key] // Include angle data
+              }))
+          .toList();
       setState(() {
         _keypoints = keypoints;
       });
@@ -144,9 +148,15 @@ class KeypointPainter extends CustomPainter {
     ["Neck", "RHip"],
     ["RHip", "RKnee"],
     ["RKnee", "RAnkle"],
+    ["RAnkle", "RHeel"],
+    ["RHeel", "RBigToe"],
+    ["RHeel", "RSmallToe"],
     ["Neck", "LHip"],
     ["LHip", "LKnee"],
     ["LKnee", "LAnkle"],
+    ["LAnkle", "LHeel"],
+    ["LHeel", "LBigToe"],
+    ["LHeel", "LSmallToe"],
     ["Neck", "Nose"],
     ["Nose", "REye"],
     ["REye", "REar"],
@@ -169,8 +179,8 @@ class KeypointPainter extends CustomPainter {
     final textPainter = TextPainter(
         textDirection: TextDirection.ltr, textAlign: TextAlign.center);
     final textStyle = TextStyle(
-      color: TColor.grey,
-      fontSize: 12,
+      color: TColor.white,
+      fontSize: 8,
     );
 
     double scale, offsetX, offsetY;
@@ -221,7 +231,11 @@ class KeypointPainter extends CustomPainter {
         canvas.drawCircle(scaledPosition, 5, pointPaint);
 
         // Draw the label
-        textPainter.text = TextSpan(text: keypoint.part, style: textStyle);
+        textPainter.text = TextSpan(
+            text: keypoint.angle != null
+                ? '${keypoint.part} ${keypoint.angle!.toStringAsFixed(1)}°'
+                : keypoint.part,
+            style: textStyle);
         textPainter.layout();
         textPainter.paint(
           canvas,
@@ -239,16 +253,18 @@ class KeypointPainter extends CustomPainter {
 class Keypoint {
   final String part;
   final Offset? position;
+  final double? angle; // Add an optional angle field
 
-  Keypoint({required this.part, this.position});
+  Keypoint({required this.part, this.position, this.angle});
 
   factory Keypoint.fromJson(Map<String, dynamic> json) {
-    return json['position'] != null
-        ? Keypoint(
-            part: json['part'],
-            position: Offset(
-                json['position'][0].toDouble(), json['position'][1].toDouble()),
-          )
-        : Keypoint(part: json['part'], position: null);
+    return Keypoint(
+      part: json['part'],
+      position: json['position'] != null
+          ? Offset(
+              json['position'][0].toDouble(), json['position'][1].toDouble())
+          : null,
+      angle: json['angle']?.toDouble(), // Deserialize the angle if available
+    );
   }
 }

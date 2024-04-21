@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'vision_detector/pose_detector_view.dart';
 import 'DL_models/posenet/main.dart';
 import 'DL_models/openpose/openpose_img.dart';
-import 'DL_models/openpose/openpose_realtime2.dart';
+import 'DL_models/openpose/openpose_realtime.dart';
 import 'opensim.dart';
 import '../widgets/custom_card.dart';
 
