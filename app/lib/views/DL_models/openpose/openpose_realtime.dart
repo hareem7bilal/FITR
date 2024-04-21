@@ -55,7 +55,7 @@ class _OpenPoseRealtimeState extends State<OpenPoseRealtime> {
 
   void initializeWebSocket() {
     _socketChannel =
-        IOWebSocketChannel.connect(Uri.parse('ws://192.168.18.48:5000/ws'));
+        IOWebSocketChannel.connect(Uri.parse('ws://192.168.18.48:8000/ws'));
 
     _socketChannel!.stream.listen(
       (message) {
