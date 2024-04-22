@@ -4,10 +4,9 @@ import 'package:flutter_application_1/views/login/welcome_view.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/widgets/round_textfield.dart';
 import 'package:flutter_application_1/views/login/signup_view.dart';
-
+import 'forgot_password.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/sign_in_bloc/sign_in_bloc.dart';
-
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -108,6 +107,25 @@ class _LoginView extends State<LoginView> {
                             }
                           },
                         ),
+                        const SizedBox(height: 3),
+                        TextButton(
+                          onPressed: () {
+                            // Navigate to Forgot Password screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ForgotPassword()),
+                            );
+                          },
+                          child: Text(
+                            "Forgot password?",
+                            style: TextStyle(
+                              color: TColor.grey,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -116,9 +134,10 @@ class _LoginView extends State<LoginView> {
                     onPressed: () {
                       // Navigate to the registration screen
                       Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignupView()),
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignupView()),
+                      );
                     },
                     child: Text(
                       "Don't have an account yet? Register",
