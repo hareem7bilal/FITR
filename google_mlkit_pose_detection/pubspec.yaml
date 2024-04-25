@@ -8,6 +8,7 @@ environment:
   flutter: ">=2.5.0"
 
 dependencies:
+  flutter_tts: ^4.0.2
   flutter:
     sdk: flutter
   google_mlkit_commons: ^0.6.0

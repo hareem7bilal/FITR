@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/views/onboarding/onboarding_view.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class StartingView extends StatefulWidget {
   const StartingView({super.key});
@@ -12,7 +13,21 @@ class StartingView extends StatefulWidget {
 
 class StartingViewState extends State<StartingView> {
   bool isChangeColor = true;
+  FlutterTts tts = FlutterTts();
 
+   @override
+  void initState() {
+    super.initState();
+    speakAppDescription();
+  }
+
+  Future<void> speakAppDescription() async {
+    await tts.setLanguage("en-UK");
+ 
+    await tts.setPitch(1);
+    await tts.speak("Welcome to FITR! Your journey from Injury to Rehab starts here.");
+  }
+  
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;

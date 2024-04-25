@@ -1,6 +1,7 @@
 import 'dart:math';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 
 /// A detector for performing body-pose estimation.
@@ -9,8 +10,18 @@ class PoseDetector {
       MethodChannel('google_mlkit_pose_detector');
   final PoseDetectorOptions options;
   final String id = DateTime.now().microsecondsSinceEpoch.toString();
+  final FlutterTts tts = FlutterTts(); // TTS instance
 
-  PoseDetector({required this.options});
+  PoseDetector({required this.options}) {
+    initializeTts();
+  }
+
+  Future<void> initializeTts() async {
+    await tts.setLanguage('en-US');
+    await tts.setSpeechRate(0.5);
+    await tts.setVolume(1.0);
+    await tts.setPitch(1.0);
+  }
 
   Future<List<Pose>> processImage(InputImage inputImage) async {
     final result = await _channel.invokeMethod('vision#startPoseDetector', {
@@ -134,11 +145,40 @@ class PoseDetector {
         final PoseLandmark a = pose.landmarks[landmarks[0]]!;
         final PoseLandmark b = pose.landmarks[landmarks[1]]!;
         final PoseLandmark c = pose.landmarks[landmarks[2]]!;
-        angles[angleName] = PoseAngleCalculator.calculate3DAngle(a, b, c);
+        final int angle = PoseAngleCalculator.calculate3DAngle(a, b, c);
+        angles[angleName] = angle;
+        // Check if the angle is dangerous
+        if (isDangerousAngle(angleName, angle)) {
+          tts.speak(
+              'Warning: Dangerous $angleName angle of $angle degrees detected.');
+          debugPrint(
+              'Warning: Dangerous $angleName angle of $angle degrees detected.');
+        }
       }
     }
 
     return angles;
+  }
+
+  bool isDangerousAngle(String joint, int angle) {
+    // Define dangerous ranges for different joints
+    final Map<String, List<int>> dangerRanges = {
+      'Right Elbow': [10, 170],
+      'Left Elbow': [10, 170],
+      'Right Knee': [15, 175],
+      'Left Knee': [15, 175],
+      'Right Shoulder': [20, 160],
+      'Left Shoulder': [20, 160],
+      'Right Hip': [30, 130],
+      'Left Hip': [30, 130],
+      'Right Ankle': [15, 50],
+      'Left Ankle': [15, 50],
+      'Right Wrist': [10, 160],
+      'Left Wrist': [10, 160]
+    };
+
+    if (!dangerRanges.containsKey(joint)) return false;
+    return angle < dangerRanges[joint]![0] || angle > dangerRanges[joint]![1];
   }
 
   Future<void> close() =>
@@ -281,7 +321,8 @@ class PoseAngleCalculator {
     final double magnitudeBC = sqrt(bcX * bcX + bcY * bcY + bcZ * bcZ);
     final double cosAngle = dotProduct / (magnitudeAB * magnitudeBC);
     final double angleRad = acos(cosAngle);
-    final int angleDeg = (angleRad * 180 / pi).round(); // Round off to nearest integer
+    final int angleDeg =
+        (angleRad * 180 / pi).round(); // Round off to nearest integer
     return angleDeg;
   }
 }

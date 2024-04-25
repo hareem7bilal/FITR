@@ -16,41 +16,13 @@ import 'package:universal_io/io.dart' as uni;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ProfileView extends StatefulWidget {
-  final String name;
-  final String height;
-  final String weight;
-  final String age;
-  final String profileImage;
-  const ProfileView(
-      {super.key,
-      required this.name,
-      required this.height,
-      required this.weight,
-      required this.age,
-      required this.profileImage});
+  const ProfileView({super.key});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  late String name;
-  late String height;
-  late String weight;
-  late String age;
-  late String profileImage;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize your variables here from the widget if needed
-    name = widget.name;
-    height = widget.height;
-    weight = widget.weight;
-    age = widget.age;
-    profileImage = widget.profileImage;
-  }
-
   bool positive = false;
 
   void togglePositive() {
@@ -70,21 +42,20 @@ class _ProfileViewState extends State<ProfileView> {
       if (userDoc.exists) {
         final userData = userDoc.data()!;
         final updatedUser = MyUserModel(
-          id: firebaseUser.uid,
-          email: userData['email'],
-          firstName: userData['firstName'],
-          lastName: userData['lastName'],
-          gender: userData['gender'],
-          dob: userData['dob'] != null
-              ? DateTime.tryParse(userData['dob'])
-              : null,
-          weight:
-              userData['weight']?.toDouble(), // Assuming `weight` can be null
-          height:
-              userData['height']?.toDouble(), // Assuming `height` can be null
-          profileImage: imageUrl,
-          // Add other user fields as necessary
-        );
+            id: firebaseUser.uid,
+            email: userData['email'],
+            firstName: userData['firstName'],
+            lastName: userData['lastName'],
+            gender: userData['gender'],
+            dob: userData['dob'] != null
+                ? DateTime.tryParse(userData['dob'])
+                : null,
+            weight:
+                userData['weight']?.toDouble(), // Assuming `weight` can be null
+            height:
+                userData['height']?.toDouble(), // Assuming `height` can be null
+            profileImage: imageUrl,
+            program: userData['program']);
 
         if (!mounted) return;
 
@@ -209,9 +180,26 @@ class _ProfileViewState extends State<ProfileView> {
           ],
         ),
         backgroundColor: TColor.white,
-        body: SingleChildScrollView(
-            child: buildUserProfile(context, name, height, weight, age,
-                profileImage, positive, togglePositive, buildAvatar)));
+        body: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+          if (state.status == UserStatus.success && state.user != null) {
+            MyUserModel user = state.user!;
+            String name = "${user.firstName} ${user.lastName}".trim();
+            String age = user.dob != null ? calculateAge(user.dob!) : "-";
+            return SingleChildScrollView(
+                child: buildUserProfile(
+                    context,
+                    name,
+                    user.height?.toString() ?? "-",
+                    user.weight?.toString() ?? "-",
+                    age,
+                    user.profileImage,
+                    user.program ?? "Not Specified",
+                    positive,
+                    togglePositive,
+                    buildAvatar));
+          }
+          return const Center(child: CircularProgressIndicator());
+        }));
   }
 }
 
@@ -232,7 +220,8 @@ Widget buildUserProfile(
     String height,
     String weight,
     String age,
-    String profileImage,
+    String? profileImage,
+    String program,
     bool positive,
     void Function() togglePositive,
     Widget Function(String?) buildAvatar) {
@@ -297,7 +286,7 @@ Widget buildUserProfile(
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                 ),
-                Text("Rehabilitation Program",
+                Text("$program Program",
                     style: TextStyle(
                       color: TColor.grey,
                       fontSize: 12,

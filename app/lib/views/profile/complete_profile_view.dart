@@ -10,7 +10,9 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CompleteProfileView extends StatefulWidget {
+
   const CompleteProfileView({super.key});
+   
 
   @override
   State<CompleteProfileView> createState() => _CompleteProfileViewState();
@@ -21,6 +23,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
   final TextEditingController txtWeight = TextEditingController();
   final TextEditingController txtHeight = TextEditingController();
   String? selectedGender;
+  String? selectedProgram;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +41,13 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
         }
       },
       child: Scaffold(
+         appBar: AppBar(
+          backgroundColor: TColor.white,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: TColor.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
         backgroundColor: TColor.white,
         body: SingleChildScrollView(
           child: SafeArea(
@@ -45,8 +55,10 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  Image.asset("assets/images/signup_and_login/complete_profile.png",
-                      width: media.width, fit: BoxFit.fitWidth),
+                  Image.asset(
+                      "assets/images/signup_and_login/complete_profile.png",
+                      width: media.width,
+                      fit: BoxFit.fitWidth),
                   SizedBox(height: media.width * 0.05),
                   Text("Let's Update Your Profile",
                       style: TextStyle(
@@ -97,6 +109,8 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                                   TextStyle(color: TColor.white, fontSize: 12)))
                     ],
                   ),
+                  SizedBox(height: media.width * 0.04),
+                  _buildWorkoutProgramDropdown(),
                   SizedBox(height: media.width * 0.07),
                   RoundButton(title: "Save", onPressed: _saveUserProfile),
                 ],
@@ -105,6 +119,51 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildWorkoutProgramDropdown() {
+    // Mock list of workouts for the example
+    const List<String> workoutPrograms = [
+      'Bodybuilding',
+      'Crossfit',
+      'Yoga',
+      'Pilates',
+      'Cardio'
+    ];
+
+    return GestureDetector(
+      onTap: () => _showWorkoutProgramBottomSheet(workoutPrograms),
+      child: AbsorbPointer(
+        child: RoundTextField(
+          hintText: selectedProgram ?? "Select Workout Program",
+          icon: "assets/images/workouts/workout2.png",
+          controller: TextEditingController(text: selectedProgram),
+        ),
+      ),
+    );
+  }
+
+  void _showWorkoutProgramBottomSheet(List<String> workoutPrograms) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: workoutPrograms.map((String program) {
+              return ListTile(
+                title: Text(program),
+                onTap: () {
+                  setState(() {
+                    selectedProgram = program;
+                    Navigator.pop(context);
+                  });
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
     );
   }
 
@@ -207,12 +266,13 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
       final updatedUser = MyUserModel(
         id: firebaseUser.uid,
         email: firebaseUser.email ??
-            '', // Assuming email can be non-null; adjust based on your app logic
+            '', 
         firstName: userData['firstName'] ??
-            '', // Adjust field names based on your Firestore schema
+            '', 
         lastName: userData['lastName'] ?? '',
         profileImage: userData['profileImage'] ?? '',
         gender: selectedGender ?? userData['gender'],
+        program: selectedProgram ?? userData['program'],
         dob: txtDate.text.isNotEmpty
             ? DateTime.parse(txtDate.text)
             : userData['dob'],

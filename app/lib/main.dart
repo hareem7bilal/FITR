@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -18,7 +19,6 @@ void main() async {
     appleProvider: AppleProvider.appAttest,
   );
 
-  
   Bloc.observer = SimpleBlocObserver();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 

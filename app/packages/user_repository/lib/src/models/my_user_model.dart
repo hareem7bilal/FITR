@@ -11,6 +11,7 @@ class MyUserModel extends Equatable {
   final double? weight; // Optional
   final double? height; // Optional
   final String? profileImage; // Optional
+  final String? program; // Optional
 
   const MyUserModel({
     required this.id,
@@ -22,6 +23,7 @@ class MyUserModel extends Equatable {
     this.weight, // Optional
     this.height, // Optional
     this.profileImage, // Optional
+    this.program, // Optional
   });
 
   static const empty = MyUserModel(
@@ -42,6 +44,7 @@ class MyUserModel extends Equatable {
     double? weight,
     double? height,
     String? profileImage,
+    String? program,
   }) {
     return MyUserModel(
         id: id ?? this.id,
@@ -52,7 +55,8 @@ class MyUserModel extends Equatable {
         gender: gender ?? this.gender,
         weight: weight ?? this.weight,
         height: height ?? this.height,
-        profileImage: profileImage ?? this.profileImage);
+        profileImage: profileImage ?? this.profileImage,
+        program: program ?? this.program);
   }
 
   bool get isEmpty => this == MyUserModel.empty;
@@ -69,6 +73,7 @@ class MyUserModel extends Equatable {
       weight: weight,
       height: height,
       profileImage: profileImage, // Assuming MyUserEntity also supports this field
+      program: program, // Assuming MyUserEntity also supports this field
     );
   }
 
@@ -83,9 +88,10 @@ class MyUserModel extends Equatable {
       weight: entity.weight,
       height: entity.height,
       profileImage: entity.profileImage,
+      program: entity.program,
     );
   }
 
   @override
-  List<Object?> get props => [id, email, firstName, lastName, dob, gender, weight, height, profileImage];
+  List<Object?> get props => [id, email, firstName, lastName, dob, gender, weight, height, profileImage, program];
 }

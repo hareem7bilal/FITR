@@ -139,14 +139,23 @@ class _LoginView extends State<LoginView> {
                             builder: (context) => const SignupView()),
                       );
                     },
-                    child: Text(
-                      "Don't have an account yet? Register",
-                      style: TextStyle(
-                        color: TColor.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                    child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Don't have an account yet? ",
+                        style: TextStyle(color: TColor.black, fontSize: 14),
                       ),
-                    ),
+                      Text(
+                        "Register",
+                        style: TextStyle(
+                          color: TColor.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
                   ),
                 ],
               ),

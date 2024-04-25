@@ -10,6 +10,7 @@ class MyUserEntity extends Equatable {
   final double? weight; // Optional
   final double? height; // Optional
   final String? profileImage; // Optional
+  final String? program; // Optional
 
   const MyUserEntity({
     required this.id,
@@ -21,6 +22,7 @@ class MyUserEntity extends Equatable {
     this.weight, // Optional
     this.height, // Optional
     this.profileImage, // Optional
+    this.program, // Optional
   });
 
   Map<String, Object?> toDocument() {
@@ -36,6 +38,7 @@ class MyUserEntity extends Equatable {
       'weight': weight,
       'height': height,
       'profileImage': profileImage, 
+      'program': program,
     };
   }
 
@@ -52,12 +55,13 @@ class MyUserEntity extends Equatable {
       weight: (doc['weight'] as num?)?.toDouble(),
       height: (doc['height'] as num?)?.toDouble(),
       profileImage: doc['profileImage'] as String?,
+      program: doc['program'] as String?,
     );
   }
 
   @override
   List<Object?> get props =>
-      [id, email, firstName, lastName, dob, gender, weight, height, profileImage];
+      [id, email, firstName, lastName, dob, gender, weight, height, profileImage, program];
 
   @override
   String toString() => '''UserEntity: (
@@ -69,6 +73,7 @@ class MyUserEntity extends Equatable {
   gender: $gender,
   weight: $weight,
   height: $height,
-  profileImage: $profileImage
+  profileImage: $profileImage,
+  program: $program
 )''';
 }
