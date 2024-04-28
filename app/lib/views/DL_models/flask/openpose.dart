@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-import 'dart:ui' as ui; // For image resolution
+// For image resolution
 
 class OpenPose extends StatefulWidget {
   const OpenPose({super.key});
@@ -92,7 +92,7 @@ class _OpenPoseState extends State<OpenPose> {
                       CustomPaint(
                         painter:
                             KeypointPainter(_image!, _points!, _imageSize!),
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
                         ),

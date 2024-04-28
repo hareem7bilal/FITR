@@ -7,7 +7,7 @@ void main() {
     // Arrange
     await tester.pumpWidget(MaterialApp(
       home: Scaffold(
-        body: RoundButton(title: 'Test', onPressed: () {}),
+        body: RoundButton(title: 'Test', onPressed: () {}, elevation: 0.0,),
       ),
     ));
 
@@ -24,7 +24,7 @@ void main() {
         body: RoundButton(
             type: RoundButtonType.textGradient,
             title: 'Test',
-            onPressed: () {}),
+            onPressed: () {}, elevation: 0.0,),
       ),
     ));
 
@@ -40,7 +40,7 @@ void main() {
       home: Scaffold(
         body: RoundButton(
           title: 'Test',
-          onPressed: () => tapped = true,
+          onPressed: () => tapped = true, elevation: 0.0,
         ),
       ),
     ));

@@ -106,7 +106,7 @@ class _LoginView extends State<LoginView> {
                                 ),
                               );
                             }
-                          },
+                          }, elevation: 0.0,
                         ),
                       ],
                     ),

@@ -62,7 +62,7 @@ class _FinishedWorkoutViewState extends State<FinishedWorkoutView> {
                   title: "Back To Home",
                   onPressed: () {
                     Navigator.pop(context);
-                  },
+                  }, elevation: 0.0,
                 ),
                 const SizedBox(height: 20), // Adjust the spacing as needed
               ],

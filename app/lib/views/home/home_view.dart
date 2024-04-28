@@ -247,7 +247,7 @@ class _HomeViewState extends State<HomeView> {
                                       type: RoundButtonType.bgGradient,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
-                                      onPressed: () {}))
+                                      onPressed: () {}, elevation: 0.0,))
                             ],
                           ),
                           AspectRatio(
@@ -309,7 +309,7 @@ class _HomeViewState extends State<HomeView> {
                                     const ActivityTrackerView(),
                               ),
                             );
-                          },
+                          }, elevation: 0.0,
                         ),
                       )
                     ],

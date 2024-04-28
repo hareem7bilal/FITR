@@ -114,7 +114,7 @@ class _GoalViewState extends State<GoalView> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const LoginView()));
-                    }),
+                    }, elevation: 0.0,),
               ],
             ),
           )

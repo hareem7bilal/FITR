@@ -319,7 +319,7 @@ Widget buildUserProfile(
                       builder: (context) => const CompleteProfileView(),
                     ),
                   );
-                },
+                }, elevation: 0.0,
               ),
             ),
           ],
