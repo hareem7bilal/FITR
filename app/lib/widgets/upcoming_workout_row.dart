@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class UpcomingWorkoutRow extends StatefulWidget {
   final Map wObj;
+
   const UpcomingWorkoutRow({super.key, required this.wObj});
 
   @override
@@ -59,8 +60,8 @@ class _UpcomingWorkoutRowState extends State<UpcomingWorkoutRow> {
 
              CustomAnimatedToggleSwitch<bool>(
               current: positive,
-              values: [false, true],
-              dif: 0.0,
+              values: const [false, true],
+              spacing: 0.0,
               indicatorSize: const Size.square(30.0),
               animationDuration: const Duration(milliseconds: 200),
               animationCurve: Curves.linear,
@@ -69,7 +70,7 @@ class _UpcomingWorkoutRowState extends State<UpcomingWorkoutRow> {
                 return const SizedBox();
               },
               
-              defaultCursor: SystemMouseCursors.click,
+              //defaultCursor: SystemMouseCursors.click,
               onTap: (TapProperties<bool> props) => setState(() => positive = !positive),
               iconsTappable: false,
               wrapperBuilder: (context, global, child) {

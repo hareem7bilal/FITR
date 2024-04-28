@@ -1,11 +1,9 @@
 import 'package:calendar_agenda/calendar_agenda.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/utils/common.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
-import 'package:flutter_application_1/views/workout-tracker/add-schedule.dart';
+import 'package:flutter_application_1/views/workout-tracker/add_schedule.dart';
 
 class WorkoutScheduleView extends StatefulWidget {
   const WorkoutScheduleView({
@@ -17,7 +15,7 @@ class WorkoutScheduleView extends StatefulWidget {
 }
 
 class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
-  CalendarAgendaController _calendarAgendaControllerAppBar =
+  final CalendarAgendaController _calendarAgendaControllerAppBar =
       CalendarAgendaController();
   late DateTime _selectedDateAppBBar;
 
@@ -82,10 +80,8 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
       return dateToStartDate(wObj["date"] as DateTime) == date;
     }).toList();
 
-    if( mounted  ) {
-      setState(() {
-        
-      });
+    if (mounted) {
+      setState(() {});
     }
   }
 
@@ -158,47 +154,24 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                   width: 15,
                   height: 15,
                 )),
-            training: IconButton(
-                onPressed: () {},
-                icon: Image.asset(
-                  "assets/img/ArrowRight.png",
-                  width: 15,
-                  height: 15,
-                )),
             weekDay: WeekDay.short,
-            dayNameFontSize: 12,
-            dayNumberFontSize: 16,
-            dayBGColor: Colors.grey.withOpacity(0.15),
-            titleSpaceBetween: 15,
             backgroundColor: Colors.transparent,
+            calendarBackground: Colors.grey.withOpacity(0.15),
             // fullCalendar: false,
             fullCalendarScroll: FullCalendarScroll.horizontal,
             fullCalendarDay: WeekDay.short,
             selectedDateColor: Colors.white,
             dateColor: Colors.black,
             locale: 'en',
-
             initialDate: DateTime.now(),
             calendarEventColor: TColor.primaryColor2,
             firstDate: DateTime.now().subtract(const Duration(days: 140)),
             lastDate: DateTime.now().add(const Duration(days: 60)),
-
             onDateSelected: (date) {
               _selectedDateAppBBar = date;
               setDayEventWorkoutList();
-              
             },
-            selectedDayLogo: Container(
-              width: double.maxFinite,
-              height: double.maxFinite,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: TColor.primaryG,
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
+            selectedDayLogo: const AssetImage(""), // Use your actual logo asset
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -208,7 +181,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                 child: ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      var timelineDataWidth = (media.width * 1.5) - (80 + 40);
+                      //var timelineDataWidth = (media.width * 1.5) - (80 + 40);
                       var availWidth = (media.width * 1.2) - (80 + 40);
                       var slotArr = selectDayEventArr.where((wObj) {
                         return (wObj["date"] as DateTime).hour == index;
@@ -247,22 +220,29 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              backgroundColor: Colors.transparent,
+                                              backgroundColor:
+                                                  Colors.transparent,
                                               contentPadding: EdgeInsets.zero,
                                               content: Container(
-                                                padding: const EdgeInsets.symmetric( vertical:15 , horizontal: 20 ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 15,
+                                                        horizontal: 20),
                                                 decoration: BoxDecoration(
                                                   color: TColor.white,
                                                   borderRadius:
                                                       BorderRadius.circular(20),
                                                 ),
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
                                                         InkWell(
                                                           onTap: () {
@@ -275,8 +255,8 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                                     .all(8),
                                                             height: 40,
                                                             width: 40,
-                                                            alignment:
-                                                                Alignment.center,
+                                                            alignment: Alignment
+                                                                .center,
                                                             decoration: BoxDecoration(
                                                                 color: TColor
                                                                     .lightGrey,
@@ -288,14 +268,16 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                               "assets/img/closed_btn.png",
                                                               width: 15,
                                                               height: 15,
-                                                              fit: BoxFit.contain,
+                                                              fit: BoxFit
+                                                                  .contain,
                                                             ),
                                                           ),
                                                         ),
                                                         Text(
                                                           "Workout Schedule",
                                                           style: TextStyle(
-                                                              color: TColor.black,
+                                                              color:
+                                                                  TColor.black,
                                                               fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
@@ -309,8 +291,8 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                                     .all(8),
                                                             height: 40,
                                                             width: 40,
-                                                            alignment:
-                                                                Alignment.center,
+                                                            alignment: Alignment
+                                                                .center,
                                                             decoration: BoxDecoration(
                                                                 color: TColor
                                                                     .lightGrey,
@@ -322,7 +304,8 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                               "assets/img/more_btn.png",
                                                               width: 15,
                                                               height: 15,
-                                                              fit: BoxFit.contain,
+                                                              fit: BoxFit
+                                                                  .contain,
                                                             ),
                                                           ),
                                                         )
@@ -339,7 +322,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                           fontWeight:
                                                               FontWeight.w700),
                                                     ),
-                                                    const SizedBox(   
+                                                    const SizedBox(
                                                       height: 4,
                                                     ),
                                                     Row(children: [
@@ -352,21 +335,20 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                         width: 8,
                                                       ),
                                                       Text(
-                                                        "${ getDayTitle(sObj["start_time"].toString()) }|${getStringDateToOtherFormate(sObj["start_time"].toString(), outFormatStr: "h:mm aa")}",
+                                                        "${getDayTitle(sObj["start_time"].toString())}|${getStringDateToOtherFormate(sObj["start_time"].toString(), outFormatStr: "h:mm aa")}",
                                                         style: TextStyle(
                                                             color: TColor.grey,
                                                             fontSize: 12),
                                                       )
                                                     ]),
-                                            
-                                                     const SizedBox(
+                                                    const SizedBox(
                                                       height: 15,
                                                     ),
-                                            
                                                     RoundButton(
-                                                        title: "Mark Done",
-                                                        onPressed: () {}, elevation: 0.0,),
-                                            
+                                                      title: "Mark Done",
+                                                      onPressed: () {},
+                                                      elevation: 0.0,
+                                                    ),
                                                   ],
                                                 ),
                                               ),
