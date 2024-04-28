@@ -154,7 +154,7 @@ class _SignupView extends State<SignupView> {
 
                 RoundButton(
                   title: "Register",
-                  onPressed: attemptSignUp,
+                  onPressed: attemptSignUp, elevation: 0.0,
                 ),
 
                 SizedBox(height: media.width * 0.04),

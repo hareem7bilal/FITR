@@ -90,7 +90,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const MainTabView()));
-                },
+                }, elevation: 0.0,
               ),
             ],
           ),

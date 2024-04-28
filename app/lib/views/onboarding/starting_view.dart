@@ -49,7 +49,7 @@ class StartingViewState extends State<StartingView> {
             Text("FITR",
                 style: TextStyle(
                     color: TColor.black,
-                    fontSize: 36,
+                    fontSize: 50,
                     fontWeight: FontWeight.w700)),
             Text("From Injury To Rehab",
                 style: TextStyle(
@@ -76,7 +76,7 @@ class StartingViewState extends State<StartingView> {
                     },
                     type: isChangeColor
                         ? RoundButtonType.textGradient
-                        : RoundButtonType.bgGradient),
+                        : RoundButtonType.bgGradient, elevation: 0.0,),
               ),
             )
           ],

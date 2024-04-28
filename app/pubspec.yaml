@@ -47,7 +47,7 @@ dependencies:
   animated_toggle_switch: ^0.8.2
   equatable: ^2.0.5
   simple_animation_progress_bar: ^1.6.0
-  intl: ^0.19.0
+  intl: ^0.17.0
   image: ^4.1.7
   fl_chart: ^0.66.2
   http: ^1.2.1
@@ -64,7 +64,7 @@ dependencies:
   permission_handler: ^10.1.0
   dotted_dashed_line: ^0.0.3
   get: 
-  tflite: ^1.1.2
+  # tflite: ^1.1.2
   google_mlkit_pose_detection:
     path: ../google_mlkit_pose_detection
 
@@ -85,6 +85,8 @@ dependencies:
   notification_repository:
     path: packages/notification_repository
   firebase_app_check: ^0.2.2+1
+  calendar_agenda: ^0.0.2+3
+  readmore: ^3.0.0
 
 
 dev_dependencies:
@@ -143,10 +145,15 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Poppins
+    - family: Manrope
       fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf
-        - asset: assets/fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Manrope-Regular.ttf
+        - asset: assets/fonts/Manrope-Bold.ttf
+        - asset: assets/fonts/Manrope-ExtraBold.ttf
+        - asset: assets/fonts/Manrope-ExtraLight.ttf
+        - asset: assets/fonts/Manrope-Light.ttf
+        - asset: assets/fonts/Manrope-Medium.ttf
+        - asset: assets/fonts/Manrope-SemiBold.ttf
           weight: 700
   #
   # For details regarding fonts from package dependencies,

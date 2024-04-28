@@ -112,7 +112,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                   SizedBox(height: media.width * 0.04),
                   _buildWorkoutProgramDropdown(),
                   SizedBox(height: media.width * 0.07),
-                  RoundButton(title: "Save", onPressed: _saveUserProfile),
+                  RoundButton(title: "Save", onPressed: _saveUserProfile, elevation: 0.0,),
                 ],
               ),
             ),

@@ -105,7 +105,7 @@ class _LoginView extends State<LoginView> {
                                 ),
                               );
                             }
-                          },
+                          }, elevation: 0.0,
                         ),
                         const SizedBox(height: 3),
                         TextButton(

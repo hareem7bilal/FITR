@@ -12,7 +12,7 @@ class RoundButton extends StatelessWidget {
       {super.key,
       this.type = RoundButtonType.bgGradient,
       required this.title,
-      required this.onPressed, int? fontSize, FontWeight? fontWeight});
+      required this.onPressed, int? fontSize, FontWeight? fontWeight, required double elevation});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class RoundButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         height: 50,
         color: type == RoundButtonType.bgGradient? Colors.transparent: TColor.white,
-        elevation: type == RoundButtonType.bgGradient || type == RoundButtonType.bgSGradient ? 0: 1,
+        //elevation: type == RoundButtonType.bgGradient || type == RoundButtonType.bgSGradient ? 0: 1,
         minWidth: double.maxFinite,
         child: type == RoundButtonType.bgGradient || type == RoundButtonType.bgSGradient? Text(title,
               style: TextStyle(
@@ -59,5 +59,4 @@ class RoundButton extends StatelessWidget {
     );
   }
 }
-
 
