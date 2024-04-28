@@ -60,7 +60,7 @@ class _UpcomingWorkoutRowState extends State<UpcomingWorkoutRow> {
              CustomAnimatedToggleSwitch<bool>(
               current: positive,
               values: [false, true],
-              dif: 0.0,
+              spacing: 0.0,
               indicatorSize: const Size.square(30.0),
               animationDuration: const Duration(milliseconds: 200),
               animationCurve: Curves.linear,
@@ -69,7 +69,7 @@ class _UpcomingWorkoutRowState extends State<UpcomingWorkoutRow> {
                 return const SizedBox();
               },
               
-              defaultCursor: SystemMouseCursors.click,
+              cursors: ToggleCursors(defaultCursor: SystemMouseCursors.click),
               onTap: (TapProperties<bool> props) => setState(() => positive = !positive),
               iconsTappable: false,
               wrapperBuilder: (context, global, child) {
