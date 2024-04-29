@@ -17,12 +17,12 @@ class WorkoutTrackerView extends StatefulWidget {
 class _WorkoutTrackerViewState extends State<WorkoutTrackerView> {
   List latestArr = [
     {
-      "image": "assets/img/Workout1.png",
+      "image": "assets/images/workouts/workout5.png",
       "title": "Fullbody Workout",
       "time": "Today, 03:00pm"
     },
     {
-      "image": "assets/img/Workout2.png",
+      "image": "assets/images/workouts/workout4.png",
       "title": "Upperbody Workout",
       "time": "June 05, 02:00pm"
     },
@@ -30,19 +30,19 @@ class _WorkoutTrackerViewState extends State<WorkoutTrackerView> {
 
   List whatArr = [
     {
-      "image": "assets/img/what_1.png",
+      "image": "assets/images/workouts/workout6.png",
       "title": "Fullbody Workout",
       "exercises": "11 Exercises",
       "time": "32mins"
     },
     {
-      "image": "assets/img/what_2.png",
+      "image": "assets/images/workouts/workout7.png",
       "title": "Lowebody Workout",
       "exercises": "12 Exercises",
       "time": "40mins"
     },
     {
-      "image": "assets/img/what_3.png",
+      "image": "assets/images/workouts/workout8.png",
       "title": "AB Workout",
       "exercises": "14 Exercises",
       "time": "20mins"
@@ -76,7 +76,7 @@ class _WorkoutTrackerViewState extends State<WorkoutTrackerView> {
                       color: TColor.lightGrey,
                       borderRadius: BorderRadius.circular(10)),
                   child: Image.asset(
-                    "assets/img/black_btn.png",
+                    "assets/images/buttons/back_btn.png",
                     width: 15,
                     height: 15,
                     fit: BoxFit.contain,
@@ -102,7 +102,7 @@ class _WorkoutTrackerViewState extends State<WorkoutTrackerView> {
                         color: TColor.lightGrey,
                         borderRadius: BorderRadius.circular(10)),
                     child: Image.asset(
-                      "assets/img/more_btn.png",
+                      "assets/images/buttons/more_btn.png",
                       width: 15,
                       height: 15,
                       fit: BoxFit.contain,

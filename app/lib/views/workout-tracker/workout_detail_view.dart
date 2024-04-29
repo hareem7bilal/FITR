@@ -112,7 +112,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                       color: TColor.lightGrey,
                       borderRadius: BorderRadius.circular(10)),
                   child: Image.asset(
-                    "assets/img/black_btn.png",
+                    "assets/images/buttons/back_btn.png",
                     width: 15,
                     height: 15,
                     fit: BoxFit.contain,
@@ -131,7 +131,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                         color: TColor.lightGrey,
                         borderRadius: BorderRadius.circular(10)),
                     child: Image.asset(
-                      "assets/img/more_btn.png",
+                      "assets/images/buttons/more_btn.png",
                       width: 15,
                       height: 15,
                       fit: BoxFit.contain,

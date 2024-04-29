@@ -4,11 +4,21 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 
 class IconTitleNextRow extends StatelessWidget {
   final String icon;
+  final TextEditingController? textEditingController;
   final String title;
-  final String time;
+  final String? time;
   final VoidCallback onPressed;
   final Color color;
-  const IconTitleNextRow({super.key, required this.icon, required this.title, required this.time, required this.onPressed, required this.color});
+  final FocusNode? focusNode;
+  const IconTitleNextRow(
+      {super.key,
+      required this.icon,
+      required this.title,
+      this.time,
+      required this.onPressed,
+      required this.color,
+      this.focusNode,
+      this.textEditingController});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +38,7 @@ class IconTitleNextRow extends StatelessWidget {
               height: 30,
               alignment: Alignment.center,
               child: Image.asset(
-               icon,
+                icon,
                 width: 18,
                 height: 18,
                 fit: BoxFit.contain,
@@ -37,34 +47,44 @@ class IconTitleNextRow extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                title ,
+                title,
                 style: TextStyle(color: TColor.grey, fontSize: 12),
               ),
             ),
             SizedBox(
               width: 120,
-              child: Text(
-               time  ,
-                textAlign: TextAlign.right,
-                style: TextStyle(color: TColor.grey, fontSize: 12),
-              ),
+              child: time != null
+                  ? Text(
+                      time!,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(color: TColor.grey, fontSize: 12),
+                    )
+                  : TextField(
+                      controller: textEditingController,
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter here',
+                        border: InputBorder.none,
+                      ),
+                      style: TextStyle(color: TColor.grey, fontSize: 12),
+                      textAlign: TextAlign.right,
+                    ),
             ),
             const SizedBox(width: 8),
             SizedBox(
               width: 25,
               height: 25,
-              child:  Container(
-                  width: 25,
-                  height: 25,
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    "assets/img/p_next.png",
-                    width: 12,
-                    height: 12,
-                    fit: BoxFit.contain,
-                  ),
+              child: Container(
+                width: 25,
+                height: 25,
+                alignment: Alignment.center,
+                child: Image.asset(
+                  "assets/images/buttons/arrow_right.png",
+                  width: 12,
+                  height: 12,
+                  fit: BoxFit.contain,
                 ),
-              
+              ),
             )
           ],
         ),

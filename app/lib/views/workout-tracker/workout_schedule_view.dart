@@ -106,7 +106,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                 color: TColor.lightGrey,
                 borderRadius: BorderRadius.circular(10)),
             child: Image.asset(
-              "assets/img/black_btn.png",
+              "assets/images/buttons/back_btn.png",
               width: 15,
               height: 15,
               fit: BoxFit.contain,
@@ -130,7 +130,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                   color: TColor.lightGrey,
                   borderRadius: BorderRadius.circular(10)),
               child: Image.asset(
-                "assets/img/more_btn.png",
+                "assets/images/buttons/more_btn.png",
                 width: 15,
                 height: 15,
                 fit: BoxFit.contain,
@@ -150,7 +150,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
             leading: IconButton(
                 onPressed: () {},
                 icon: Image.asset(
-                  "assets/img/ArrowLeft.png",
+                  "assets/images/buttons/arrow_left.png",
                   width: 15,
                   height: 15,
                 )),
@@ -265,7 +265,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                                         .circular(
                                                                             10)),
                                                             child: Image.asset(
-                                                              "assets/img/closed_btn.png",
+                                                              "assets/images/buttons/closed_btn.png",
                                                               width: 15,
                                                               height: 15,
                                                               fit: BoxFit
@@ -301,7 +301,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                                         .circular(
                                                                             10)),
                                                             child: Image.asset(
-                                                              "assets/img/more_btn.png",
+                                                              "assets/images/buttons/more_btn.png",
                                                               width: 15,
                                                               height: 15,
                                                               fit: BoxFit
@@ -327,7 +327,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                                                     ),
                                                     Row(children: [
                                                       Image.asset(
-                                                        "assets/img/time_workout.png",
+                                                        "assets/images/icons/time_workout.png",
                                                         height: 20,
                                                         width: 20,
                                                       ),

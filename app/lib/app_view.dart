@@ -5,7 +5,8 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 //import 'package:flutter_application_1/views/instability_assessment.dart';
 //import 'package:flutter_application_1/views/pose.dart';
 //import 'package:flutter_application_1/views/main-tab/main_tab_view.dart';
-import 'package:flutter_application_1/views/onboarding/starting_view.dart';
+//import 'package:flutter_application_1/views/onboarding/starting_view.dart';
+import 'package:flutter_application_1/views/workout-tracker/workout_schedule_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppView extends StatelessWidget {
@@ -24,10 +25,11 @@ class AppView extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state.status == AuthenticationStatus.authenticated) {
-            return const StartingView();
+            //return const StartingView();
+            return const WorkoutScheduleView();
           } else {
             //return const YTView();
-            return const StartingView();
+            return const WorkoutScheduleView();
             //return const InstabilityDetector();
             //return const PoseDetector();
           }
