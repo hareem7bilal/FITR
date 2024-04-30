@@ -64,7 +64,7 @@ class _OpenPoseImgState extends State<OpenPoseImg> {
 
   Future uploadImage() async {
     if (_image == null) return;
-    var uri = Uri.parse('http://192.168.18.48:5000/process_image');
+    var uri = Uri.parse('https://pose-estimation-and-inverse-kinematics.onrender.com/process_image');
     var request = http.MultipartRequest('POST', uri)
       ..files.add(await http.MultipartFile.fromPath('file', _image!.path));
 

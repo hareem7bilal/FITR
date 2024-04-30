@@ -49,7 +49,7 @@ class _UploadScreenState extends State<UploadScreen> {
         File modelFile = osimFiles.first;
         File trcFile = trcFiles.first;
 
-        var uri = Uri.parse('http://192.168.18.48:5000/process_opensim');
+        var uri = Uri.parse('https://pose-estimation-and-inverse-kinematics.onrender.com/process_opensim');
         var request = http.MultipartRequest('POST', uri)
           ..files.add(
               await http.MultipartFile.fromPath('model_file', modelFile.path))
