@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/utils/common.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
-import 'package:flutter_application_1/views/workout-tracker/add_schedule.dart';
+import 'package:flutter_application_1/views/workout_tracker/add_schedule.dart';
 
 class WorkoutScheduleView extends StatefulWidget {
   const WorkoutScheduleView({

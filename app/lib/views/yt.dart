@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../utils/color_extension.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/user_bloc/user_bloc.dart';
 
 class YTView extends StatefulWidget {
   const YTView({super.key});
@@ -12,94 +14,190 @@ class YTView extends StatefulWidget {
 }
 
 class _YTViewState extends State<YTView> {
-  YoutubePlayerController? _controller;
+  List<String> _videoIds = []; // Store video IDs here
+  bool _isFetching = false;
 
-  Future<void> searchAndLoadVideo(String query) async {
+  Future<void> searchAndLoadVideos(String query) async {
+    if (_isFetching) return; // Prevent multiple fetches
+    _isFetching = true;
     const String apiKey =
-        'AIzaSyDd6_23wwBnLIhBKVD72Xxe49Qhc5L-xPw'; // Replace with your actual API key
+        'AIzaSyDO68wWUP2iFIOi2ayT8RBUu8c2K09xfLM'; // Replace with your actual API key
     final String apiUrl =
-        'https://www.googleapis.com/youtube/v3/search?part=snippet&q=$query&type=video&key=$apiKey';
+        'https://www.googleapis.com/youtube/v3/search?part=snippet&q=$query&type=video&maxResults=5&key=$apiKey';
 
     final response = await http.get(Uri.parse(apiUrl));
+    debugPrint(
+        'HTTP status code: ${response.statusCode}'); // Check HTTP status code
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      if (data['items'].isNotEmpty) {
-        final videoId = data['items'][0]['id']['videoId'];
-
-        // Mobile: Initialize YoutubePlayerController
-        initializePlayer(videoId);
+      debugPrint(
+          'YouTube API response data: $data'); // Print the full API response
+      List<String> ids = [];
+      for (var item in data['items']) {
+        ids.add(item['id']['videoId']);
       }
+      if (ids.isEmpty) {
+        debugPrint('No video IDs found');
+      }
+      setState(() {
+        _videoIds = ids;
+      });
     } else {
-      debugPrint('Failed to load video');
+      debugPrint(
+          'Error response: ${response.body}'); // Print error response if any
     }
-  }
-
-  void initializePlayer(String videoId) {
-    _controller = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-        enableCaption: true,
-        captionLanguage: 'en',
-        loop: true,
-        forceHD: false,
-        controlsVisibleAtStart: true,
-        hideThumbnail: false,
-        hideControls: false,
-        isLive: false,
-        // Other flags...
-      ),
-    );
-
-    // Set state to refresh the UI
-    setState(() {});
+    _isFetching = false;
   }
 
   @override
   void initState() {
     super.initState();
-    searchAndLoadVideo("Ankle rehabilitation");
+    //Initially load videos with a default query
+    //searchAndLoadVideos("rehabilitation exercises");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // This ensures the bloc is available and you can access the initial state.
+      final userState = context.read<UserBloc>().state;
+      if (userState.status == UserStatus.success && userState.user != null) {
+        triggerVideoFetch(userState);
+      }
+    });
+  }
+
+  Widget _buildVideoList() {
+    return ListView.builder(
+      itemCount: _videoIds.length,
+      itemBuilder: (context, index) {
+        String videoId = _videoIds[index];
+        // Get screen width
+        double screenWidth = MediaQuery.of(context).size.width;
+
+        // Use a Card widget to add elevation and rounded corners
+        return Card(
+          elevation: 5, // Adds shadow
+          margin: const EdgeInsets.symmetric(
+              horizontal: 10, vertical: 6), // Spacing between cards
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(10), // Rounded corners for the Card
+          ),
+          child: InkWell(
+            onTap: () {
+              // Functionality when the card is tapped
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  content: YoutubePlayer(
+                    controller: YoutubePlayerController(
+                      initialVideoId: videoId,
+                      flags: const YoutubePlayerFlags(
+                        autoPlay: true,
+                        mute: false,
+                        enableCaption: true,
+                        captionLanguage: 'en',
+                        loop: true,
+                        forceHD: false,
+                        controlsVisibleAtStart: true,
+                        hideThumbnail: false,
+                        hideControls: false,
+                        isLive: false,
+                        // Other flags...
+                      ),
+                    ),
+                    aspectRatio: 16 / 9,
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: TColor.primaryColor1,
+                    onReady: () => debugPrint('Player is ready.'),
+                    onEnded: (data) {
+                      // Handle video end
+                    },
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('Close'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            child: ClipRRect(
+              borderRadius:
+                  BorderRadius.circular(10), // Rounded corners for the image
+              child: Image.network(
+                'https://img.youtube.com/vi/$videoId/0.jpg',
+                width: screenWidth - 20, // Adjust width for card margin
+                height: (screenWidth - 20) * 9 / 16, // Maintain aspect ratio
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Top Video')),
-      body: _controller == null
-          ? const Center(child: CircularProgressIndicator())
-          : YoutubePlayerBuilder(
-              player: YoutubePlayer(
-                controller: _controller!,
-                aspectRatio: 16 / 9,
-                showVideoProgressIndicator: true,
-                progressIndicatorColor: TColor.primaryColor1,
-                topActions: const <Widget>[
-                  // Custom widgets or actions
-                ],
-                bottomActions: const <Widget>[
-                  // Custom widgets or controls
-                ],
-                onReady: () {
-                  debugPrint('Player is ready.');
-                },
-                onEnded: (data) {
-                  // Handle video end
-                },
-              ),
-              builder: (context, player) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [player],
-                );
-              },
-            ),
+      appBar: AppBar(title: const Text('Workout Gallery')),
+      body: BlocListener<UserBloc, UserState>(
+        listener: (context, state) {
+          if (state.status == UserStatus.success &&
+              state.user != null &&
+              !_isFetching) {
+            triggerVideoFetch(state);
+          }
+        },
+        child: _videoIds.isEmpty && !_isFetching
+            ? const Center(
+                child: Text(
+                    'Waiting for user data...')) // Informative text when no videos are found or waiting for initial data
+            : _videoIds.isEmpty && _isFetching
+                ? const Center(
+                    child:
+                        CircularProgressIndicator()) // Show loading indicator while fetching
+                : _buildVideoList(), // Display the list if videos are available
+      ),
     );
+  }
+
+  void triggerVideoFetch(UserState state) {
+    List<String?> queryParts = [
+      state.user!.program,
+      state.user!.gender == 'male' ? 'men' : 'women',
+      _calculateAgeCategory(state.user!.dob),
+      _calculateWeightCategory(state.user!.weight),
+    ];
+    String searchQuery = queryParts.where((s) => s != null).join(' ');
+    searchAndLoadVideos(searchQuery);
+  }
+
+  String _calculateAgeCategory(DateTime? dob) {
+    final currentDate = DateTime.now();
+    int age = currentDate.year - dob!.year;
+    if (currentDate.month < dob.month ||
+        (currentDate.month == dob.month && currentDate.day < dob.day)) {
+      age--;
+    }
+    return age < 18
+        ? 'teen'
+        : age <= 35
+            ? 'young adult'
+            : age <= 55
+                ? 'adult'
+                : 'senior';
+  }
+
+  String _calculateWeightCategory(double? weight) {
+    return weight! < 70
+        ? 'lightweight workouts'
+        : weight <= 90
+            ? 'standard workouts'
+            : 'heavyweight workouts';
   }
 
   @override
   void dispose() {
-    _controller?.dispose();
     super.dispose();
   }
 }

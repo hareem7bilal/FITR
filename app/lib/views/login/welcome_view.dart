@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/user_bloc/user_bloc.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
-import 'package:flutter_application_1/views/main-tab/main_tab_view.dart';
+import 'package:flutter_application_1/views/main_tab/main_tab_view.dart';
 import 'package:flutter_application_1/views/login/login_view.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,8 +1,10 @@
 import 'package:flutter_application_1/widgets/tab_button.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
-import 'package:flutter_application_1/views/home/blank_view.dart';
 import 'package:flutter_application_1/views/home/home_view.dart';
 import 'package:flutter_application_1/views/profile/profile_view.dart';
+import 'package:flutter_application_1/views/workout_tracker/workout_tracker_view.dart';
+import '../yt.dart';
+import '../pose.dart';
 import "package:flutter/material.dart";
 
 class MainTabView extends StatefulWidget {
@@ -44,7 +46,7 @@ class _MainTabViewState extends State<MainTabView> {
               isActive: selectTab == 1,
               onTap: () {
                 selectTab = 1;
-                currentTab = const BlankView();
+                currentTab = const WorkoutTrackerView();
                 if (mounted) {
                   setState(() {});
                 }
@@ -58,7 +60,7 @@ class _MainTabViewState extends State<MainTabView> {
               isActive: selectTab == 2,
               onTap: () {
                 selectTab = 2;
-                currentTab = const BlankView();
+                currentTab = const PoseDetector();
                 if (mounted) {
                   setState(() {});
                 }
@@ -89,7 +91,11 @@ class _MainTabViewState extends State<MainTabView> {
           width: 70,
           height: 70,
           child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const YTView(),
+                ));
+              },
               child: Container(
                 width: 65,
                 height: 65,

@@ -2,9 +2,9 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/widgets/icon_title_next_row.dart';
 
 import 'package:flutter_application_1/widgets/round_button.dart';
-import 'package:flutter_application_1/views/workout-tracker/exercise_step_details.dart';
+import 'package:flutter_application_1/views/workout_tracker/exercise_step_details.dart';
 
-import 'package:flutter_application_1/views/workout-tracker/workout_schedule_view.dart';
+import 'package:flutter_application_1/views/workout_tracker/workout_schedule_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/widgets/exercise_set_section.dart';

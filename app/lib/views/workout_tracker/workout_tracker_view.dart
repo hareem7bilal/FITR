@@ -1,5 +1,5 @@
 import 'package:flutter_application_1/utils/color_extension.dart';
-import 'package:flutter_application_1/views/workout-tracker/workout_detail_view.dart';
+import 'package:flutter_application_1/views/workout_tracker/workout_detail_view.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
