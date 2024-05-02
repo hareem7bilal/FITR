@@ -23,7 +23,7 @@ class _YTViewState extends State<YTView> {
     const String apiKey =
         'AIzaSyDO68wWUP2iFIOi2ayT8RBUu8c2K09xfLM'; // Replace with your actual API key
     final String apiUrl =
-        'https://www.googleapis.com/youtube/v3/search?part=snippet&q=$query&type=video&maxResults=5&key=$apiKey';
+        'https://www.googleapis.com/youtube/v3/search?part=snippet&q=$query&type=video&maxResults=10&key=$apiKey';
 
     final response = await http.get(Uri.parse(apiUrl));
     debugPrint(
@@ -63,22 +63,24 @@ class _YTViewState extends State<YTView> {
     });
   }
 
-  Widget _buildVideoList() {
-    return ListView.builder(
+  Widget _buildVideoGrid() {
+    return GridView.builder(
       itemCount: _videoIds.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // Number of columns
+        childAspectRatio: 16 / 9, // Aspect ratio of each item
+        crossAxisSpacing: 10, // Horizontal space between items
+        mainAxisSpacing: 10, // Vertical space between items
+      ),
       itemBuilder: (context, index) {
         String videoId = _videoIds[index];
-        // Get screen width
         double screenWidth = MediaQuery.of(context).size.width;
 
-        // Use a Card widget to add elevation and rounded corners
         return Card(
-          elevation: 5, // Adds shadow
-          margin: const EdgeInsets.symmetric(
-              horizontal: 10, vertical: 6), // Spacing between cards
+          elevation: 5,
+          margin: const EdgeInsets.all(5),
           shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(10), // Rounded corners for the Card
+            borderRadius: BorderRadius.circular(10),
           ),
           child: InkWell(
             onTap: () {
@@ -121,12 +123,12 @@ class _YTViewState extends State<YTView> {
               );
             },
             child: ClipRRect(
-              borderRadius:
-                  BorderRadius.circular(10), // Rounded corners for the image
+              borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 'https://img.youtube.com/vi/$videoId/0.jpg',
-                width: screenWidth - 20, // Adjust width for card margin
-                height: (screenWidth - 20) * 9 / 16, // Maintain aspect ratio
+                width: (screenWidth / 2) -
+                    20, // Adjust width according to number of columns and padding
+                height: ((screenWidth / 2) - 20) * 9 / 16,
                 fit: BoxFit.cover,
               ),
             ),
@@ -156,7 +158,7 @@ class _YTViewState extends State<YTView> {
                 ? const Center(
                     child:
                         CircularProgressIndicator()) // Show loading indicator while fetching
-                : _buildVideoList(), // Display the list if videos are available
+                : _buildVideoGrid(), // Display the list if videos are available
       ),
     );
   }

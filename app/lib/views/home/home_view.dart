@@ -47,21 +47,21 @@ class _HomeViewState extends State<HomeView> {
 
   List lastWorkoutArr = [
     {
-      "name": "Full Body Workout",
+      "name": "Yoga WorkOut",
       "image": "assets/images/workouts/workout1.png",
       "kcal": "180",
       "time": "20",
       "progress": 0.3
     },
     {
-      "name": "Lower Body Workout",
+      "name": "Pilates Workout",
       "image": "assets/images/workouts/workout2.png",
       "kcal": "200",
       "time": "30",
       "progress": 0.4
     },
     {
-      "name": "Ab Workout",
+      "name": "Dynamic Stretching",
       "image": "assets/images/workouts/workout3.png",
       "kcal": "300",
       "time": "40",

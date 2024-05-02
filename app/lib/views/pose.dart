@@ -4,6 +4,7 @@ import 'DL_models/posenet/main.dart';
 import 'DL_models/openpose/openpose_img.dart';
 import 'DL_models/openpose/openpose_realtime.dart';
 import 'opensim.dart';
+import 'instability_assessment.dart';
 import '../widgets/custom_card.dart';
 
 class PoseDetector extends StatelessWidget {
@@ -43,6 +44,7 @@ class Home extends StatelessWidget {
                   CustomCard('Openpose Image Pose Detection', OpenPoseImg()),
                   CustomCard('Posenet Pose Detection', Posenet()),
                   CustomCard('OpenSim Inverse Kinematics', TRCProcessor()),
+                  CustomCard('Ankle Instability Assessment', InstabilityDetector()),
                 ],
               ),
             ),
