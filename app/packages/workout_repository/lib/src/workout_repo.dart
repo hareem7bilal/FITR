@@ -4,6 +4,6 @@ abstract class WorkoutRepository {
   Future<void> addWorkout(MyWorkoutModel workout);
   Future<void> updateWorkout(MyWorkoutModel workout);
   Future<MyWorkoutModel> getWorkout(String workoutId);
-  Stream<List<MyWorkoutModel>> getWorkouts();
+  Stream<List<MyWorkoutModel>> getWorkoutsByUserId(String userId);
   Future<void> deleteWorkout(String workoutId);
 }

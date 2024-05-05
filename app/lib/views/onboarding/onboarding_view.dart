@@ -25,27 +25,27 @@ class OnBoardingViewState extends State<OnBoardingView> {
 
   List pageArr = [
     {
-      "title": "Track Your Goals",
+      "title": "Set Rehabilitation Goals",
       "subtitle":
-          "Dont worry if you have trouble determining your goals, we can help you determine and track them!",
+          "Having trouble setting recovery goals? We're here to help you define and track your rehabilitation milestones, ensuring a focused recovery.",
       "image": "assets/images/onboarding/onboarding_1.png"
     },
     {
-      "title": "Get Burn",
+      "title": "Stay Active",
       "subtitle":
-          "Let’s keep burning, to achive yours goals, it hurts only temporarily, if you give up now you will be in pain forever",
+          "Engage in recommended exercises tailored to your recovery needs. It might be challenging, but staying active is key to effective rehabilitation.",
       "image": "assets/images/onboarding/onboarding_2.png"
     },
     {
-      "title": "Eat Well",
+      "title": "Nutrition for Recovery",
       "subtitle":
-          "Let's start a healthy lifestyle with us, we can determine your diet every day. healthy eating is fun",
+          "Fuel your body with the right nutrients to aid in your recovery. Let us help you plan your daily meals for optimal rehabilitation.",
       "image": "assets/images/onboarding/onboarding_3.png"
     },
     {
-      "title": "Improve Sleep Quality",
+      "title": "Enhance Recovery Through Sleep",
       "subtitle":
-          "Improve the quality of your sleep with us, good quality sleep can bring a good mood in the morning",
+          "Quality sleep is crucial for recovery. We provide tips and habits to improve your sleep, helping you wake up refreshed and ready to heal.",
       "image": "assets/images/onboarding/onboarding_4.png"
     }
   ];
@@ -90,7 +90,7 @@ class OnBoardingViewState extends State<OnBoardingView> {
                         if (selectPage < 3) {
                           selectPage = selectPage + 1;
                           controller.animateToPage(selectPage,
-                              duration: const Duration(milliseconds: 600),
+                              duration: const Duration(milliseconds: 400),
                               curve: Curves.bounceInOut);
                           //controller.jumpToPage(selectPage);
                           setState(() {});

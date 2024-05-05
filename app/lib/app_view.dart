@@ -23,6 +23,7 @@ class AppView extends StatelessWidget {
         builder: (context, state) {
           if (state.status == AuthenticationStatus.authenticated) {
             return const MainTabView();
+            //return const StartingView();
           } else {
             return const StartingView();
           }

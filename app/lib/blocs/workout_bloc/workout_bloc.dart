@@ -2,13 +2,13 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:workout_repository/workout_repository.dart'; // Adjust this import based on your project structure
-import 'dart:async'; // Import required for StreamSubscription
+//import 'dart:async'; // for StreamSubscription
 part 'workout_event.dart';
 part 'workout_state.dart';
 
 class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
   final WorkoutRepository _workoutRepository;
-  StreamSubscription<List<MyWorkoutModel>>? _workoutsSubscription;
+  //StreamSubscription<List<MyWorkoutModel>>? _workoutsSubscription;
 
   WorkoutBloc({required WorkoutRepository workoutRepository})
       : _workoutRepository = workoutRepository,
@@ -18,20 +18,20 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         emit(WorkoutLoading());
         await _workoutRepository.addWorkout(event.workout);
         emit(WorkoutOperationSuccess());
-      } catch (e) {
-        log(e.toString());
-        emit(WorkoutOperationFailure(e.toString()));
+      } catch (e, stacktrace) {
+         log(e.toString());
+        emit(WorkoutOperationFailure(error: e.toString(),  stackTrace: stacktrace.toString()));
       }
     });
+   
 
     on<UpdateWorkout>((event, emit) async {
       try {
         emit(WorkoutLoading());
         await _workoutRepository.updateWorkout(event.workout);
         emit(WorkoutOperationSuccess());
-      } catch (e) {
-        log(e.toString());
-        emit(WorkoutOperationFailure(e.toString()));
+      } catch (e, stacktrace) {
+        emit(WorkoutOperationFailure(error: e.toString(),  stackTrace: stacktrace.toString()));
       }
     });
 
@@ -40,9 +40,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         emit(WorkoutLoading());
         await _workoutRepository.deleteWorkout(event.workoutId);
         emit(WorkoutOperationSuccess());
-      } catch (e) {
-        log(e.toString());
-        emit(WorkoutOperationFailure(e.toString()));
+      } catch (e, stacktrace) {
+        emit(WorkoutOperationFailure(error: e.toString(),  stackTrace: stacktrace.toString()));
       }
     });
 
@@ -51,21 +50,24 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         emit(WorkoutLoading());
         final workout = await _workoutRepository.getWorkout(event.workoutId);
         emit(WorkoutFetchSuccess(workout));
-      } catch (e) {
-        log(e.toString());
-        emit(WorkoutOperationFailure(e.toString()));
+      } catch (e, stacktrace) {
+        emit(WorkoutOperationFailure(error: e.toString(),  stackTrace: stacktrace.toString()));
       }
     });
 
-    on<GetWorkouts>((event, emit) {
+    
+    on<GetWorkouts>((event, emit) async {
       emit(WorkoutLoading());
-      _workoutsSubscription?.cancel(); // Cancel any existing subscription
-      _workoutsSubscription = _workoutRepository.getWorkouts().listen(
-            (workouts) =>
-                emit(WorkoutLoaded(workouts)), // Emit loaded state on new data
-            onError: (error) => emit(WorkoutOperationFailure(
-                error.toString())), // Emit failure state on error
-          );
+      try {
+        // Directly listen to the stream from the repository
+        var workoutsStream =
+            _workoutRepository.getWorkoutsByUserId(event.userId);
+        await for (var workouts in workoutsStream) {
+          emit(WorkoutLoaded(workouts));
+        }
+      } catch (e, stacktrace) {
+        emit(WorkoutOperationFailure(error: e.toString(), stackTrace: stacktrace.toString()));
+      }
     });
   }
 }

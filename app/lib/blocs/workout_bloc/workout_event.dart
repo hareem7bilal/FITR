@@ -43,6 +43,12 @@ class GetWorkout extends WorkoutEvent {
   List<Object> get props => [workoutId];
 }
 
+// workout_event.dart
 class GetWorkouts extends WorkoutEvent {
-  const GetWorkouts();
+  final String userId;
+
+  const GetWorkouts(this.userId);
+
+  @override
+  List<Object> get props => [userId];
 }

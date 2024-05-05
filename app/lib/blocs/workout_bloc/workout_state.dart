@@ -15,11 +15,12 @@ class WorkoutOperationSuccess extends WorkoutState {}
 
 class WorkoutOperationFailure extends WorkoutState {
   final String error;
+  final String stackTrace; // Consider how much detail to include based on your privacy/security policy
 
-  const WorkoutOperationFailure(this.error);
+  const WorkoutOperationFailure({required this.error, this.stackTrace = ''});
 
   @override
-  List<Object> get props => [error];
+  List<Object> get props => [error, stackTrace];
 }
 
 class WorkoutFetchSuccess extends WorkoutState {

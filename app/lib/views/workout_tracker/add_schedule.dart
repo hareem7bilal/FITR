@@ -46,6 +46,10 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
   final TextEditingController customWeightsController = TextEditingController();
   final TextEditingController durationController = TextEditingController();
   final TextEditingController videoController = TextEditingController();
+  final TextEditingController numberOfExercisesController =
+      TextEditingController();
+  final TextEditingController itemsNeededController = TextEditingController();
+  final List<WorkoutSet> sets = [];
 
   // Create FocusNodes for each text field
   final FocusNode nameFocusNode = FocusNode();
@@ -55,7 +59,8 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
   final FocusNode customWeightsFocusNode = FocusNode();
   final FocusNode durationFocusNode = FocusNode();
   final FocusNode videoFocusNode = FocusNode();
-
+  final FocusNode numberOfExercisesFocusNode = FocusNode();
+  final FocusNode itemsNeededFocusNode = FocusNode();
   // Variables for non-text fields
   // Image picker instance
   final ImagePicker _picker = ImagePicker();
@@ -80,26 +85,44 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
   }
 
   void _saveWorkout() async {
+    debugPrint(
+        "UID to set in Firestore: ${FirebaseAuth.instance.currentUser!.uid}");
     try {
-      final String imageUrl = await _uploadImage(_imageFile!);
+      // Upload the image only if _imageFile is not null
+      String? imageUrl;
+      if (_imageFile != null) {
+        imageUrl = await _uploadImage(_imageFile!);
+      }
 
       final workout = MyWorkoutModel(
         id: '',
-        userId: FirebaseAuth.instance.currentUser!.uid,
-        name: nameController.text,
-        description: descriptionController.text,
+        allowedUserIds: [FirebaseAuth.instance.currentUser!.uid],
+        name: nameController.text.isNotEmpty ? nameController.text : '',
+        description: descriptionController.text.isNotEmpty
+            ? descriptionController.text
+            : '',
         image: imageUrl,
-        kcal: double.tryParse(kcalController.text),
+        kcal: kcalController.text.isNotEmpty
+            ? double.tryParse(kcalController.text)
+            : null,
         time: Timestamp.fromDate(selectedTime),
-        duration: durationController.text,
+        duration:
+            durationController.text.isNotEmpty ? durationController.text : '',
         progress: progress,
         difficultyLevel: difficulty,
-        customReps: int.tryParse(customRepsController.text),
-        customWeights: double.tryParse(customWeightsController.text),
+        customReps: customRepsController.text.isNotEmpty
+            ? int.tryParse(customRepsController.text)
+            : null,
+        customWeights: customWeightsController.text.isNotEmpty
+            ? double.tryParse(customWeightsController.text)
+            : null,
         date: widget.date,
         video: videoController.text.isNotEmpty ? videoController.text : null,
+        numberOfExercises: int.tryParse(numberOfExercisesController.text) ?? 0,
+        itemsNeeded:
+            itemsNeededController.text.split(',').map((e) => e.trim()).toList(),
+        sets: sets,
       );
-
       // Ensure the widget is still mounted before updating the UI
       if (!mounted) return;
 
@@ -134,6 +157,166 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
           e.toString()); // You might want to handle the error differently
       return Future.error('Image upload failed');
     }
+  }
+
+  void _addSet() {
+    setState(() {
+      sets.add(
+          WorkoutSet(title: 'Set ${sets.length + 1}', exercises: const []));
+    });
+  }
+
+  void _addExercise(int index) {
+    // Prompt for Exercise details
+    showDialog(
+      context: context,
+      builder: (context) {
+        TextEditingController nameController = TextEditingController();
+        TextEditingController durationController = TextEditingController();
+        TextEditingController repetitionsController = TextEditingController();
+
+        return AlertDialog(
+          backgroundColor: TColor.lightGrey,
+          title: const Text('Add Exercise'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  hintText: "Name",
+                  hintStyle: TextStyle(
+                    color: Colors.black54, // Set the color of the hint text
+                    fontSize: 14, // Set the font style of the hint text
+                  ),
+                ),
+              ),
+              TextField(
+                controller: durationController,
+                decoration: const InputDecoration(
+                  hintText: "Duration",
+                  hintStyle: TextStyle(
+                    color: Colors.black54, // Set the color of the hint text
+                    fontSize: 14, // Set the font style of the hint text
+                  ),
+                ),
+              ),
+              TextField(
+                controller: repetitionsController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  hintText: "Repetitions",
+                  hintStyle: TextStyle(
+                    color: Colors.black54, // Set the color of the hint text
+                    fontSize: 14, // Set the font style of the hint text
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color.fromARGB(
+                    255, 155, 137, 222), //change background color of button
+                backgroundColor: TColor.white, //change text color of button
+                textStyle: TextStyle(color: TColor.white), // Set the text color
+              ),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: const Color.fromARGB(
+                      255, 155, 137, 222), //change background color of button
+                  backgroundColor: TColor.white, //change text color of button
+                  textStyle:
+                      TextStyle(color: TColor.white), // Set the text color
+                ),
+                child: const Text('Add'),
+                onPressed: () {
+                  if (nameController.text.isNotEmpty &&
+                      durationController.text.isNotEmpty &&
+                      repetitionsController.text.isNotEmpty) {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      // Create a new mutable list from the existing exercises
+                      List<Exercise> newExercises =
+                          List<Exercise>.from(sets[index].exercises);
+                      newExercises.add(Exercise(
+                        name: nameController.text,
+                        duration: durationController.text,
+                        repetitions: int.tryParse(repetitionsController.text),
+                      ));
+                      // Replace the old exercises list with the new list
+                      sets[index] =
+                          sets[index].copyWith(exercises: newExercises);
+                    });
+                  }
+                }),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSetList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: sets.length,
+      itemBuilder: (context, index) {
+        return Card(
+          color: TColor.lightGrey,
+          child: ExpansionTile(
+            title: Text('Set ${index + 1}',
+                style: TextStyle(
+                    color: TColor.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500)),
+            children: sets[index]
+                .exercises
+                .map((exercise) => Container(
+                      color: TColor.lightGrey,
+                      child: ListTile(
+                        title: Text(exercise.name),
+                        subtitle: Text(
+                            'Duration: ${exercise.duration}, Repetitions: ${exercise.repetitions}'),
+                      ),
+                    ))
+                .toList()
+              ..add(Container(
+                color: TColor.lightGrey,
+                child: ListTile(
+                  leading: const Icon(Icons.add),
+                  title: const Text('Add Exercise',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 121, 135, 142),
+                          fontSize: 13)),
+                  onTap: () => _addExercise(index),
+                ),
+              )),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildAddSetButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: ElevatedButton(
+          onPressed: _addSet,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: const Color.fromARGB(
+                255, 155, 137, 222), //change background color of button
+            backgroundColor: TColor.white, //change text color of button
+            textStyle: TextStyle(color: TColor.white), // Set the text color
+          ),
+          child: const Text('Add Set')),
+    );
   }
 
   @override
@@ -273,6 +456,33 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
           const SizedBox(
             height: 10,
           ),
+          IconTitleNextRow(
+            icon: "assets/images/icons/swap.png",
+            title: "Number of Exercises",
+            textEditingController: numberOfExercisesController,
+            focusNode: numberOfExercisesFocusNode,
+            color: TColor.lightGrey,
+            onPressed: () {},
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          IconTitleNextRow(
+            icon: "assets/images/icons/swap.png",
+            title: "Items Needed(comma separated)",
+            textEditingController: itemsNeededController,
+            focusNode: itemsNeededFocusNode,
+            color: TColor.lightGrey,
+            onPressed: () {},
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          _buildSetList(),
+          _buildAddSetButton(),
+          const SizedBox(
+            height: 10,
+          ),
           Text(
             "Progress",
             style: TextStyle(
@@ -286,12 +496,8 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
               activeTrackColor: TColor
                   .primaryColor1, // Color for the track that has been traveled already
               inactiveTrackColor: TColor
-                  .secondaryColor1, // Color for the remaining track to be traveled
+                  .lightGrey, // Color for the remaining track to be traveled
               thumbColor: TColor.primaryColor1, // Color of the slider thumb
-              overlayColor: TColor
-                  .secondaryColor1, // Color of the overlay shown when the slider thumb is touched
-              activeTickMarkColor: TColor.primaryColor1,
-              inactiveTickMarkColor: TColor.primaryColor2,
             ),
             child: Slider(
               value: progress,
@@ -320,12 +526,8 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
               activeTrackColor: TColor
                   .primaryColor1, // Color for the track that has been traveled already
               inactiveTrackColor: TColor
-                  .secondaryColor1, // Color for the remaining track to be traveled
+                  .lightGrey, // Color for the remaining track to be traveled
               thumbColor: TColor.primaryColor1, // Color of the slider thumb
-              overlayColor: TColor
-                  .secondaryColor1, // Color of the overlay shown when the slider thumb is touched
-              activeTickMarkColor: TColor.primaryColor1,
-              inactiveTickMarkColor: TColor.primaryColor2,
             ),
             child: Slider(
               value: difficulty,

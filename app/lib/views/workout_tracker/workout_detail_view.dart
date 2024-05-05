@@ -1,17 +1,15 @@
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/widgets/icon_title_next_row.dart';
-
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/views/workout_tracker/exercise_step_details.dart';
-
+import 'package:workout_repository/workout_repository.dart';
 import 'package:flutter_application_1/views/workout_tracker/workout_schedule_view.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_application_1/widgets/exercise_set_section.dart';
 
 class WorkoutDetailView extends StatefulWidget {
-  final Map dObj;
-  const WorkoutDetailView({super.key, required this.dObj});
+  final MyWorkoutModel workout;
+  const WorkoutDetailView({super.key, required this.workout});
 
   @override
   State<WorkoutDetailView> createState() => _WorkoutDetailViewState();
@@ -193,14 +191,14 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.dObj["title"].toString(),
+                                  widget.workout.name,
                                   style: TextStyle(
                                       color: TColor.black,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700),
                                 ),
                                 Text(
-                                  "${widget.dObj["exercises"].toString()} | ${widget.dObj["time"].toString()} | 320 Calories Burn",
+                                  "${widget.workout.numberOfExercises} Exercises | Duration: ${widget.workout.duration} | ${widget.workout.kcal ?? 0 * 1000} Calories Burn",
                                   style: TextStyle(
                                       color: TColor.grey, fontSize: 12),
                                 ),
@@ -227,8 +225,11 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                           time: "5/27, 09:00 AM",
                           color: TColor.primaryColor2.withOpacity(0.3),
                           onPressed: () {
-
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const WorkoutScheduleView() )  );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const WorkoutScheduleView()));
                           }),
                       SizedBox(
                         height: media.width * 0.02,
@@ -360,7 +361,11 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      RoundButton(title: "Start Workout", onPressed: () {}, elevation: 0.0,)
+                      RoundButton(
+                        title: "Start Workout",
+                        onPressed: () {},
+                        elevation: 0.0,
+                      )
                     ],
                   ),
                 )
