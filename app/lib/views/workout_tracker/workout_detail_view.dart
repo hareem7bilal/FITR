@@ -244,7 +244,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                       IconTitleNextRow(
                           icon: "assets/images/icons/swap.png",
                           title: "Difficulty",
-                          time: widget.workout.difficultyLevel.toString(),
+                          time: widget.workout.difficultyLevel.toInt().toString(),
                           color: TColor.secondaryColor2.withOpacity(0.3),
                           onPressed: () {}),
                       SizedBox(
@@ -368,4 +368,5 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
       ),
     );
   }
+  
 }

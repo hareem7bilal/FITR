@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
-
 import 'package:flutter_application_1/widgets/step_detail_row.dart';
+import 'dart:convert';
 
 class ExercisesStepDetails extends StatefulWidget {
   final Map eObj;
@@ -43,9 +44,65 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
     },
   ];
 
+  YoutubePlayerController? _controller;
+
+  Future<void> searchAndLoadVideo(String query) async {
+    const String apiKey =
+        'AIzaSyDO68wWUP2iFIOi2ayT8RBUu8c2K09xfLM'; // Replace with your actual API key
+    final String apiUrl =
+        'https://www.googleapis.com/youtube/v3/search?part=snippet&q=$query&type=video&key=$apiKey';
+
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['items'].isNotEmpty) {
+        final videoId = data['items'][0]['id']['videoId'];
+
+        // Mobile: Initialize YoutubePlayerController
+        initializePlayer(videoId);
+      }
+    } else {
+      debugPrint('Failed to load video');
+    }
+  }
+
+  void initializePlayer(String videoId) {
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        enableCaption: true,
+        captionLanguage: 'en',
+        loop: true,
+        forceHD: false,
+        controlsVisibleAtStart: true,
+        hideThumbnail: false,
+        hideControls: false,
+        isLive: false,
+        // Other flags...
+      ),
+    );
+
+    // Set state to refresh the UI
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    searchAndLoadVideo(widget.eObj["name"]);
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
+    //var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TColor.white,
@@ -64,7 +121,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                 color: TColor.lightGrey,
                 borderRadius: BorderRadius.circular(10)),
             child: Image.asset(
-              "assets/img/closed_btn.png",
+              "assets/images/icons/closed_btn.png",
               width: 15,
               height: 15,
               fit: BoxFit.contain,
@@ -83,7 +140,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                   color: TColor.lightGrey,
                   borderRadius: BorderRadius.circular(10)),
               child: Image.asset(
-                "assets/img/more_btn.png",
+                "assets/images/buttons/more_btn.png",
                 width: 15,
                 height: 15,
                 fit: BoxFit.contain,
@@ -99,44 +156,39 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: media.width,
-                    height: media.width * 0.43,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: TColor.primaryG),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Image.asset(
-                      "assets/img/video_temp.png",
-                      width: media.width,
-                      height: media.width * 0.43,
-                      fit: BoxFit.contain,
+              _controller == null
+                  ? const Center(child: CircularProgressIndicator())
+                  : YoutubePlayerBuilder(
+                      player: YoutubePlayer(
+                        controller: _controller!,
+                        aspectRatio: 16 / 9,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: TColor.primaryColor1,
+                        topActions: const <Widget>[
+                          // Custom widgets or actions
+                        ],
+                        bottomActions: const <Widget>[
+                          // Custom widgets or controls
+                        ],
+                        onReady: () {
+                          debugPrint('Player is ready.');
+                        },
+                        onEnded: (data) {
+                          // Handle video end
+                        },
+                      ),
+                      builder: (context, player) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [player],
+                        );
+                      },
                     ),
-                  ),
-                  Container(
-                    width: media.width,
-                    height: media.width * 0.43,
-                    decoration: BoxDecoration(
-                        color: TColor.black.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(20)),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      "assets/img/Play.png",
-                      width: 30,
-                      height: 30,
-                    ),
-                  ),
-                ],
-              ),
               const SizedBox(
                 height: 15,
               ),
               Text(
-                widget.eObj["title"].toString(),
+                widget.eObj["name"],
                 style: TextStyle(
                     color: TColor.black,
                     fontSize: 16,
@@ -156,7 +208,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                 height: 15,
               ),
               Text(
-                "Descriptions",
+                "Description",
                 style: TextStyle(
                     color: TColor.black,
                     fontSize: 16,
@@ -230,7 +282,8 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                     height: 40,
                     decoration: BoxDecoration(
                       border: Border(
-                        top: BorderSide(color: TColor.grey.withOpacity(0.2), width: 1),
+                        top: BorderSide(
+                            color: TColor.grey.withOpacity(0.2), width: 1),
                         bottom: BorderSide(
                             color: TColor.grey.withOpacity(0.2), width: 1),
                       ),
@@ -243,7 +296,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          "assets/img/burn.png",
+                          "assets/images/food/burn.png",
                           width: 15,
                           height: 15,
                           fit: BoxFit.contain,
