@@ -203,6 +203,7 @@ class MyWorkoutModel extends Equatable {
 
   static MyWorkoutModel fromSnapshot(DocumentSnapshot snapshot) {
     final data = snapshot.data() as Map<String, dynamic>? ?? {};
+
     List<String> parseItemsNeeded(dynamic items) {
       if (items is List) {
         // Safe cast and handling of items, ensuring only string types are added
@@ -225,7 +226,7 @@ class MyWorkoutModel extends Equatable {
       date: (data['date'] as Timestamp?)?.toDate() ?? DateTime.now(),
       numberOfExercises: (data['numberOfExercises'] as int?) ?? 0,
       image: data['image'] as String?,
-      kcal: (data['kcal'] as num?)?.toDouble(),
+      kcal: num.tryParse(data['kcal']?.toString() ?? '0')?.toDouble(),
       customReps: data['customReps'] as int?,
       customWeights: (data['customWeights'] as num?)?.toDouble(),
       video: data['video'] as String?,

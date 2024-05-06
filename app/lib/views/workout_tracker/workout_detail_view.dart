@@ -6,6 +6,7 @@ import 'package:workout_repository/workout_repository.dart';
 import 'package:flutter_application_1/views/workout_tracker/workout_schedule_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/exercise_set_section.dart';
+import 'package:intl/intl.dart';
 
 class WorkoutDetailView extends StatefulWidget {
   final MyWorkoutModel workout;
@@ -148,7 +149,9 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
               flexibleSpace: Align(
                 alignment: Alignment.center,
                 child: Image.asset(
-                  "assets/img/detail_top.png",
+                  widget.workout.image!.isEmpty
+                      ? 'assets/images/training/default.png'
+                      : widget.workout.image!,
                   width: media.width * 0.75,
                   height: media.width * 0.8,
                   fit: BoxFit.contain,
@@ -208,7 +211,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                           TextButton(
                             onPressed: () {},
                             child: Image.asset(
-                              "assets/img/fav.png",
+                              "assets/images/icons/fav.png",
                               width: 15,
                               height: 15,
                               fit: BoxFit.contain,
@@ -220,24 +223,28 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                         height: media.width * 0.05,
                       ),
                       IconTitleNextRow(
-                          icon: "assets/img/time.png",
-                          title: "Schedule Workout",
-                          time: "5/27, 09:00 AM",
-                          color: TColor.primaryColor2.withOpacity(0.3),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const WorkoutScheduleView()));
-                          }),
+                        icon: "assets/images/icons/calender.png",
+                        title: "Schedule Workout",
+                        time: DateFormat('EEEE, MMMM d, yyyy h:mm a').format(widget
+                            .workout.time
+                            .toDate()), // Convert Timestamp to DateTime and format, // Formats the datetime
+                        color: TColor.primaryColor2.withOpacity(0.3),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const WorkoutScheduleView()),
+                          );
+                        },
+                      ),
                       SizedBox(
                         height: media.width * 0.02,
                       ),
                       IconTitleNextRow(
-                          icon: "assets/img/difficulity.png",
-                          title: "Difficulity",
-                          time: "Beginner",
+                          icon: "assets/images/icons/swap.png",
+                          title: "Difficulty",
+                          time: widget.workout.difficultyLevel.toString(),
                           color: TColor.secondaryColor2.withOpacity(0.3),
                           onPressed: () {}),
                       SizedBox(
@@ -256,7 +263,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                           TextButton(
                             onPressed: () {},
                             child: Text(
-                              "${youArr.length} Items",
+                              "${widget.workout.itemsNeeded.length} Items",
                               style:
                                   TextStyle(color: TColor.grey, fontSize: 12),
                             ),
@@ -264,46 +271,31 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                         ],
                       ),
                       SizedBox(
-                        height: media.width * 0.5,
+                        height: media.width * 0.14,
                         child: ListView.builder(
                             padding: EdgeInsets.zero,
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
-                            itemCount: youArr.length,
+                            itemCount: widget.workout.itemsNeeded.length,
                             itemBuilder: (context, index) {
-                              var yObj = youArr[index] as Map? ?? {};
                               return Container(
-                                  margin: const EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: media.width * 0.35,
-                                        width: media.width * 0.35,
-                                        decoration: BoxDecoration(
-                                            color: TColor.lightGrey,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        alignment: Alignment.center,
-                                        child: Image.asset(
-                                          yObj["image"].toString(),
-                                          width: media.width * 0.2,
-                                          height: media.width * 0.2,
-                                          fit: BoxFit.contain,
+                                margin: const EdgeInsets.all(8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        widget.workout.itemsNeeded[index],
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          yObj["title"].toString(),
-                                          style: TextStyle(
-                                              color: TColor.black,
-                                              fontSize: 12),
-                                        ),
-                                      )
-                                    ],
-                                  ));
+                                    )
+                                  ],
+                                ),
+                              );
                             }),
                       ),
                       SizedBox(
@@ -322,7 +314,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                           TextButton(
                             onPressed: () {},
                             child: Text(
-                              "${youArr.length} Sets",
+                              "${widget.workout.sets.length} Sets",
                               style:
                                   TextStyle(color: TColor.grey, fontSize: 12),
                             ),
@@ -333,11 +325,11 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: exercisesArr.length,
+                          itemCount: widget.workout.sets.length,
                           itemBuilder: (context, index) {
-                            var sObj = exercisesArr[index] as Map? ?? {};
+                            var set = widget.workout.sets[index];
                             return ExercisesSetSection(
-                              sObj: sObj,
+                              set: set,
                               onPressed: (obj) {
                                 Navigator.push(
                                   context,

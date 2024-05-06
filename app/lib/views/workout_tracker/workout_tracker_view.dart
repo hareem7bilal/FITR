@@ -20,27 +20,6 @@ class WorkoutTrackerView extends StatefulWidget {
 }
 
 class _WorkoutTrackerViewState extends State<WorkoutTrackerView> {
- 
-  List whatArr = [
-    {
-      "image": "assets/images/workouts/workout6.png",
-      "title": "Fullbody Workout",
-      "exercises": "11 Exercises",
-      "time": "32mins"
-    },
-    {
-      "image": "assets/images/workouts/workout7.png",
-      "title": "Lowerbody Workout",
-      "exercises": "12 Exercises",
-      "time": "40mins"
-    },
-    {
-      "image": "assets/images/workouts/workout8.png",
-      "title": "AB Workout",
-      "exercises": "14 Exercises",
-      "time": "20mins"
-    }
-  ];
 
   @override
   Widget build(BuildContext context) {

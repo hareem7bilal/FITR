@@ -128,6 +128,9 @@ flutter:
     - assets/images/graphs/
     - assets/images/food/
     - assets/images/pics/
+    - assets/images/training/fullbody_workout/
+    - assets/images/training/lowerbody_workout/
+    - assets/images/training/
     - assets/models/
 
 
