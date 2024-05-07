@@ -14,16 +14,6 @@ class StepDetailRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 25,
-          child: Text(
-            sObj["no"].toString(),
-            style: TextStyle(
-              color: TColor.secondaryColor1,
-              fontSize: 14,
-            ),
-          ),
-        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

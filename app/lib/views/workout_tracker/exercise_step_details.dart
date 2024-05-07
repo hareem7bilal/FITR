@@ -17,34 +17,17 @@ class ExercisesStepDetails extends StatefulWidget {
 }
 
 class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
-  List stepArr = [
-    {
-      "no": "01",
-      "title": "Spread Your Arms",
-      "detail":
-          "To make the gestures feel more relaxed, stretch your arms as you start this movement. No bending of hands."
-    },
-    {
-      "no": "02",
-      "title": "Rest at The Toe",
-      "detail":
-          "The basis of this movement is jumping. Now, what needs to be considered is that you have to use the tips of your feet"
-    },
-    {
-      "no": "03",
-      "title": "Adjust Foot Movement",
-      "detail":
-          "Jumping Jack is not just an ordinary jump. But, you also have to pay close attention to leg movements."
-    },
-    {
-      "no": "04",
-      "title": "Clapping Both Hands",
-      "detail":
-          "This cannot be taken lightly. You see, without realizing it, the clapping of your hands helps you to keep your rhythm while doing the Jumping Jack"
-    },
-  ];
 
   YoutubePlayerController? _controller;
+  String exerciseDescription = "Loading description..."; // Default text until data is fetched
+  List<Map<String, String>> stepArr = []; // Initialize as empty list
+
+   @override
+  void initState() {
+    super.initState();
+    searchAndLoadVideo(widget.eObj["name"]);
+    fetchExerciseInfo();  // Fetch description and steps
+  }
 
   Future<void> searchAndLoadVideo(String query) async {
     const String apiKey =
@@ -88,11 +71,35 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
     setState(() {});
   }
 
-  @override
-  void initState() {
-    super.initState();
-    searchAndLoadVideo(widget.eObj["name"]);
+  Future<void> fetchExerciseInfo() async {
+    var url = Uri.parse(
+        'https://openai-api-fb8x.onrender.com/get_exercise_info'); // Change to your actual server URL
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{'exercise_name': widget.eObj["name"]}),
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      var description = data['description'];
+      var steps = List<String>.from(data['steps']);
+
+      setState(() {
+        exerciseDescription = description;
+        stepArr = steps.map((step) {
+          var parts = step.split(':');
+          return {"title": parts[0].trim(), "detail": parts[1].trim()};
+        }).toList();
+      });
+    } else {
+      debugPrint('Failed to load exercise info: ${response.statusCode}');
+    }
   }
+
+ 
 
   @override
   void dispose() {
@@ -218,7 +225,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                 height: 4,
               ),
               ReadMoreText(
-                'A jumping jack, also known as a star jump and called a side-straddle hop in the US military, is a physical jumping exercise performed by jumping to a position with the legs spread wide A jumping jack, also known as a star jump and called a side-straddle hop in the US military, is a physical jumping exercise performed by jumping to a position with the legs spread wide',
+                exerciseDescription,
                 trimLines: 4,
                 colorClickableText: TColor.black,
                 trimMode: TrimMode.Line,
@@ -265,6 +272,9 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                     isLast: stepArr.last == sObj,
                   );
                 }),
+              ),
+               const SizedBox(
+                height: 15,
               ),
               Text(
                 "Custom Repetitions",
