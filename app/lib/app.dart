@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:workout_repository/workout_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/blocs/auth_bloc/auth_bloc.dart'; 
 import 'package:flutter_application_1/blocs/sign_up_bloc/sign_up_bloc.dart'; 
 import 'package:flutter_application_1/blocs/sign_in_bloc/sign_in_bloc.dart'; 
 import 'package:flutter_application_1/blocs/user_bloc/user_bloc.dart'; 
+import 'package:flutter_application_1/blocs/workout_bloc/workout_bloc.dart'; 
 import 'app_view.dart';
 
 class MyApp extends StatelessWidget {
   final UserRepository userRepository;
+  final WorkoutRepository workoutRepository;
 
-  const MyApp(this.userRepository, {super.key}); // Fixing the constructor
+  const MyApp(this.userRepository,this.workoutRepository, {super.key}); // Fixing the constructor
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,11 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthenticationBloc>(
           create: (context) => AuthenticationBloc(
             myUserRepository: userRepository,
+          ),
+        ),
+         RepositoryProvider<WorkoutBloc>(
+          create: (context) => WorkoutBloc(
+            workoutRepository: workoutRepository,
           ),
         ),
       ], child: const AppView());

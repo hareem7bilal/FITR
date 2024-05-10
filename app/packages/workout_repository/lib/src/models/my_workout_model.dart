@@ -157,6 +157,28 @@ class MyWorkoutModel extends Equatable {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'allowedUserIds': allowedUserIds,
+      'name': name,
+      'description': description,
+      'image': image,
+      'kcal': kcal,
+      'time': time,
+      'duration': duration,
+      'progress': progress,
+      'difficultyLevel': difficultyLevel,
+      'customReps': customReps,
+      'customWeights': customWeights,
+      'date': Timestamp.fromDate(date), // Store as Firestore Timestamp
+      'video': video,
+      'numberOfExercises': numberOfExercises,
+      'itemsNeeded': itemsNeeded,
+      'sets': sets.map((s) => s.toMap()).toList(), // Ensure each WorkoutSet has its own toMap
+    };
+  }
+
   static MyWorkoutModel fromEntity(MyWorkoutEntity entity) {
     return MyWorkoutModel(
       id: entity.id,

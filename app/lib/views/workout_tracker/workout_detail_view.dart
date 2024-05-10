@@ -17,73 +17,6 @@ class WorkoutDetailView extends StatefulWidget {
 }
 
 class _WorkoutDetailViewState extends State<WorkoutDetailView> {
-  List latestArr = [
-    {
-      "image": "assets/img/Workout1.png",
-      "title": "Fullbody Workout",
-      "time": "Today, 03:00pm"
-    },
-    {
-      "image": "assets/img/Workout2.png",
-      "title": "Upperbody Workout",
-      "time": "June 05, 02:00pm"
-    },
-  ];
-
-  List youArr = [
-    {"image": "assets/img/barbell.png", "title": "Barbell"},
-    {"image": "assets/img/skipping_rope.png", "title": "Skipping Rope"},
-    {"image": "assets/img/bottle.png", "title": "Bottle 1 Liters"},
-  ];
-
-  List exercisesArr = [
-    {
-      "name": "Set 1",
-      "set": [
-        {"image": "assets/img/img_1.png", "title": "Warm Up", "value": "05:00"},
-        {
-          "image": "assets/img/img_2.png",
-          "title": "Jumping Jack",
-          "value": "12x"
-        },
-        {"image": "assets/img/img_1.png", "title": "Skipping", "value": "15x"},
-        {"image": "assets/img/img_2.png", "title": "Squats", "value": "20x"},
-        {
-          "image": "assets/img/img_1.png",
-          "title": "Arm Raises",
-          "value": "00:53"
-        },
-        {
-          "image": "assets/img/img_2.png",
-          "title": "Rest and Drink",
-          "value": "02:00"
-        },
-      ],
-    },
-    {
-      "name": "Set 2",
-      "set": [
-        {"image": "assets/img/img_1.png", "title": "Warm Up", "value": "05:00"},
-        {
-          "image": "assets/img/img_2.png",
-          "title": "Jumping Jack",
-          "value": "12x"
-        },
-        {"image": "assets/img/img_1.png", "title": "Skipping", "value": "15x"},
-        {"image": "assets/img/img_2.png", "title": "Squats", "value": "20x"},
-        {
-          "image": "assets/img/img_1.png",
-          "title": "Arm Raises",
-          "value": "00:53"
-        },
-        {
-          "image": "assets/img/img_2.png",
-          "title": "Rest and Drink",
-          "value": "02:00"
-        },
-      ],
-    }
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -149,9 +82,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
               flexibleSpace: Align(
                 alignment: Alignment.center,
                 child: Image.asset(
-                  widget.workout.image!.isEmpty
-                      ? 'assets/images/training/default.png'
-                      : widget.workout.image!,
+                  widget.workout.image!,
                   width: media.width * 0.75,
                   height: media.width * 0.8,
                   fit: BoxFit.contain,
@@ -225,7 +156,8 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                       IconTitleNextRow(
                         icon: "assets/images/icons/calender.png",
                         title: "Schedule Workout",
-                        time: DateFormat('EEEE, MMMM d, yyyy h:mm a').format(widget
+                        time: DateFormat('EEEE, MMMM d, ').format(widget
+                            .workout.date)+DateFormat('h:mm a').format(widget
                             .workout.time
                             .toDate()), // Convert Timestamp to DateTime and format, // Formats the datetime
                         color: TColor.primaryColor2.withOpacity(0.3),

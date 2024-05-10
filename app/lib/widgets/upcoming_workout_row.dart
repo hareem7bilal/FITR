@@ -49,7 +49,7 @@ class _UpcomingWorkoutRowState extends State<UpcomingWorkoutRow> {
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  widget.wObj["time"].toString(),
+                  "${widget.wObj["duration"].toString()} | ${widget.wObj["time"].toString()}",
                   style: TextStyle(
                     color: TColor.grey,
                     fontSize: 10,

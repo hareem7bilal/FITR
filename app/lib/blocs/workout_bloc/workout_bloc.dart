@@ -19,11 +19,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         await _workoutRepository.addWorkout(event.workout);
         emit(WorkoutOperationSuccess());
       } catch (e, stacktrace) {
-         log(e.toString());
-        emit(WorkoutOperationFailure(error: e.toString(),  stackTrace: stacktrace.toString()));
+        log(e.toString());
+        emit(WorkoutOperationFailure(
+            error: e.toString(), stackTrace: stacktrace.toString()));
       }
     });
-   
 
     on<UpdateWorkout>((event, emit) async {
       try {
@@ -31,17 +31,28 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         await _workoutRepository.updateWorkout(event.workout);
         emit(WorkoutOperationSuccess());
       } catch (e, stacktrace) {
-        emit(WorkoutOperationFailure(error: e.toString(),  stackTrace: stacktrace.toString()));
+        emit(WorkoutOperationFailure(
+            error: e.toString(), stackTrace: stacktrace.toString()));
       }
     });
 
     on<DeleteWorkout>((event, emit) async {
       try {
-        emit(WorkoutLoading());
+        emit(WorkoutLoading()); // This might cause the loading spinner
         await _workoutRepository.deleteWorkout(event.workoutId);
-        emit(WorkoutOperationSuccess());
+
+        // Get the current state and remove the deleted workout
+        if (state is WorkoutLoaded) {
+          final currentWorkouts = (state as WorkoutLoaded).workouts;
+          final updatedWorkouts =
+              currentWorkouts.where((w) => w.id != event.workoutId).toList();
+          emit(WorkoutLoaded(updatedWorkouts));
+        } else {
+          emit(WorkoutOperationSuccess());
+        }
       } catch (e, stacktrace) {
-        emit(WorkoutOperationFailure(error: e.toString(),  stackTrace: stacktrace.toString()));
+        emit(WorkoutOperationFailure(
+            error: e.toString(), stackTrace: stacktrace.toString()));
       }
     });
 
@@ -51,11 +62,11 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
         final workout = await _workoutRepository.getWorkout(event.workoutId);
         emit(WorkoutFetchSuccess(workout));
       } catch (e, stacktrace) {
-        emit(WorkoutOperationFailure(error: e.toString(),  stackTrace: stacktrace.toString()));
+        emit(WorkoutOperationFailure(
+            error: e.toString(), stackTrace: stacktrace.toString()));
       }
     });
 
-    
     on<GetWorkouts>((event, emit) async {
       emit(WorkoutLoading());
       try {
@@ -66,7 +77,8 @@ class WorkoutBloc extends Bloc<WorkoutEvent, WorkoutState> {
           emit(WorkoutLoaded(workouts));
         }
       } catch (e, stacktrace) {
-        emit(WorkoutOperationFailure(error: e.toString(), stackTrace: stacktrace.toString()));
+        emit(WorkoutOperationFailure(
+            error: e.toString(), stackTrace: stacktrace.toString()));
       }
     });
   }

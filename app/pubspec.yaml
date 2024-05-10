@@ -92,6 +92,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   mockito: ^5.4.4
   build_runner: any
 
@@ -131,6 +133,7 @@ flutter:
     - assets/images/training/fullbody_workout/
     - assets/images/training/lowerbody_workout/
     - assets/images/training/
+    - assets/images/custom_card/
     - assets/models/
 
 

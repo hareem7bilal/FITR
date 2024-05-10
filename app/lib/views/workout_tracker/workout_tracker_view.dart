@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/workout_bloc/workout_bloc.dart';
 import 'package:workout_repository/workout_repository.dart';
+import 'package:intl/intl.dart';
 
 class WorkoutTrackerView extends StatefulWidget {
   const WorkoutTrackerView({super.key});
@@ -20,7 +21,6 @@ class WorkoutTrackerView extends StatefulWidget {
 }
 
 class _WorkoutTrackerViewState extends State<WorkoutTrackerView> {
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<WorkoutBloc>(
@@ -235,6 +235,9 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
               debugPrint("Workout Exercises: ${workout.sets}");
               // Add more details as necessary
             }
+            final sortedWorkouts = List.from(state.workouts);
+            sortedWorkouts.sort((a, b) => a.time.compareTo(b.time));
+
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
@@ -344,15 +347,15 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: state.workouts.length,
+                          itemCount: sortedWorkouts.length,
                           itemBuilder: (context, index) {
-                            final workout = state.workouts[index];
+                            final workout = sortedWorkouts[index];
                             return UpcomingWorkoutRow(wObj: {
-                              "image": workout.image!.isEmpty
-                                  ? "assets/images/workouts/workout8.png"
-                                  : workout.image,
+                              "image": workout.image,
                               "title": workout.name,
-                              "time": workout.duration
+                              "duration": workout.duration,
+                              "time": DateFormat('MMMM d, ').format(workout.date)+DateFormat('h:mm a').format(workout.time
+                            .toDate()),
                             });
                           }),
                       SizedBox(
@@ -387,6 +390,7 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                                                   workout: workout)));
                                 },
                                 child: WhatTrainRow(wObj: {
+                                  "id": workout.id,
                                   "image": workout.image!.isEmpty
                                       ? "assets/images/workouts/workout8.png"
                                       : workout.image,
@@ -408,7 +412,9 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
             debugPrint('Details: ${state.stackTrace}');
             return Text('Failed to load workouts: ${state.error}');
           } else {
-            return const Text('Unknown state');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         }),
       ),

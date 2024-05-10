@@ -92,6 +92,41 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
       String? imageUrl;
       if (_imageFile != null) {
         imageUrl = await _uploadImage(_imageFile!);
+      } else {
+        imageUrl = "assets/images/workouts/workout8.png";
+      }
+
+      // Check required fields and show a SnackBar if any are missing
+      if (nameController.text.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Workout name is required.")),
+        );
+        return;
+      }
+
+      if (descriptionController.text.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Workout description is required.")),
+        );
+        return;
+      }
+
+      if (durationController.text.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Workout duration is required.")),
+        );
+        return;
+      }
+
+      if (sets.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Sets are required.")),
+        );
+        return;
       }
 
       final workout = MyWorkoutModel(
@@ -123,9 +158,9 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
             itemsNeededController.text.split(',').map((e) => e.trim()).toList(),
         sets: sets,
       );
+
       // Ensure the widget is still mounted before updating the UI
       if (!mounted) return;
-
       BlocProvider.of<WorkoutBloc>(context).add(AddWorkout(workout));
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -248,6 +283,7 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
                       newExercises.add(Exercise(
                         name: nameController.text,
                         duration: durationController.text,
+                        image: 'assets/images/training/default.png',
                         repetitions: int.tryParse(repetitionsController.text),
                       ));
                       // Replace the old exercises list with the new list

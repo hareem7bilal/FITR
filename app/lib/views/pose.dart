@@ -30,24 +30,53 @@ class Home extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: const SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  CustomCard(
-                      'Google Mediapipe Pose Detection', PoseDetectorView()),
-                  CustomCard(
-                      'Openpose Realtime Pose Detection', OpenPoseRealtime()),
-                  CustomCard('Openpose Image Pose Detection', OpenPoseImg()),
-                  CustomCard('Posenet Pose Detection', Posenet()),
-                  CustomCard('OpenSim Inverse Kinematics', TRCProcessor()),
-                  CustomCard('Ankle Instability Assessment', InstabilityDetector()),
-                ],
-              ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // Number of columns
+              crossAxisSpacing: 16, // Space between columns
+              mainAxisSpacing: 16, // Space between rows
+              childAspectRatio: 1, // Ratio to make it square
             ),
+            itemCount: 6, // The number of CustomCards
+            itemBuilder: (context, index) {
+              List<CustomCard> cards = [
+                const CustomCard(
+                  label: 'Google Mediapipe Pose Detection',
+                  viewPage: PoseDetectorView(),
+                  imageUrl: 'assets/images/custom_card/mediapipe.png',
+                ),
+                const CustomCard(
+                  label: 'Openpose Realtime Pose Detection',
+                  viewPage: OpenPoseRealtime(),
+                  imageUrl: 'assets/images/custom_card/openpose.png',
+                ),
+                const CustomCard(
+                  label: 'Openpose Image Pose Detection',
+                  viewPage: OpenPoseImg(),
+                  imageUrl: 'assets/images/custom_card/openpose.png',
+                ),
+                const CustomCard(
+                  label: 'Posenet Pose Detection',
+                  viewPage: Posenet(),
+                  imageUrl: 'assets/images/custom_card/posenet.png',
+                ),
+                const CustomCard(
+                  label: 'OpenSim Inverse Kinematics',
+                  viewPage: TRCProcessor(),
+                  imageUrl: 'assets/images/custom_card/opensim.png',
+                ),
+                const CustomCard(
+                  label: 'Ankle Instability Assessment',
+                  viewPage: InstabilityDetector(),
+                  imageUrl: 'assets/images/custom_card/ankle_instability.png',
+                ),
+              ];
+
+              return cards[index]; // Return the CustomCard based on the index
+            },
           ),
         ),
       ),

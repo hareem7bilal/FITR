@@ -1,0 +1,6 @@
+projectKey=FITR
+serverUrl=http://localhost:9000
+serverVersion=10.5.1.90531
+dashboardUrl=http://localhost:9000/dashboard?id=FITR
+ceTaskId=eeff854c-6da6-4fa9-9d2d-2a0569794201
+ceTaskUrl=http://localhost:9000/api/ce/task?id=eeff854c-6da6-4fa9-9d2d-2a0569794201

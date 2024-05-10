@@ -1,0 +1,1 @@
+ 2xmlXhr+android/app/src/profile/AndroidManifest.xml

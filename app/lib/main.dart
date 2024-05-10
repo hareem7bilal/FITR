@@ -1,6 +1,7 @@
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:workout_repository/workout_repository.dart';
 import 'app.dart';
 import 'firebase_options.dart';
 import 'package:flutter/services.dart';
@@ -23,5 +24,5 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   // Pass the instance of Firestore to your app if needed
-  runApp(MyApp(FirebaseUserRepository()));
+  runApp(MyApp(FirebaseUserRepository(), FirebaseWorkoutRepository()));
 }

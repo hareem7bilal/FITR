@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../mocks/mock.mocks.dart'; // Adjust this path as needed
+import '../mocks/firebase_mock.mocks.dart'; // Adjust this path as needed
 
 void main() {
   late MockFirebaseAuth mockFirebaseAuth;
