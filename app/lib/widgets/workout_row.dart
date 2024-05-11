@@ -41,7 +41,7 @@ class WorkoutRow extends StatelessWidget {
                 ),
 
                 Text(
-                  "${ wObj["kcal"].toString() } Calories Burn | ${wObj["time"].toString()}minutes",
+                  "${ wObj["kcal"].toInt().toString() } kcal burn | ${wObj["time"].toString()}",
                   style: TextStyle(
                       color: TColor.grey,
                       fontSize: 10,),
@@ -54,7 +54,7 @@ class WorkoutRow extends StatelessWidget {
                   width: media.width * 0.5,
                   backgroundColor: Colors.grey.shade100,
                   foregrondColor: Colors.purple,
-                  ratio: wObj["progress"] as double? ?? 0.0,
+                  ratio: wObj["difficulty"] as double? ?? 0.0,
                   direction: Axis.horizontal,
                   curve: Curves.fastLinearToSlowEaseIn,
                   duration: const Duration(seconds: 3),

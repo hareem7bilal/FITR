@@ -132,7 +132,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                                       fontWeight: FontWeight.w700),
                                 ),
                                 Text(
-                                  "${widget.workout.numberOfExercises} Exercises | Duration: ${widget.workout.duration} | ${widget.workout.kcal ?? 0 * 1000} Calories Burn",
+                                  "${widget.workout.numberOfExercises} Exercises | Duration: ${widget.workout.duration} | ${widget.workout.kcal?.toInt()} kcal burn",
                                   style: TextStyle(
                                       color: TColor.grey, fontSize: 12),
                                 ),

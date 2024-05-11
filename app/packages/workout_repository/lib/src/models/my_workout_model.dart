@@ -175,7 +175,9 @@ class MyWorkoutModel extends Equatable {
       'video': video,
       'numberOfExercises': numberOfExercises,
       'itemsNeeded': itemsNeeded,
-      'sets': sets.map((s) => s.toMap()).toList(), // Ensure each WorkoutSet has its own toMap
+      'sets': sets
+          .map((s) => s.toMap())
+          .toList(), // Ensure each WorkoutSet has its own toMap
     };
   }
 
@@ -243,10 +245,20 @@ class MyWorkoutModel extends Equatable {
       description: data['description'] as String? ?? '',
       time: data['time'] as Timestamp? ?? Timestamp.now(),
       duration: data['duration'] as String? ?? '',
-      progress: (data['progress'] as num?)?.toDouble() ?? 0.0,
-      difficultyLevel: (data['difficultyLevel'] as num?)?.toDouble() ?? 0.0,
+      progress: (data['progress'] is num)
+          ? (data['progress'] as num).toDouble()
+          : (data['progress'] is int)
+              ? (data['progress'] as int).toDouble()
+              : 0.0,
+      difficultyLevel: (data['difficultyLevel'] is num)
+          ? (data['difficultyLevel'] as num).toDouble()
+          : (data['difficultyLevel'] is int)
+              ? (data['difficultyLevel'] as int).toDouble()
+              : 0.0,
       date: (data['date'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      numberOfExercises: (data['numberOfExercises'] as int?) ?? 0,
+      numberOfExercises: (data['numberOfExercises'] is int)
+          ? (data['numberOfExercises'] as int)
+          : 0,
       image: data['image'] as String?,
       kcal: num.tryParse(data['kcal']?.toString() ?? '0')?.toDouble(),
       customReps: data['customReps'] as int?,

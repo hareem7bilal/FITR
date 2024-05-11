@@ -14,6 +14,7 @@ import 'package:user_repository/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:universal_io/io.dart' as uni;
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_application_1/views/login/login_view.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -145,6 +146,26 @@ class _ProfileViewState extends State<ProfileView> {
     return await snapshot.ref.getDownloadURL();
   }
 
+  void signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      // Navigate to the sign-in page or any other page after sign-out
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginView()),
+        );
+      });
+    } catch (e) {
+      // Handle sign-out errors
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error signing out: $e')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -196,7 +217,8 @@ class _ProfileViewState extends State<ProfileView> {
                     user.program ?? "Not Specified",
                     positive,
                     togglePositive,
-                    buildAvatar));
+                    buildAvatar,
+                    signOut));
           }
           return const Center(child: CircularProgressIndicator());
         }));
@@ -215,16 +237,18 @@ String calculateAge(DateTime dob) {
 }
 
 Widget buildUserProfile(
-    BuildContext context,
-    String name,
-    String height,
-    String weight,
-    String age,
-    String? profileImage,
-    String program,
-    bool positive,
-    void Function() togglePositive,
-    Widget Function(String?) buildAvatar) {
+  BuildContext context,
+  String name,
+  String height,
+  String weight,
+  String age,
+  String? profileImage,
+  String program,
+  bool positive,
+  void Function() togglePositive,
+  Widget Function(String?) buildAvatar,
+  VoidCallback onSignOut,
+) {
   List accountArr = [
     {
       "image": "assets/images/icons/profile.png",
@@ -268,215 +292,242 @@ Widget buildUserProfile(
 
   return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Row(
-          children: [
-            buildAvatar(profileImage),
-            const SizedBox(
-              width: 15,
-            ),
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                      color: TColor.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500),
-                ),
-                Text("$program Program",
-                    style: TextStyle(
-                      color: TColor.grey,
-                      fontSize: 12,
-                    ))
-              ],
-            )),
-            SizedBox(
-              width: 70,
-              height: 25,
-              child: RoundButton(
-                title: "Edit",
-                type: RoundButtonType.bgGradient,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CompleteProfileView(),
-                    ),
-                  );
-                }, elevation: 0.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              buildAvatar(profileImage),
+              const SizedBox(
+                width: 15,
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 15),
-        Row(
-          children: [
-            Expanded(
-                child: TitleSubtitleCell(title: height, subtitle: "Height")),
-            const SizedBox(width: 15),
-            Expanded(
-                child: TitleSubtitleCell(title: weight, subtitle: "Weight")),
-            const SizedBox(width: 15),
-            Expanded(child: TitleSubtitleCell(title: age, subtitle: "Age")),
-          ],
-        ),
-        const SizedBox(height: 25),
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            decoration: BoxDecoration(
-                color: TColor.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black12, blurRadius: 2)
-                ]),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text("Account",
-                  style: TextStyle(
-                      color: TColor.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: accountArr.length,
-                  itemBuilder: (context, index) {
-                    var iObj = accountArr[index] as Map? ?? {};
-                    return SettingRow(
-                        icon: iObj["image"].toString(),
-                        title: iObj["name"].toString(),
-                        onPressed: () {});
-                  })
-            ])),
-        const SizedBox(height: 25),
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            decoration: BoxDecoration(
-                color: TColor.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black12, blurRadius: 2)
-                ]),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text("Notifications",
-                  style: TextStyle(
-                      color: TColor.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(
+                        color: TColor.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Text("$program Program",
+                      style: TextStyle(
+                        color: TColor.grey,
+                        fontSize: 12,
+                      ))
+                ],
+              )),
               SizedBox(
-                height: 30,
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/icons/notification.png",
-                        width: 15,
-                        height: 15,
-                        fit: BoxFit.contain,
+                width: 70,
+                height: 25,
+                child: RoundButton(
+                  title: "Edit",
+                  type: RoundButtonType.bgGradient,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CompleteProfileView(),
                       ),
-                      const SizedBox(width: 25),
-                      Expanded(
-                        child: Text("Pop-up Notifications",
-                            style: TextStyle(
-                              color: TColor.black,
-                              fontSize: 12,
-                            )),
-                      ),
-                      CustomAnimatedToggleSwitch<bool>(
-                        current: positive,
-                        values: const [false, true],
-                        spacing: 0.0,
-                        indicatorSize: const Size.square(30.0),
-                        animationDuration: const Duration(milliseconds: 200),
-                        animationCurve: Curves.linear,
-                        onChanged: (b) => togglePositive(),
-                        iconBuilder: (context, local, global) {
-                          return const SizedBox();
-                        },
-                        cursors: const ToggleCursors(
-                            defaultCursor: SystemMouseCursors.click),
-                        onTap: (_) => togglePositive(),
-                        iconsTappable: false,
-                        wrapperBuilder: (context, global, child) {
-                          return Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Positioned(
-                                  left: 10.0,
-                                  right: 10.0,
-                                  height: 30.0,
+                    );
+                  },
+                  elevation: 0.0,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 15),
+          Row(
+            children: [
+              Expanded(
+                  child: TitleSubtitleCell(title: height, subtitle: "Height")),
+              const SizedBox(width: 15),
+              Expanded(
+                  child: TitleSubtitleCell(title: weight, subtitle: "Weight")),
+              const SizedBox(width: 15),
+              Expanded(child: TitleSubtitleCell(title: age, subtitle: "Age")),
+            ],
+          ),
+          const SizedBox(height: 25),
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              decoration: BoxDecoration(
+                  color: TColor.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.black12, blurRadius: 2)
+                  ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Account",
+                        style: TextStyle(
+                            color: TColor.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 8),
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: accountArr.length,
+                        itemBuilder: (context, index) {
+                          var iObj = accountArr[index] as Map? ?? {};
+                          return SettingRow(
+                              icon: iObj["image"].toString(),
+                              title: iObj["name"].toString(),
+                              onPressed: () {});
+                        })
+                  ])),
+          const SizedBox(height: 25),
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              decoration: BoxDecoration(
+                  color: TColor.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.black12, blurRadius: 2)
+                  ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Notifications",
+                        style: TextStyle(
+                            color: TColor.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 30,
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/icons/notification.png",
+                              width: 15,
+                              height: 15,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(width: 25),
+                            Expanded(
+                              child: Text("Pop-up Notifications",
+                                  style: TextStyle(
+                                    color: TColor.black,
+                                    fontSize: 12,
+                                  )),
+                            ),
+                            CustomAnimatedToggleSwitch<bool>(
+                              current: positive,
+                              values: const [false, true],
+                              spacing: 0.0,
+                              indicatorSize: const Size.square(30.0),
+                              animationDuration:
+                                  const Duration(milliseconds: 200),
+                              animationCurve: Curves.linear,
+                              onChanged: (b) => togglePositive(),
+                              iconBuilder: (context, local, global) {
+                                return const SizedBox();
+                              },
+                              cursors: const ToggleCursors(
+                                  defaultCursor: SystemMouseCursors.click),
+                              onTap: (_) => togglePositive(),
+                              iconsTappable: false,
+                              wrapperBuilder: (context, global, child) {
+                                return Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Positioned(
+                                        left: 10.0,
+                                        right: 10.0,
+                                        height: 30.0,
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                                colors: TColor.secondaryG),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(50.0)),
+                                          ),
+                                        )),
+                                    child,
+                                  ],
+                                );
+                              },
+                              foregroundIndicatorBuilder: (context, global) {
+                                return SizedBox.fromSize(
+                                  size: const Size(10, 10),
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          colors: TColor.secondaryG),
+                                      color: TColor.white,
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(50.0)),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.black38,
+                                            spreadRadius: 0.05,
+                                            blurRadius: 1.1,
+                                            offset: Offset(0.0, 0.8))
+                                      ],
                                     ),
-                                  )),
-                              child,
-                            ],
-                          );
-                        },
-                        foregroundIndicatorBuilder: (context, global) {
-                          return SizedBox.fromSize(
-                            size: const Size(10, 10),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: TColor.white,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(50.0)),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Colors.black38,
-                                      spreadRadius: 0.05,
-                                      blurRadius: 1.1,
-                                      offset: Offset(0.0, 0.8))
-                                ],
-                              ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
-                    ]),
+                          ]),
+                    ),
+                  ])),
+          const SizedBox(height: 25),
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              decoration: BoxDecoration(
+                  color: TColor.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.black12, blurRadius: 2)
+                  ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Other",
+                        style: TextStyle(
+                            color: TColor.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 8),
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemCount: otherArr.length,
+                        itemBuilder: (context, index) {
+                          var iObj = otherArr[index] as Map? ?? {};
+                          return SettingRow(
+                              icon: iObj["image"].toString(),
+                              title: iObj["name"].toString(),
+                              onPressed: () {});
+                        })
+                  ])),
+          const SizedBox(height: 25),
+          SizedBox(
+            width: 10,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    foregroundColor:
+                        TColor.white, //change background color of button
+                    backgroundColor:
+                        TColor.primaryColor2, //change text color of button
+                    textStyle:
+                        TextStyle(color: TColor.white)), // Set the text color
+                onPressed: onSignOut,
+                child: const Text('Sign Out'),
               ),
-            ])),
-        const SizedBox(height: 25),
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            decoration: BoxDecoration(
-                color: TColor.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black12, blurRadius: 2)
-                ]),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text("Other",
-                  style: TextStyle(
-                      color: TColor.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemCount: otherArr.length,
-                  itemBuilder: (context, index) {
-                    var iObj = otherArr[index] as Map? ?? {};
-                    return SettingRow(
-                        icon: iObj["image"].toString(),
-                        title: iObj["name"].toString(),
-                        onPressed: () {});
-                  })
-            ])),
-      ]));
+            ),
+          ),
+        ],
+      ));
 }

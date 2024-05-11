@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_application_1/utils/color_extension.dart';
 
 class IconTitleNextRow extends StatelessWidget {
@@ -63,10 +62,10 @@ class IconTitleNextRow extends StatelessWidget {
                       controller: textEditingController,
                       focusNode: focusNode,
                       decoration: const InputDecoration(
-                        hintText: 'Enter here',
+                        hintText: 'Enter',
                         border: InputBorder.none,
                       ),
-                      style: TextStyle(color: TColor.grey, fontSize: 12),
+                      style: TextStyle(color: TColor.primaryColor1, fontSize: 11),
                       textAlign: TextAlign.right,
                     ),
             ),

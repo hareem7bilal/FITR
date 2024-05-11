@@ -10,10 +10,10 @@ import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'activity_tracker_view.dart';
-import 'finished_workout_view.dart';
 import 'package:flutter_application_1/views/login/login_view.dart';
+import 'package:flutter_application_1/views/workout_tracker/workout_detail_view.dart';
 import 'notification_view.dart';
-
+import 'package:flutter_application_1/blocs/workout_bloc/workout_bloc.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -27,6 +27,11 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     fetchCurrentUserData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      BlocProvider.of<WorkoutBloc>(context, listen: false)
+          .add(GetWorkouts(userId));
+    });
   }
 
   void fetchCurrentUserData() {
@@ -47,27 +52,50 @@ class _HomeViewState extends State<HomeView> {
 
   List lastWorkoutArr = [
     {
-      "name": "Yoga WorkOut",
-      "image": "assets/images/workouts/workout1.png",
-      "kcal": "180",
-      "time": "20",
-      "progress": 0.3
+      "name": "Yoga",
+      "image": "assets/images/workouts/workout10.png",
+      "kcal": "150",
+      "time": "30",
+      "difficulty": 0.2
     },
     {
-      "name": "Pilates Workout",
+      "name": "Pilates",
       "image": "assets/images/workouts/workout2.png",
-      "kcal": "200",
-      "time": "30",
-      "progress": 0.4
+      "kcal": "180",
+      "time": "35",
+      "difficulty": 0.3
     },
     {
       "name": "Dynamic Stretching",
-      "image": "assets/images/workouts/workout3.png",
-      "kcal": "300",
+      "image": "assets/images/workouts/workout11.png",
+      "kcal": "200",
       "time": "40",
-      "progress": 0.7
+      "difficulty": 0.4
     },
+    {
+      "name": "Leg Strengthening",
+      "image": "assets/images/workouts/workout3.png",
+      "kcal": "250",
+      "time": "45",
+      "difficulty": 0.6
+    },
+    {
+      "name": "Balance Training",
+      "image": "assets/images/workouts/workout9.png",
+      "kcal": "220",
+      "time": "40",
+      "difficulty": 0.5
+    },
+    {
+      "name": "Ankle Mobility Training",
+      "image": "assets/images/workouts/workout12.png",
+      "kcal": "180",
+      "time": "25",
+      "difficulty": 0.4
+    },
+    // Add more workouts as needed
   ];
+
   List<int> showingTooltipOnSpots = [21];
 
   List<FlSpot> get allSpots => const [
@@ -157,9 +185,10 @@ class _HomeViewState extends State<HomeView> {
                           "Welcome Back,",
                           style: TextStyle(color: TColor.grey, fontSize: 12),
                         ),
-                         BlocBuilder<UserBloc, UserState>(
+                        BlocBuilder<UserBloc, UserState>(
                           builder: (context, state) {
-                            if (state.status == UserStatus.success && state.user != null) {
+                            if (state.status == UserStatus.success &&
+                                state.user != null) {
                               return Text(
                                 "${state.user!.firstName} ${state.user!.lastName}",
                                 style: TextStyle(
@@ -243,11 +272,13 @@ class _HomeViewState extends State<HomeView> {
                                   width: 120,
                                   height: 35,
                                   child: RoundButton(
-                                      title: "View More",
-                                      type: RoundButtonType.bgGradient,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      onPressed: () {}, elevation: 0.0,))
+                                    title: "View More",
+                                    type: RoundButtonType.bgGradient,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    onPressed: () {},
+                                    elevation: 0.0,
+                                  ))
                             ],
                           ),
                           AspectRatio(
@@ -309,7 +340,8 @@ class _HomeViewState extends State<HomeView> {
                                     const ActivityTrackerView(),
                               ),
                             );
-                          }, elevation: 0.0,
+                          },
+                          elevation: 0.0,
                         ),
                       )
                     ],
@@ -480,7 +512,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Expanded(
                       child: Container(
-                        height: media.width * 0.95,
+                        height: media.width * 0.955,
                         padding: const EdgeInsets.symmetric(
                             vertical: 25, horizontal: 20),
                         decoration: BoxDecoration(
@@ -535,7 +567,7 @@ class _HomeViewState extends State<HomeView> {
                                     style: TextStyle(
                                         color: TColor.white.withOpacity(0.7),
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 14),
+                                        fontSize: 12),
                                   ),
                                 ),
                                 const SizedBox(
@@ -647,9 +679,9 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         Container(
                           width: double.maxFinite,
-                          height: media.width * 0.45,
+                          height: media.width * 0.438,
                           padding: const EdgeInsets.symmetric(
-                              vertical: 25, horizontal: 20),
+                              vertical: 20, horizontal: 20),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(25),
@@ -660,7 +692,7 @@ class _HomeViewState extends State<HomeView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "hm",
+                                  "Flow",
                                   style: TextStyle(
                                       color: TColor.black,
                                       fontSize: 12,
@@ -681,11 +713,12 @@ class _HomeViewState extends State<HomeView> {
                                     style: TextStyle(
                                         color: TColor.white.withOpacity(0.7),
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 14),
+                                        fontSize: 12),
                                   ),
                                 ),
-                                const Spacer(),
-                                Image.asset("assets/images/graphs/sleep_graph.png",
+                                //const Spacer(),
+                                Image.asset(
+                                    "assets/images/graphs/sleep_graph.png",
                                     width: double.maxFinite,
                                     fit: BoxFit.fitWidth)
                               ]),
@@ -695,9 +728,9 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         Container(
                           width: double.maxFinite,
-                          height: media.width * 0.45,
+                          height: media.width * 0.437,
                           padding: const EdgeInsets.symmetric(
-                              vertical: 25, horizontal: 20),
+                              vertical: 20, horizontal: 20),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(25),
@@ -729,7 +762,7 @@ class _HomeViewState extends State<HomeView> {
                                     style: TextStyle(
                                         color: TColor.white.withOpacity(0.7),
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 14),
+                                        fontSize: 12),
                                   ),
                                 ),
                                 const Spacer(),
@@ -786,7 +819,7 @@ class _HomeViewState extends State<HomeView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "workout Progress",
+                      "Progress",
                       style: TextStyle(
                           color: TColor.black,
                           fontSize: 16,
@@ -946,7 +979,7 @@ class _HomeViewState extends State<HomeView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Latest Workout",
+                      "Suggested",
                       style: TextStyle(
                           color: TColor.black,
                           fontSize: 16,
@@ -964,25 +997,50 @@ class _HomeViewState extends State<HomeView> {
                     )
                   ],
                 ),
-                ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: lastWorkoutArr.length,
-                    itemBuilder: (context, index) {
-                      var wObj = lastWorkoutArr[index] as Map? ?? {};
-                      return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const FinishedWorkoutView(),
-                              ),
-                            );
-                          },
-                          child: WorkoutRow(wObj: wObj));
-                    }),
+                BlocBuilder<WorkoutBloc, WorkoutState>(
+                  builder: (context, state) {
+                    if (state is WorkoutLoaded) {
+                      var workoutArr = state.workouts;
+                      var filteredWorkouts = workoutArr
+                          .where((workout) =>
+                              workout.allowedUserIds.contains('standard'))
+                          .toList();
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: filteredWorkouts.length,
+                        itemBuilder: (context, index) {
+                          final workout = filteredWorkouts[index];
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WorkoutDetailView(
+                                      workout:
+                                          workout), // Assuming FinishedWorkoutView is a StatefulWidget
+                                ),
+                              );
+                            },
+                            child: WorkoutRow(
+                              wObj: {
+                                "name": workout.name,
+                                "image": workout.image,
+                                "kcal": workout.kcal,
+                                "time": workout.duration,
+                                "difficulty": workout.difficultyLevel / 5
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      // Handle other states if needed
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
                 SizedBox(
                   height: media.width * 0.1,
                 ),

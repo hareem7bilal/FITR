@@ -235,8 +235,27 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
               debugPrint("Workout Exercises: ${workout.sets}");
               // Add more details as necessary
             }
-            final sortedWorkouts = List.from(state.workouts);
-            sortedWorkouts.sort((a, b) => a.time.compareTo(b.time));
+
+            // Get the current date and time
+            final now = DateTime.now();
+
+// Filter the workouts where the time is greater than the current time
+            final filteredWorkouts = state.workouts.where((workout) {
+              // Convert Timestamp to DateTime using toDate()
+              final workoutTime = workout.time.toDate();
+              return workoutTime.isAfter(now);
+            }).toList();
+
+// Sort the filtered workouts by time
+            filteredWorkouts.sort((a, b) {
+              // Convert Timestamp to DateTime using toDate()
+              final timeA = a.time.toDate();
+              final timeB = b.time.toDate();
+              return timeA.compareTo(timeB);
+            });
+
+// Use the filtered and sorted workouts
+            final sortedWorkouts = List.from(filteredWorkouts);
 
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -354,8 +373,10 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                               "image": workout.image,
                               "title": workout.name,
                               "duration": workout.duration,
-                              "time": DateFormat('MMMM d, ').format(workout.date)+DateFormat('h:mm a').format(workout.time
-                            .toDate()),
+                              "time":
+                                  DateFormat('MMMM d, ').format(workout.date) +
+                                      DateFormat('h:mm a')
+                                          .format(workout.time.toDate()),
                             });
                           }),
                       SizedBox(
@@ -397,7 +418,9 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                                   "title": workout.name,
                                   "exercises":
                                       "${workout.numberOfExercises} Exercises",
-                                  "time": workout.duration
+                                  "time": workout.duration,
+                                  "isStandard": workout.allowedUserIds
+                                      .contains("standard"),
                                 }));
                           }),
                       SizedBox(

@@ -118,6 +118,7 @@ class WhatTrainRow extends StatelessWidget {
               ],
             ),
           ),
+           if (!wObj["isStandard"])
           Positioned(
             top: 5,
             right: 5,

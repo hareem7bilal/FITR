@@ -155,12 +155,11 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
                   height: 15,
                 )),
             weekDay: WeekDay.short,
-            backgroundColor: Colors.transparent,
             calendarBackground: Colors.grey.withOpacity(0.15),
             // fullCalendar: false,
             fullCalendarScroll: FullCalendarScroll.horizontal,
             fullCalendarDay: WeekDay.short,
-            selectedDateColor: Colors.white,
+            selectedDateColor: TColor.primaryColor1,
             dateColor: Colors.black,
             locale: 'en',
             initialDate: DateTime.now(),
@@ -171,7 +170,6 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
               _selectedDateAppBBar = date;
               setDayEventWorkoutList();
             },
-            selectedDayLogo: const AssetImage(""), // Use your actual logo asset
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -410,7 +408,7 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
           width: 55,
           height: 55,
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: TColor.secondaryG),
+              gradient: LinearGradient(colors: TColor.primaryG),
               borderRadius: BorderRadius.circular(27.5),
               boxShadow: const [
                 BoxShadow(

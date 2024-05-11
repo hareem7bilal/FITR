@@ -255,18 +255,19 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                foregroundColor: const Color.fromARGB(
-                    255, 155, 137, 222), //change background color of button
-                backgroundColor: TColor.white, //change text color of button
+                foregroundColor:
+                    TColor.white, //change background color of button
+                backgroundColor: const Color.fromARGB(
+                    255, 204, 38, 26), //change text color of button
                 textStyle: TextStyle(color: TColor.white), // Set the text color
               ),
               child: const Text('Cancel'),
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: const Color.fromARGB(
-                      255, 155, 137, 222), //change background color of button
-                  backgroundColor: TColor.white, //change text color of button
+                  foregroundColor: TColor
+                      .white, //change background color of button//change background color of button
+                  backgroundColor: TColor.primaryColor1,
                   textStyle:
                       TextStyle(color: TColor.white), // Set the text color
                 ),
@@ -346,9 +347,9 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
       child: ElevatedButton(
           onPressed: _addSet,
           style: ElevatedButton.styleFrom(
-            foregroundColor: const Color.fromARGB(
-                255, 155, 137, 222), //change background color of button
-            backgroundColor: TColor.white, //change text color of button
+            foregroundColor: TColor
+                .white, //change background color of button//change background color of button
+            backgroundColor: TColor.primaryColor1,
             textStyle: TextStyle(color: TColor.white), // Set the text color
           ),
           child: const Text('Add Set')),
@@ -439,7 +440,7 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
                 color: TColor.black, fontSize: 14, fontWeight: FontWeight.w500),
           ),
           SizedBox(
-            height: 120, // Fixed height for the date picker
+            height: 110, // Fixed height for the date picker
             //height: media.width * 0.35,
             child: CupertinoDatePicker(
               onDateTimeChanged: (newTime) {
@@ -458,6 +459,8 @@ class _AddScheduleViewState extends State<_AddScheduleViewStateful> {
               use24hFormat: false,
               minuteInterval: 1,
               mode: CupertinoDatePickerMode.time,
+              backgroundColor:
+                  const Color.fromARGB(255, 207, 216, 253), // Background color
             ),
           ),
           const SizedBox(
