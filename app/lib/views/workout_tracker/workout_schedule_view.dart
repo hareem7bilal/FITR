@@ -4,11 +4,14 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/utils/common.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/views/workout_tracker/add_schedule.dart';
+import 'package:flutter_application_1/views/workout_tracker/update_schedule.dart';
+import 'package:workout_repository/workout_repository.dart';
 
 class WorkoutScheduleView extends StatefulWidget {
-  const WorkoutScheduleView({
-    super.key,
-  });
+  final bool update;
+  final MyWorkoutModel? workout;
+
+  const WorkoutScheduleView({super.key, required this.update, this.workout});
 
   @override
   State<WorkoutScheduleView> createState() => _WorkoutScheduleViewState();
@@ -400,9 +403,14 @@ class _WorkoutScheduleViewState extends State<WorkoutScheduleView> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => AddScheduleView(
-                        date: _selectedDateAppBBar,
-                      )));
+                  builder: (context) => widget.update
+                      ? UpdateScheduleView(
+                          date: _selectedDateAppBBar,
+                          workout: widget.workout!,
+                        ):AddScheduleView(
+                          date: _selectedDateAppBBar,
+                        )));
+                      
         },
         child: Container(
           width: 55,

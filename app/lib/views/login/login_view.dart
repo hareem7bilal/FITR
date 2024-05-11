@@ -46,18 +46,14 @@ class _LoginView extends State<LoginView> {
         child: SingleChildScrollView(
           child: SafeArea(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20,  vertical: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Hey there,",
-                    style: TextStyle(color: TColor.grey, fontSize: 16),
-                  ),
-                  Text(
                     "Welcome back",
                     style: TextStyle(
-                      color: TColor.black,
+                      color: TColor.primaryColor1,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
@@ -149,7 +145,7 @@ class _LoginView extends State<LoginView> {
                       Text(
                         "Register",
                         style: TextStyle(
-                          color: TColor.black,
+                          color: TColor.primaryColor1,
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),

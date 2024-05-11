@@ -29,7 +29,7 @@ class FirebaseWorkoutRepository implements WorkoutRepository {
   Future<void> updateWorkout(MyWorkoutModel workout) async {
     try {
       await _workoutsCollection
-          .doc(workout.name)
+          .doc(workout.id)
           .update(workout.toEntity().toDocument());
     } catch (e) {
       log("Failed to update workout: ${e.toString()}");

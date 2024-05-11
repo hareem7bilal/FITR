@@ -155,7 +155,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                       ),
                       IconTitleNextRow(
                         icon: "assets/images/icons/calender.png",
-                        title: "Schedule Workout",
+                        title: "Update Schedule",
                         time: DateFormat('EEEE, MMMM d, ').format(widget
                             .workout.date)+DateFormat('h:mm a').format(widget
                             .workout.time
@@ -166,7 +166,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const WorkoutScheduleView()),
+                                    WorkoutScheduleView(update:true, workout: widget.workout)),
                           );
                         },
                       ),

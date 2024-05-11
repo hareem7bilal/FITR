@@ -65,7 +65,7 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
               // pinned: true,
               leading: InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                 },
                 child: Container(
                   margin: const EdgeInsets.all(8),
@@ -335,7 +335,7 @@ class _WorkoutTrackerScreenState extends State<WorkoutTrackerScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const WorkoutScheduleView()));
+                                        const WorkoutScheduleView(update:false)));
                           }),
                       SizedBox(
                         height: media.width * 0.05,

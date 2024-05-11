@@ -17,7 +17,7 @@ class OnboardingPage extends StatelessWidget {
           children: [
             Image.asset(pObj["image"].toString(),
                 width: media.width,
-                height: media.height * 0.65,
+                height: media.height * 0.55,
                 fit: BoxFit.fitWidth),
             SizedBox(height: media.width * 0.1),
             Padding(

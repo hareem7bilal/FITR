@@ -205,7 +205,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                 height: 4,
               ),
               Text(
-                "Easy | 390 Calories Burn",
+                "Easy | 390 kcal burn",
                 style: TextStyle(
                   color: TColor.grey,
                   fontSize: 12,

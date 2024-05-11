@@ -60,7 +60,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                       width: media.width,
                       fit: BoxFit.fitWidth),
                   SizedBox(height: media.width * 0.05),
-                  Text("Let's Update Your Profile",
+                  Text("Update Your Profile",
                       style: TextStyle(
                           color: TColor.black,
                           fontSize: 20,

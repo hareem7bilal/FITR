@@ -50,52 +50,6 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  List lastWorkoutArr = [
-    {
-      "name": "Yoga",
-      "image": "assets/images/workouts/workout10.png",
-      "kcal": "150",
-      "time": "30",
-      "difficulty": 0.2
-    },
-    {
-      "name": "Pilates",
-      "image": "assets/images/workouts/workout2.png",
-      "kcal": "180",
-      "time": "35",
-      "difficulty": 0.3
-    },
-    {
-      "name": "Dynamic Stretching",
-      "image": "assets/images/workouts/workout11.png",
-      "kcal": "200",
-      "time": "40",
-      "difficulty": 0.4
-    },
-    {
-      "name": "Leg Strengthening",
-      "image": "assets/images/workouts/workout3.png",
-      "kcal": "250",
-      "time": "45",
-      "difficulty": 0.6
-    },
-    {
-      "name": "Balance Training",
-      "image": "assets/images/workouts/workout9.png",
-      "kcal": "220",
-      "time": "40",
-      "difficulty": 0.5
-    },
-    {
-      "name": "Ankle Mobility Training",
-      "image": "assets/images/workouts/workout12.png",
-      "kcal": "180",
-      "time": "25",
-      "difficulty": 0.4
-    },
-    // Add more workouts as needed
-  ];
-
   List<int> showingTooltipOnSpots = [21];
 
   List<FlSpot> get allSpots => const [
@@ -171,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -181,10 +135,7 @@ class _HomeViewState extends State<HomeView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Welcome Back,",
-                          style: TextStyle(color: TColor.grey, fontSize: 12),
-                        ),
+                       
                         BlocBuilder<UserBloc, UserState>(
                           builder: (context, state) {
                             if (state.status == UserStatus.success &&

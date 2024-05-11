@@ -93,18 +93,14 @@ class _SignupView extends State<SignupView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Hey there,",
-                  style: TextStyle(color: TColor.grey, fontSize: 16),
-                ),
-                Text(
-                  "Create an Account",
+                  "Create Account",
                   style: TextStyle(
-                    color: TColor.black,
+                    color: TColor.primaryColor1,
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
@@ -248,7 +244,7 @@ class _SignupView extends State<SignupView> {
                       Text(
                         "Login",
                         style: TextStyle(
-                          color: TColor.black,
+                          color: TColor.primaryColor1,
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
