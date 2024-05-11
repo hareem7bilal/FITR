@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter_application_1/utils/color_extension.dart';
-//import 'package:flutter_application_1/views/instability_assessment.dart';
-import 'package:flutter_application_1/views/main_tab/main_tab_view.dart';
+//import 'package:flutter_application_1/views/main_tab/main_tab_view.dart';
 import 'package:flutter_application_1/views/onboarding/starting_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,8 +21,8 @@ class AppView extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state.status == AuthenticationStatus.authenticated) {
-            return const MainTabView();
-            //return const StartingView();
+            //return const MainTabView();
+            return const StartingView();
           } else {
             return const StartingView();
           }
