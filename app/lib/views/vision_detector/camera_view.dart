@@ -3,6 +3,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
+import 'dart:async';
+import 'package:flutter_application_1/views/home/finished_workout_view.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView(
@@ -12,7 +14,8 @@ class CameraView extends StatefulWidget {
       this.onCameraFeedReady,
       this.onDetectorViewModeChanged,
       this.onCameraLensDirectionChanged,
-      this.initialCameraLensDirection = CameraLensDirection.back});
+      this.initialCameraLensDirection = CameraLensDirection.back,
+      this.duration});
 
   final CustomPaint? customPaint;
   final Function(InputImage inputImage) onImage;
@@ -20,6 +23,7 @@ class CameraView extends StatefulWidget {
   final VoidCallback? onDetectorViewModeChanged;
   final Function(CameraLensDirection direction)? onCameraLensDirectionChanged;
   final CameraLensDirection initialCameraLensDirection;
+  final int? duration;
 
   @override
   State<CameraView> createState() => _CameraViewState();
@@ -36,12 +40,34 @@ class _CameraViewState extends State<CameraView> {
   double _maxAvailableExposureOffset = 0.0;
   double _currentExposureOffset = 0.0;
   bool _changingCameraLens = false;
+  late Timer _timer;
+  int _remainingSeconds = 0;
 
   @override
   void initState() {
     super.initState();
-
     _initialize();
+    if (widget.duration != null) {
+      _startTimer();
+    }
+  }
+
+  void _startTimer() {
+    _remainingSeconds = widget.duration! * 60;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_remainingSeconds > 0) {
+          _remainingSeconds--;
+        } else {
+          timer.cancel();
+          // Navigate to a new page when the timer ends
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+                builder: (context) => const FinishedWorkoutView()),
+          );
+        }
+      });
+    });
   }
 
   void _initialize() async {
@@ -61,14 +87,16 @@ class _CameraViewState extends State<CameraView> {
 
   @override
   void dispose() {
+    _timer.cancel();
     _stopLiveFeed();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _liveFeedBody());
+    return _liveFeedBody();
   }
+
 
   Widget _liveFeedBody() {
     if (_cameras.isEmpty) return Container();
@@ -81,8 +109,8 @@ class _CameraViewState extends State<CameraView> {
         children: <Widget>[
           Center(
             child: _changingCameraLens
-                ? const Center(
-                    child: Text('Changing camera lens'),
+                ? Center(
+                    child: Container()//Text('Changing camera lens'),
                   )
                 : CameraPreview(
                     _controller!,
@@ -191,10 +219,13 @@ class _CameraViewState extends State<CameraView> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
-                      child: Text(
+                      child: Container()
+                      
+                      /*Text(
                         '${_currentZoomLevel.toStringAsFixed(1)}x',
                         style: const TextStyle(color: Colors.white),
-                      ),
+                      ),*/
+                      
                     ),
                   ),
                 ),
@@ -221,10 +252,11 @@ class _CameraViewState extends State<CameraView> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
-                  child: Text(
+                  child: /*Text(
                     '${_currentExposureOffset.toStringAsFixed(1)}x',
                     style: const TextStyle(color: Colors.white),
-                  ),
+                  ),*/
+                  Container()
                 ),
               ),
             ),

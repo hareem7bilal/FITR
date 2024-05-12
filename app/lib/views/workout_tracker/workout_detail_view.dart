@@ -1,6 +1,5 @@
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/widgets/icon_title_next_row.dart';
-import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/views/workout_tracker/exercise_step_details.dart';
 import 'package:workout_repository/workout_repository.dart';
 import 'package:flutter_application_1/views/workout_tracker/workout_schedule_view.dart';
@@ -99,9 +98,7 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                   topLeft: Radius.circular(25), topRight: Radius.circular(25))),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: Stack(
-              children: [
-                SingleChildScrollView(
+            body: SingleChildScrollView(
                   child: Column(
                     children: [
                       const SizedBox(
@@ -280,21 +277,9 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
                     ],
                   ),
                 ),
-                SafeArea(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      RoundButton(
-                        title: "Start Workout",
-                        onPressed: () {},
-                        elevation: 0.0,
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+               
+              
+            
           ),
         ),
       ),

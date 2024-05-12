@@ -59,8 +59,10 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   simple_circular_progress_bar: ^1.0.2
   web_socket_channel: ^2.4.5
+  videosdk: ^1.1.10
   vector_math: ^2.1.4
   flutter_tts: ^4.0.2
+  google_fonts: ^6.2.1
   file_picker: ^8.0.0+1
   permission_handler: ^10.1.0
   dotted_dashed_line: ^0.0.3
@@ -91,13 +93,20 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
   integration_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
   mockito: ^5.4.4
   build_runner: any
 
+flutter_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/app_icon.png" # Path to your icon file
   
   
 

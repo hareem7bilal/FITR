@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'activity_tracker_view.dart';
 import 'package:flutter_application_1/views/login/login_view.dart';
 import 'package:flutter_application_1/views/workout_tracker/workout_detail_view.dart';
+import 'package:flutter_application_1/views/visual_connect/start.dart';
 import 'notification_view.dart';
 import 'package:flutter_application_1/blocs/workout_bloc/workout_bloc.dart';
 
@@ -135,7 +136,6 @@ class _HomeViewState extends State<HomeView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                       
                         BlocBuilder<UserBloc, UserState>(
                           builder: (context, state) {
                             if (state.status == UserStatus.success &&
@@ -161,21 +161,48 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       ],
                     ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NotificationView(),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const NotificationView(),
+                              ),
+                            );
+                          },
+                          icon: Image.asset(
+                            "assets/images/icons/notification_active.png",
+                            width: 25,
+                            height: 25,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Navigate to the video page
+                            // Replace `VideoPage()` with the actual widget/page you want to navigate to
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const VideoSDKQuickStart(),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Image.asset(
+                              "assets/images/icons/video_call.png", // Replace with your video icon asset
+                              width: 28,
+                              height: 28,
+                              fit: BoxFit.fitHeight,
                             ),
-                          );
-                        },
-                        icon: Image.asset(
-                          "assets/images/icons/notification_active.png",
-                          width: 25,
-                          height: 25,
-                          fit: BoxFit.fitHeight,
-                        ))
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 SizedBox(

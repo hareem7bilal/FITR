@@ -55,7 +55,7 @@ class _OpenPoseRealtimeState extends State<OpenPoseRealtime> {
 
   void initializeWebSocket() {
     _socketChannel =
-        IOWebSocketChannel.connect(Uri.parse('https://realtime-pose-estimation-api.onrender.com/ws'));
+        IOWebSocketChannel.connect(Uri.parse('http://LoadBalancer1-1188636977.ap-south-1.elb.amazonaws.com/ws'));
 
     _socketChannel!.stream.listen(
       (message) {

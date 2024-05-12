@@ -7,6 +7,7 @@ import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:flutter_application_1/widgets/step_detail_row.dart';
 import 'dart:convert';
+import '../vision_detector/pose_detector_view.dart';
 
 class ExercisesStepDetails extends StatefulWidget {
   final Map eObj;
@@ -17,16 +18,16 @@ class ExercisesStepDetails extends StatefulWidget {
 }
 
 class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
-
   YoutubePlayerController? _controller;
-  String exerciseDescription = "Loading description..."; // Default text until data is fetched
+  String exerciseDescription =
+      "Loading description..."; // Default text until data is fetched
   List<Map<String, String>> stepArr = []; // Initialize as empty list
 
-   @override
+  @override
   void initState() {
     super.initState();
     searchAndLoadVideo(widget.eObj["name"]);
-    fetchExerciseInfo();  // Fetch description and steps
+    fetchExerciseInfo(); // Fetch description and steps
   }
 
   Future<void> searchAndLoadVideo(String query) async {
@@ -98,8 +99,6 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
       debugPrint('Failed to load exercise info: ${response.statusCode}');
     }
   }
-
- 
 
   @override
   void dispose() {
@@ -273,7 +272,7 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                   );
                 }),
               ),
-               const SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Text(
@@ -331,7 +330,19 @@ class _ExercisesStepDetailsState extends State<ExercisesStepDetails> {
                   },
                 ),
               ),
-              RoundButton(title: "Save", elevation: 0, onPressed: () {}),
+              RoundButton(
+                title: "Start Workout",
+                elevation: 0,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PoseDetectorView(
+                            duration: int.parse(
+                                widget.eObj["duration"].split(':')[0]))),
+                  );
+                },
+              ),
               const SizedBox(
                 height: 15,
               ),

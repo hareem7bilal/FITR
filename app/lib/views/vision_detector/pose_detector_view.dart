@@ -1,12 +1,14 @@
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
 import 'detector_view.dart';
 import 'painters/pose_painter.dart';
+import 'dart:async';
+
 
 class PoseDetectorView extends StatefulWidget {
-  const PoseDetectorView({super.key});
+  final int? duration;
+  const PoseDetectorView({super.key, this.duration});
 
   @override
   State<StatefulWidget> createState() => _PoseDetectorViewState();
@@ -21,6 +23,7 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
   String? _text;
   var _cameraLensDirection = CameraLensDirection.back;
 
+
   @override
   void dispose() async {
     _canProcess = false;
@@ -28,6 +31,7 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
     super.dispose();
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return DetectorView(
@@ -37,6 +41,7 @@ class _PoseDetectorViewState extends State<PoseDetectorView> {
       onImage: _processImage,
       initialCameraLensDirection: _cameraLensDirection,
       onCameraLensDirectionChanged: (value) => _cameraLensDirection = value,
+       duration: widget.duration,
     );
   }
 

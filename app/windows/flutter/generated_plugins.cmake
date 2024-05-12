@@ -9,8 +9,10 @@ list(APPEND FLUTTER_PLUGIN_LIST
   firebase_core
   firebase_storage
   flutter_tts
+  flutter_webrtc
   permission_handler_windows
   simple_animation_progress_bar
+  videosdk
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
