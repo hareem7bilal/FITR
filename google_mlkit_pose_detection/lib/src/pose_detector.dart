@@ -181,8 +181,14 @@ class PoseDetector {
     return angle < dangerRanges[joint]![0] || angle > dangerRanges[joint]![1];
   }
 
-  Future<void> close() =>
-      _channel.invokeMethod('vision#closePoseDetector', {'id': id});
+  Future<void> close() async {
+    await _channel.invokeMethod('vision#closePoseDetector', {'id': id});
+    await tts.stop(); // Stop TTS engine
+  }
+
+  void dispose() {
+    close(); // Close the pose detector and stop TTS engine
+  }
 }
 
 /// Determines the parameters on which [PoseDetector] works.

@@ -65,6 +65,7 @@ class Posenet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Posenet Real-time Detection',
       home: CameraInitializer(
         onCamerasReady: (cameras) => HomePage(cameras:cameras),

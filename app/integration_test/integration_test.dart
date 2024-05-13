@@ -9,8 +9,8 @@ import 'package:firebase_core/firebase_core.dart'; // For Firebase initializatio
 import 'package:mockito/mockito.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:workout_repository/workout_repository.dart';
-import 'mocks/firebase_mock.mocks.dart';
-import 'mocks/workout_repository_mock.mocks.dart';
+import '../test/mocks/firebase_mock.mocks.dart';
+import '../test/mocks/workout_repository_mock.mocks.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ void main() {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Initialize Firebase before tests
   });
 
-  group('MyApp Integration Test', () {
+  group('Integration Test', () {
     testWidgets('Should initialize and show AppView', (WidgetTester tester) async {
       // Setup FirebaseUserRepository with Firebase initialization
       final userRepository = FirebaseUserRepository();

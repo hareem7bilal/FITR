@@ -130,8 +130,17 @@ class _UploadScreenState extends State<UploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('OpenSim Inverse Kinematics'),
+        appBar: AppBar(
+        title: const Text(
+          'OpenSim Inverse Kinematics',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20 // Set the text color to white
+          ),
+        ),
+        backgroundColor: TColor.primaryColor1,
+        iconTheme:
+            const IconThemeData(color: Colors.white), // Set the icon color to white
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -142,7 +151,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black, // Set the background color to black
+                    color: Colors.indigo[50], // Set the background color to black
                     borderRadius:
                         BorderRadius.circular(10), // Round the corners
                     border: Border.all(

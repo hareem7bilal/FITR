@@ -16,21 +16,21 @@ class _GoalViewState extends State<GoalView> {
   List goalArr = [
     {
       "image": "assets/images/signup_and_login/goal_1.png",
-      "title": "Improve Shape",
+      "title": "Improve Physical Condition",
       "subtitle":
-          "I have a low amount of body fat\nand need / want to build more\nmuscle"
+          "I aim to enhance my physical condition\nand build muscle strength for improved\nrehabilitation outcomes."
     },
     {
       "image": "assets/images/signup_and_login/goal_2.png",
-      "title": "Lean & Tone",
+      "title": "Enhance Muscle Tone",
       "subtitle":
-          "I’m “skinny fat”. look thin but have\nno shape. I want to add learn\nmuscle in the right way"
+          "I want to tone my muscles and improve\nmuscle definition to aid in my rehabilitation\nprocess."
     },
     {
       "image": "assets/images/signup_and_login/goal_3.png",
-      "title": "Lose Fat",
+      "title": "Reduce Body Fat",
       "subtitle":
-          "I have over 20 lbs to lose. I want to\ndrop all this fat and gain muscle\nmass"
+          "I aim to decrease excess body fat and\nincrease lean muscle mass to support\nmy rehabilitation journey."
     },
   ];
 
@@ -44,52 +44,52 @@ class _GoalViewState extends State<GoalView> {
         children: [
           Center(
             child: CarouselSlider(
-                items: goalArr
-                    .map((gObj) => Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: TColor.primaryG,
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight),
-                              borderRadius: BorderRadius.circular(25)),
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(
-                              vertical: media.width * 0.05, horizontal: 25),
-                          child: FittedBox(
-                            child: Column(children: [
-                              Image.asset(gObj["image"].toString(),
-                                  width: media.width * 0.5, fit: BoxFit.fitWidth),
-                              SizedBox(height: media.width * 0.1),
-                              Text(gObj["title"].toString(),
-                                  style: TextStyle(
-                                      color: TColor.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700)),
-                              Container(
-                                width: media.width * 0.1,
-                                height: 1,
-                                color: TColor.white,
-                              ),
-                              SizedBox(
-                                height: media.width * 0.02,
-                              ),
-                              Text(gObj["subtitle"].toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: TColor.white, fontSize: 12)),
-                            ]),
-                          ),
-                        ))
-                    .toList(),
-                carouselController: buttonCarouselController,
-                options: CarouselOptions(
-                  autoPlay: false,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.7,
-                  aspectRatio: 0.74,
-                  initialPage: 0,
-                ),
+              items: goalArr
+                  .map((gObj) => Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: TColor.primaryG,
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight),
+                            borderRadius: BorderRadius.circular(25)),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(
+                            vertical: media.width * 0.05, horizontal: 25),
+                        child: FittedBox(
+                          child: Column(children: [
+                            Image.asset(gObj["image"].toString(),
+                                width: media.width * 0.5, fit: BoxFit.fitWidth),
+                            SizedBox(height: media.width * 0.1),
+                            Text(gObj["title"].toString(),
+                                style: TextStyle(
+                                    color: TColor.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700)),
+                            Container(
+                              width: media.width * 0.1,
+                              height: 1,
+                              color: TColor.white,
+                            ),
+                            SizedBox(
+                              height: media.width * 0.02,
+                            ),
+                            Text(gObj["subtitle"].toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: TColor.white, fontSize: 12)),
+                          ]),
+                        ),
+                      ))
+                  .toList(),
+              carouselController: buttonCarouselController,
+              options: CarouselOptions(
+                autoPlay: false,
+                enlargeCenterPage: true,
+                viewportFraction: 0.7,
+                aspectRatio: 0.74,
+                initialPage: 0,
               ),
+            ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -106,15 +106,16 @@ class _GoalViewState extends State<GoalView> {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: TColor.grey, fontSize: 12)),
                 const Spacer(),
-            
                 RoundButton(
-                    title: "Confirm",
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginView()));
-                    }, elevation: 0.0,),
+                  title: "Confirm",
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginView()));
+                  },
+                  elevation: 0.0,
+                ),
               ],
             ),
           )

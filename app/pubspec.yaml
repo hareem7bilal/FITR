@@ -90,10 +90,15 @@ dependencies:
   firebase_app_check: ^0.2.2+1
   calendar_agenda: ^0.0.2+3
   readmore: ^3.0.0
+  firebase_performance: ^0.9.4+5
+  firebase_crashlytics: ^3.5.5
+  firebase_analytics: ^10.10.5
 
 
 dev_dependencies:
   flutter_lints: ^3.0.0
+  flutter_driver:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   integration_test:
@@ -142,6 +147,11 @@ flutter:
     - assets/images/pics/
     - assets/images/training/fullbody_workout/
     - assets/images/training/lowerbody_workout/
+    - assets/images/training/pilates/
+    - assets/images/training/dynamic_stretching/
+    - assets/images/training/balance_training/
+    - assets/images/training/ankle_mobility/
+    - assets/images/training/yoga/
     - assets/images/training/
     - assets/images/custom_card/
     - assets/models/

@@ -3,6 +3,7 @@ import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:flutter_application_1/utils/color_extension.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:image/image.dart' as img;
 import 'dart:typed_data';
 import 'dart:io';
@@ -94,76 +95,184 @@ class _ADTDetectorState extends State<ADTDetector> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ankle Anterior Drawer Test'),
-        backgroundColor: TColor.primaryColor1, // Set the AppBar color
-      ),
-      body: SingleChildScrollView(
-        // Ensures the content is scrollable if it overflows
-        padding: const EdgeInsets.all(16.0), // Add padding to the body content
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.black, // Set the background color to black
-                      borderRadius: BorderRadius.circular(
-                          10), // Set the border radius to round the corners
-                      border: Border.all(
-                          color: TColor.primaryColor2,
-                          width: 3) // Optional: Add a white border for contrast
-                      ),
-                  padding: const EdgeInsets.all(
-                      10), // Add padding inside the container
-                  child: Text(
-                    'The Anterior Drawer Test (ADT) is used to assess ankle stability and '
-                    'the integrity of the anterior talofibular ligament. A positive ADT indicates '
-                    'possible ligament injury and ankle instability, which may require further '
-                    'medical attention.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: TColor
-                          .primaryColor1, // Set text color to white for contrast
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              if (_image != null)
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: TColor.primaryColor1,
-                        width: 5), // Add a border to the image
-                    borderRadius: BorderRadius.circular(
-                        12), // Optional: make the border rounded
-                  ),
-                  child: Image.file(_image!),
-                ),
-              RoundButton(
-                title: 'Pick X-Ray Image',
-                onPressed: pickImage,
-              ),
-              const SizedBox(height: 15),
-              if (_prediction != null)
-                Text(
-                  'Prediction: ${_prediction! > 0.5 ? 'ADT Positive' : 'ADT Negative'}',
-                  style: TextStyle(
-                      fontSize: 18, // Increase text size
-                      fontWeight: FontWeight.bold,
-                      color: TColor
-                          .primaryColor1 // Make text bold and set the color
-                      ),
-                )
-            ],
+        appBar: AppBar(
+          title: const Text(
+            'Ankle Anterior Drawer Test',
+            style: TextStyle(
+              color: Colors.white, // Set the text color to white
+            ),
           ),
+          backgroundColor: TColor.primaryColor1,
+          iconTheme: const IconThemeData(
+              color: Colors.white), // Set the icon color to white
         ),
-      ),
-    );
+        body: Stack(
+            fit: StackFit
+                .expand, // Make the background image fill the entire screen
+            children: [
+              // Background Image
+              Image.asset(
+                'assets/images/pics/instability_background.jpg', // Replace 'background.jpg' with your image asset path
+                fit: BoxFit.cover, // Cover the entire screen
+              ),
+
+              SingleChildScrollView(
+                // Ensures the content is scrollable if it overflows
+                padding: const EdgeInsets.all(
+                    16.0), // Add padding to the body content
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: CarouselSlider(
+                          items: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.indigo[50],
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: TColor.primaryColor2,
+                                  width: 3,
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'The Anterior Drawer Test (ADT)',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'The ADT assesses ankle stability by pulling the calcaneus forward relative to the tibia. '
+                                    'It helps diagnose ligament injuries.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.indigo[50],
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: TColor.primaryColor2,
+                                  width: 3,
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Procedure',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'During the ADT, the patient lies supine with the knee flexed at 90 degrees and foot flat on the table. '
+                                    'The examiner stabilizes the lower leg and pulls the calcaneus forward to assess ligament integrity.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.indigo[50],
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: TColor.primaryColor2,
+                                  width: 3,
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Interpretation',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'A positive ADT indicates possible ligament injury and ankle instability, '
+                                    'which may require further evaluation and treatment.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                          options: CarouselOptions(
+                            height: 220,
+                            enlargeCenterPage: true,
+                            autoPlay: true,
+                            aspectRatio: 16 / 9,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enableInfiniteScroll: true,
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            viewportFraction: 0.8,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      if (_image != null)
+                        Container(
+                          margin: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: TColor.primaryColor1,
+                                width: 5), // Add a border to the image
+                            borderRadius: BorderRadius.circular(
+                                12), // Optional: make the border rounded
+                          ),
+                          child: Image.file(_image!),
+                        ),
+                      RoundButton(
+                        title: 'Pick X-Ray Scan',
+                        onPressed: pickImage,
+                      ),
+                      const SizedBox(height: 15),
+                      if (_prediction != null)
+                        Text(
+                          'Prediction: ${_prediction! > 0.5 ? 'ADT Positive' : 'ADT Negative'}',
+                          style: TextStyle(
+                              fontSize: 18, // Increase text size
+                              fontWeight: FontWeight.bold,
+                              color: TColor
+                                  .primaryColor1 // Make text bold and set the color
+                              ),
+                        )
+                    ],
+                  ),
+                ),
+              ),
+            ]));
   }
 }

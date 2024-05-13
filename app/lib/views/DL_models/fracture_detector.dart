@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:flutter_application_1/utils/color_extension.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_application_1/widgets/round_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
@@ -94,77 +95,181 @@ class _FractureDetectorState extends State<FractureDetector> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fracture Detector'),
-        backgroundColor: TColor.primaryColor1, // Set the AppBar color
-      ),
-      body: SingleChildScrollView(
-        // Ensures the content is scrollable if it overflows
-        padding: const EdgeInsets.all(16.0), // Add padding to the body content
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.black, // Set the background color to black
-                      borderRadius: BorderRadius.circular(
-                          10), // Set the border radius to round the corners
-                      border: Border.all(
-                          color: TColor.primaryColor2,
-                          width: 3) // Optional: Add a white border for contrast
-                      ),
-                  padding: const EdgeInsets.all(
-                      10), // Add padding inside the container
-                  child: Text(
-                    'Ankle fractures can greatly affect stability and function, disrupting the '
-                    'joint\'s alignment and integrity. This may lead to weakened support, increased '
-                    're-injury risk, and chronic instability or arthritis. Early detection is key '
-                    'for effective management and rehabilitation, highlighting the need for prompt '
-                    'and accurate diagnosis to maintain ankle health.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: TColor
-                          .primaryColor1, // Set text color to white for contrast
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              if (_image != null)
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: TColor
-                            .primaryColor1, // Adjusted to match the AppBar color
-                        width: 5), // Add a border to the image
-                    borderRadius: BorderRadius.circular(
-                        12), // Optional: make the border rounded
-                  ),
-                  child: Image.file(_image!),
-                ),
-              RoundButton(
-                title: 'Pick X-Ray Image',
-                onPressed: pickImage,
-              ),
-              const SizedBox(height: 15),
-              if (_prediction != null)
-                Text(
-                  'Prediction: ${_prediction! > 0.5 ? "Fracture Detected" : "You're good to go!"}',
-                  style: TextStyle(
-                      fontSize: 18, // Increase text size
-                      color: TColor
-                          .primaryColor1 // Match the text color with the AppBar
-                      ),
-                )
-            ],
+        appBar: AppBar(
+          title: const Text(
+            'Fracture Detector',
+            style: TextStyle(
+              color: Colors.white, // Set the text color to white
+            ),
           ),
+          backgroundColor: TColor.primaryColor1,
+          iconTheme: const IconThemeData(
+              color: Colors.white), // Set the icon color to white
         ),
-      ),
-    );
+        body: Stack(
+            fit: StackFit
+                .expand, // Make the background image fill the entire screen
+            children: [
+              // Background Image
+              Image.asset(
+                'assets/images/pics/instability_background.jpg', // Replace 'background.jpg' with your image asset path
+                fit: BoxFit.cover, // Cover the entire screen
+              ),
+              SingleChildScrollView(
+                // Ensures the content is scrollable if it overflows
+                padding: const EdgeInsets.all(
+                    16.0), // Add padding to the body content
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: CarouselSlider(
+                          items: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.indigo[50],
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: TColor.primaryColor2,
+                                  width: 3,
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Ankle Fractures and Stability',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'Ankle fractures can disrupt joint alignment and increase the risk of chronic instability. Early detection '
+                                    'and diagnosis are crucial for effective management and rehabilitation.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.indigo[50],
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: TColor.primaryColor2,
+                                  width: 3,
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Diagnosis and Treatment',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'Ankle fractures require prompt diagnosis and treatment, including immobilization, surgical intervention, and rehabilitation.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.indigo[50],
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: TColor.primaryColor2,
+                                  width: 3,
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Recovery and Prevention',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'Recovery involves rehabilitation to regain strength and mobility. Preventive measures like proper footwear can reduce the risk of future injuries.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: TColor.primaryColor1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                          options: CarouselOptions(
+                            height: 245,
+                            enlargeCenterPage: true,
+                            autoPlay: true,
+                            aspectRatio: 16 / 9,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enableInfiniteScroll: true,
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            viewportFraction: 0.8,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      if (_image != null)
+                        Container(
+                          margin: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: TColor
+                                    .primaryColor1, // Adjusted to match the AppBar color
+                                width: 5), // Add a border to the image
+                            borderRadius: BorderRadius.circular(
+                                12), // Optional: make the border rounded
+                          ),
+                          child: Image.file(_image!),
+                        ),
+                      RoundButton(
+                        title: 'Pick X-Ray Scan',
+                        onPressed: pickImage,
+                      ),
+                      const SizedBox(height: 15),
+                      if (_prediction != null)
+                        Text(
+                          'Prediction: ${_prediction! > 0.5 ? "Fracture Detected" : "You're good to go!"}',
+                          style: TextStyle(
+                              fontSize: 18, // Increase text size
+                              color: TColor
+                                  .primaryColor1 // Match the text color with the AppBar
+                              ),
+                        )
+                    ],
+                  ),
+                ),
+              ),
+            ]));
   }
 }

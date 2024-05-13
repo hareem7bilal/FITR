@@ -344,10 +344,10 @@ Widget buildUserProfile(
           Row(
             children: [
               Expanded(
-                  child: TitleSubtitleCell(title: height, subtitle: "Height")),
+                  child: TitleSubtitleCell(title: '$height cm', subtitle: "Height")),
               const SizedBox(width: 15),
               Expanded(
-                  child: TitleSubtitleCell(title: weight, subtitle: "Weight")),
+                  child: TitleSubtitleCell(title: '$weight kg', subtitle: "Weight")),
               const SizedBox(width: 15),
               Expanded(child: TitleSubtitleCell(title: age, subtitle: "Age")),
             ],

@@ -29,7 +29,7 @@ class JoinScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20), // Add padding to the entire column
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
                 onTap: onCreateRoomButtonPressed,

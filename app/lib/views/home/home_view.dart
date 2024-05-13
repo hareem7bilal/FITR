@@ -13,6 +13,7 @@ import 'activity_tracker_view.dart';
 import 'package:flutter_application_1/views/login/login_view.dart';
 import 'package:flutter_application_1/views/workout_tracker/workout_detail_view.dart';
 import 'package:flutter_application_1/views/visual_connect/start.dart';
+import 'package:flutter_application_1/views/profile/profile_view.dart';
 import 'notification_view.dart';
 import 'package:flutter_application_1/blocs/workout_bloc/workout_bloc.dart';
 
@@ -140,13 +141,56 @@ class _HomeViewState extends State<HomeView> {
                           builder: (context, state) {
                             if (state.status == UserStatus.success &&
                                 state.user != null) {
-                              return Text(
-                                "${state.user!.firstName} ${state.user!.lastName}",
-                                style: TextStyle(
-                                  color: TColor.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                              return Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Navigate to the profile page here
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ProfileView()),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundImage: state
+                                                      .user!.profileImage !=
+                                                  null &&
+                                              state.user!.profileImage!
+                                                  .isNotEmpty
+                                          ? NetworkImage(
+                                              state.user!.profileImage!)
+                                          : const AssetImage(
+                                                  'assets/images/icons/profile.png')
+                                              as ImageProvider,
+                                      radius: 22, // Adjust as needed
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // Adjust as needed
+                                        Text(
+                                          "${state.user!.firstName} ${state.user!.lastName}",
+                                          style: TextStyle(
+                                            color: TColor.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        Text(
+                                          "${state.user!.program ?? 'No Program Chosen'} Program",
+                                          style: TextStyle(
+                                            color: TColor.grey,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ), // Add spacing between the name and the text above
+                                      ])
+                                ],
                               );
                             }
                             return Text(
@@ -186,7 +230,8 @@ class _HomeViewState extends State<HomeView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const VideoSDKQuickStart(),
+                                builder: (context) =>
+                                    const VideoSDKQuickStart(),
                               ),
                             );
                           },
@@ -195,8 +240,8 @@ class _HomeViewState extends State<HomeView> {
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Image.asset(
                               "assets/images/icons/video_call.png", // Replace with your video icon asset
-                              width: 28,
-                              height: 28,
+                              width: 30,
+                              height: 30,
                               fit: BoxFit.fitHeight,
                             ),
                           ),
