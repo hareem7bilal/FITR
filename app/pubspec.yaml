@@ -140,6 +140,7 @@ flutter:
     - assets/images/onboarding/
     - assets/images/icons/
     - assets/images/signup_and_login/
+    - assets/images/progress_tracker/
     - assets/images/workouts/
     - assets/images/buttons/
     - assets/images/graphs/
