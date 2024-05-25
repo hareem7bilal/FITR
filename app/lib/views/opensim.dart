@@ -49,7 +49,7 @@ class _UploadScreenState extends State<UploadScreen> {
         File modelFile = osimFiles.first;
         File trcFile = trcFiles.first;
 
-        var uri = Uri.parse('http://LoadBalancer1-1188636977.ap-south-1.elb.amazonaws.com/process_opensim');
+        var uri = Uri.parse('http://10.7.226.143:5000/process_opensim');
         var request = http.MultipartRequest('POST', uri)
           ..files.add(
               await http.MultipartFile.fromPath('model_file', modelFile.path))

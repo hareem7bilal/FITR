@@ -21,8 +21,8 @@ class AppView extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state.status == AuthenticationStatus.authenticated) {
-            return const MainTabView();
-            //return const StartingView();
+            //return const MainTabView();
+            return const StartingView();
           } else {
             return const StartingView();
           }

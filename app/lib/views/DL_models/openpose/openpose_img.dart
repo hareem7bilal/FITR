@@ -64,7 +64,7 @@ class _OpenPoseImgState extends State<OpenPoseImg> {
 
   Future uploadImage() async {
     if (_image == null) return;
-    var uri = Uri.parse('http://LoadBalancer1-1188636977.ap-south-1.elb.amazonaws.com/process_image');
+    var uri = Uri.parse('http://10.7.226.143:5000/process_image');
     var request = http.MultipartRequest('POST', uri)
       ..files.add(await http.MultipartFile.fromPath('file', _image!.path));
 
